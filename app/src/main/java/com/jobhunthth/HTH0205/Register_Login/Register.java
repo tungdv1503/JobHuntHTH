@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Register extends AppCompatActivity {
 TextInputEditText edtEmail,edtPassword;
@@ -62,6 +63,9 @@ progressBar = findViewById(R.id.progressbar);
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Succes", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                    startActivity(intent);
+                                    finish();
                                 } else {
 
                                     Toast.makeText(Register.this, "Fail", Toast.LENGTH_SHORT).show();
