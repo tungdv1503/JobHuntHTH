@@ -19,24 +19,26 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jobhunthth.HTH0205.MainActivity;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Login extends AppCompatActivity {
-    TextInputEditText edtEmail,edtPassword;
+    TextInputEditText edtEmail, edtPassword;
     Button btn_log;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView loginnow;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
         edtPassword = findViewById(R.id.password_edt);
-        btn_log  = findViewById(R.id.login_button);
+        btn_log = findViewById(R.id.login_button);
         loginnow = findViewById(R.id.LoginNow);
         progressBar = findViewById(R.id.progressbar);
         loginnow.setOnClickListener(view -> {
-            Intent intent  = new Intent(getApplicationContext(),Register.class);
+            Intent intent = new Intent(getApplicationContext(), Register.class);
             startActivity(intent);
             finish();
         });
@@ -44,25 +46,26 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email,password;
+                String email, password;
                 email = String.valueOf(edtEmail.getText());
                 password = String.valueOf(edtPassword.getText());
                 mAuth = FirebaseAuth.getInstance();
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Login.this,"Enter Email", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(Login.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Login.this,"Enter Password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(Login.this, "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent  = new Intent(getApplicationContext(), MainActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainScreen.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
