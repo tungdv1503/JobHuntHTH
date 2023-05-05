@@ -14,12 +14,21 @@
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
     <string name="age">Age:</string>
+    <string name="educate">Educate</string>
+    <string name="career_find">Professions you are interested in?</string>
+    <string name="Customer_care">Customer care</string>
+    <string name="Recomend">Recommend for you</string>
+    <string name="more"> >></string>
+    <string name="Marketing">Marketing</string>
     <string name="ViewCV">CV</string>
     <string name="github">View GitHub</string>
     <string name="education">Education:</string>
     <string name="Information_Update">Information Update</string>
     <string name="university">University:</string>
     <string name="majors">Majors</string>
+    <string name="search">Search</string>
+    <string name="search_jobsfinder">Job search, recruiters</string>
+
     <string name="Years_exp">years of experience:</string>
     <string name="Information_details">Information details</string>
     <string name="Information_Contact">Information Contacts</string>
