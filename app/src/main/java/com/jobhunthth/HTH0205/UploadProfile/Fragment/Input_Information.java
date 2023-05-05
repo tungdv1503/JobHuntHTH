@@ -51,17 +51,17 @@ public class Input_Information extends Fragment {
     ImageView visible;
     ScrollView invisible;
     String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    TextInputEditText phone_edt, name_edt, age_edt, university_edt, majors_edt, years_edt, address_edt, github_edt,educate1;
+    TextInputEditText phone_edt, name_edt, age_edt, university_edt, majors_edt, years_edt, address_edt, github_edt, educate1;
     Button cv, avatar, background, save;
-    Bitmap bitmapcv,bitmapavt,bitmapbackgr;
+    Bitmap bitmapcv, bitmapavt, bitmapbackgr;
     FirebaseFirestore db;
     FirebaseStorage storage;
     StorageReference storageRef;
 
-  DocumentReference profileRef;
+    DocumentReference profileRef;
 
 
-   // Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmapcv,bitmapavt,bitmapbackgr,50,50, true);
+    // Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmapcv,bitmapavt,bitmapbackgr,50,50, true);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,11 +101,11 @@ public class Input_Information extends Fragment {
 
                     name_edt.setText(name);
                     phone_edt.setText(phone);
-                  age_edt.setText(age);
+                    age_edt.setText(age);
                     educate1.setText(educate);
                     university_edt.setText(uni);
                     majors_edt.setText(majors);
-                   years_edt.setText(yearsofexp);
+                    years_edt.setText(yearsofexp);
                     address_edt.setText(address);
                     github_edt.setText(githublink);
 
@@ -191,6 +191,8 @@ public class Input_Information extends Fragment {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     Toast.makeText(getContext(), "Save successful", Toast.LENGTH_SHORT).show();
+                                                    Intent intent = new Intent(getContext(), UploadProfile.class);
+                                                    startActivity(intent);
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -203,62 +205,68 @@ public class Input_Information extends Fragment {
                             }
                         });
                 // Chuyển đổi bitmapcv thành một mảng byte và lưu vào Firestore dưới dạng base64 string
+                if (bitmapcv != null) {
+                    StorageReference cvRef = storageRef.child("images/" + currentUid + "/cv.jpg");
+                    ByteArrayOutputStream cvStream = new ByteArrayOutputStream();
+                    bitmapcv.compress(Bitmap.CompressFormat.JPEG, 100, cvStream);
+                    byte[] cvBytes = cvStream.toByteArray();
+                    UploadTask uploadTask = cvRef.putBytes(cvBytes);
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            cvRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    profileData.put("cvUrl", uri.toString());
+                                    db.collection("profile").document(currentUid).update("cvUrl", uri.toString());
+                                }
+                            });
+                        }
+                    });
+                }
 
-                StorageReference cvRef = storageRef.child("images/" + currentUid + "/cv.jpg");
-                ByteArrayOutputStream cvStream = new ByteArrayOutputStream();
-                bitmapcv.compress(Bitmap.CompressFormat.JPEG, 100, cvStream);
-                byte[] cvBytes = cvStream.toByteArray();
-                UploadTask uploadTask = cvRef.putBytes(cvBytes);
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        cvRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                profileData.put("cvUrl", uri.toString());
-                                db.collection("profile").document(currentUid).update("cvUrl", uri.toString());
-                            }
-                        });
-                    }
-                });
 
-// Lưu ảnh đại diện
-                StorageReference Sfavt = storageRef.child("images/" + currentUid + "/avt.jpg");
-                ByteArrayOutputStream avtStream = new ByteArrayOutputStream();
-                bitmapavt.compress(Bitmap.CompressFormat.JPEG, 100, avtStream);
-                byte[] avtBytes = avtStream.toByteArray();
-                UploadTask uploadTask1 = Sfavt.putBytes(avtBytes);
-                uploadTask1.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Sfavt.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                profileData.put("avtUrl", uri.toString());
-                                db.collection("profile").document(currentUid).update("avtUrl", uri.toString());
-                            }
-                        });
-                    }
-                });
+                if (bitmapavt != null) {
+                    StorageReference Sfavt = storageRef.child("images/" + currentUid + "/avt.jpg");
+                    ByteArrayOutputStream avtStream = new ByteArrayOutputStream();
+                    bitmapavt.compress(Bitmap.CompressFormat.JPEG, 100, avtStream);
+                    byte[] avtBytes = avtStream.toByteArray();
+                    UploadTask uploadTask1 = Sfavt.putBytes(avtBytes);
+                    uploadTask1.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Sfavt.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    profileData.put("avtUrl", uri.toString());
+                                    db.collection("profile").document(currentUid).update("avtUrl", uri.toString());
+                                }
+                            });
+                        }
+                    });
+                }
 
-// Lưu ảnh nền
-                StorageReference backgrRef = storageRef.child("images/" + currentUid + "/backgr.jpg");
-                ByteArrayOutputStream backgrStream = new ByteArrayOutputStream();
-                bitmapbackgr.compress(Bitmap.CompressFormat.JPEG, 100, backgrStream);
-                byte[] backgrBytes = backgrStream.toByteArray();
-                UploadTask uploadTask2 = backgrRef.putBytes(backgrBytes);
-                uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        backgrRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                profileData.put("backgrUrl", uri.toString());
-                                db.collection("profile").document(currentUid).update("backgrUrl", uri.toString());
-                            }
-                        });
-                    }
-                });
+
+                if (bitmapbackgr != null) {
+                    StorageReference backgrRef = storageRef.child("images/" + currentUid + "/backgr.jpg");
+                    ByteArrayOutputStream backgrStream = new ByteArrayOutputStream();
+                    bitmapbackgr.compress(Bitmap.CompressFormat.JPEG, 100, backgrStream);
+                    byte[] backgrBytes = backgrStream.toByteArray();
+                    UploadTask uploadTask2 = backgrRef.putBytes(backgrBytes);
+                    uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            backgrRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    profileData.put("backgrUrl", uri.toString());
+                                    db.collection("profile").document(currentUid).update("backgrUrl", uri.toString());
+                                }
+                            });
+                        }
+                    });
+                }
+
 
 //                // Chuyển đổi bitmapavt thành một mảng byte và lưu vào Firestore dưới dạng base64 string
 //                ByteArrayOutputStream avtStream = new ByteArrayOutputStream();
@@ -351,7 +359,7 @@ public class Input_Information extends Fragment {
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(uri);
-                 bitmapcv = BitmapFactory.decodeStream(inputStream);
+                bitmapcv = BitmapFactory.decodeStream(inputStream);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -362,7 +370,7 @@ public class Input_Information extends Fragment {
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(uri);
-               bitmapavt = BitmapFactory.decodeStream(inputStream);
+                bitmapavt = BitmapFactory.decodeStream(inputStream);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -373,7 +381,7 @@ public class Input_Information extends Fragment {
             Uri uri = data.getData();
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(uri);
-               bitmapbackgr = BitmapFactory.decodeStream(inputStream);
+                bitmapbackgr = BitmapFactory.decodeStream(inputStream);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -381,4 +389,5 @@ public class Input_Information extends Fragment {
 
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }}
+    }
+}
