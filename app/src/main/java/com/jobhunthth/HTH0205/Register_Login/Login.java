@@ -23,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.jobhunthth.HTH0205.MainActivity;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
@@ -88,8 +87,8 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(getApplicationContext(), MainScreen.class);
-
                                     startActivity(intent);
+                                    finish();
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", email);
                                     editor.putString("password", password);
@@ -130,7 +129,7 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainScreen.class);
                                     startActivity(intent);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
