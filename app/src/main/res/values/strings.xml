@@ -41,6 +41,8 @@
     <string name="university">University:</string>
     <string name="majors">Majors</string>
     <string name="search">Search</string>
+    <string name="jobsearch">Job search</string>
+    <string name="recruiters">recruiters</string>
     <string name="search_jobsfinder">Job search, recruiters</string>
     <string name="Years_exp">years of experience:</string>
     <string name="Information_details">Information details</string>

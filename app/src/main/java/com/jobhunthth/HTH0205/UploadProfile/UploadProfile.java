@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.Register_Login.Login;
 import com.jobhunthth.HTH0205.UploadProfile.Fragment.Input_Information;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
@@ -30,7 +31,7 @@ Button upload;
 LinearLayout linearLayout;
 ImageView back,logout,imageavt,imagebackgr;
 TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1,githublink1,viewcv,exp;
-
+    FirebaseAuth mAuth ;
     String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     FirebaseFirestore db ;
     DocumentReference profileRef ;
@@ -40,6 +41,7 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
         setContentView(R.layout.activity_upload_profile);
         db = FirebaseFirestore.getInstance();
         upload = findViewById(R.id.update_infor);
+        mAuth = FirebaseAuth.getInstance();
         exp= findViewById(R.id.exp);
         profileRef = db.collection("profile").document(currentUid);
         age1 = findViewById(R.id.age);
@@ -57,6 +59,15 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
         imageavt = findViewById(R.id.avtUrl);
         imagebackgr= findViewById(R.id.backgrUrl);
 
+logout.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+        startActivity(intent);
+        mAuth.signOut();
+        finish();
+    }
+});
 
         back = findViewById(R.id.back);
 //        visible = findViewById(R.id.visibleinfor);
