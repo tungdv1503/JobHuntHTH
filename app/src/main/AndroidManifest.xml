@@ -21,6 +21,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".UploadProfile.UploadProfile"
+            android:exported="false"/>
         <activity
             android:name=".Employers.Employers_AddJobs"
             android:exported="false" />
