@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center|top"
+    tools:context=".Employers.Employers_AddJobs">
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_JobTitle"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/edt_Title"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edt_JobTitle"
+        android:autofillHints="" />
+
+    <!-- Mô tả công việc -->
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_JobDesc"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/edt_JobDesc"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edt_JobDesc"/>
+
+    <!-- Yêu cầu công việc -->
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_JobReq"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/edt_Jobreq"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edt_JobReq"/>
+
+    <!-- Quyền lợi -->
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_JobPerk"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/edt_JobPerk"
+        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/edt_JobPerk"/>
+
+    <!-- Dropdown để chọn giữa 2 loại công việc: part time hoặc full time -->
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_JobType"
+        android:textSize="16sp"/>
+
+    <Spinner
+        android:id="@+id/spn_Jobtype"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:spinnerMode="dropdown"/>
+
+    <!-- Button để thêm tin tuyển dụng mới -->
+    <Button
+        android:layout_marginTop="16dp"
+        android:id="@+id/btn_AddJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:padding="16dp"
+        android:text="@string/btn_AddJob"/>
+
+</LinearLayout>

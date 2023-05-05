@@ -12,23 +12,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name=".check_Login"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity android:name=".UploadProfile.UploadProfile"
+            android:exported="false"/>
+        <activity
 
-        <activity
-            android:theme="@style/Theme.Material3.Light.NoActionBar"
             android:name=".jobseekers.MainScreen"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:theme="@style/Theme.Material3.Light.NoActionBar"
             android:name=".UploadProfile.UploadProfile"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+<activity
+            android:name=".Employers.Employers_AddJobs"
+            android:exported="false" />
+        <activity
+            android:name=".Employers.Employers_Activity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Register_Login.Register"
             android:exported="true"
