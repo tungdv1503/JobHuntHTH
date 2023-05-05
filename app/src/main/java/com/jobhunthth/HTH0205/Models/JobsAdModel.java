@@ -3,7 +3,6 @@ package com.jobhunthth.HTH0205.Models;
 import java.util.Date;
 
 public class JobsAdModel {
-    private String job_Ad;
     private String id_Company;
     private String title;
     private String job_Description;
@@ -12,9 +11,8 @@ public class JobsAdModel {
     private Date createAt;
     private String job_Perks;
 
-    public JobsAdModel(String job_Ad, String id_Company, String title,
-                       String job_Description, String job_Requirements, String type_Job, Date createAt, String job_Perks) {
-        this.job_Ad = job_Ad;
+    public JobsAdModel(String id_Company, String title, String job_Description,
+                       String job_Requirements, String type_Job, Date createAt, String job_Perks) {
         this.id_Company = id_Company;
         this.title = title;
         this.job_Description = job_Description;
@@ -24,12 +22,7 @@ public class JobsAdModel {
         this.job_Perks = job_Perks;
     }
 
-    public String getJob_Ad() {
-        return job_Ad;
-    }
-
-    public void setJob_Ad(String job_Ad) {
-        this.job_Ad = job_Ad;
+    public JobsAdModel() {
     }
 
     public String getId_Company() {

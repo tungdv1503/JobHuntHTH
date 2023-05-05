@@ -4,4 +4,18 @@
     <string name="Register">Register</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
+    <string name="txt_JobTitle">Tiêu đề</string>
+    <string name="edt_JobTitle">Nhập tiêu đề</string>
+    <string name="txt_JobDesc">Mô tả công việc</string>
+    <string name="edt_JobDesc">Nhập mô tả công việc</string>
+    <string name="txt_JobReq">Yêu cầu công việc</string>
+    <string name="edt_JobReq">Nhập yêu cầu công việc</string>
+    <string name="txt_JobPerk">Quyền lợi</string>
+    <string name="edt_JobPerk">Nhập quyền lợi</string>
+    <string name="txt_JobType">Loại công việc</string>
+    <string name="btn_AddJob">Thêm tin tuyển dụng mới</string>
+    <string-array name="spn_JobType">
+        <item>Full Time</item>
+        <item>Part Time</item>
+    </string-array>
 </resources>
