@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.JobHuntHTH" parent="Base.Theme.JobHuntHTH" />
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/RoundedShapeAppearance</item>
+    </style>
+
+    <style name="RoundedShapeAppearance">
+        <item name="cornerSize">25dp</item>
+    </style>
 </resources>
