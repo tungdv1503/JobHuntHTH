@@ -42,6 +42,9 @@
     <string name="majors">Majors</string>
     <string name="search">Search</string>
     <string name="jobsearch">Job search</string>
+    <string name="Online_Jobs">Online Jobs</string>
+    <string name="Programming_Jobs">Programming Jobs</string>
+    <string name="Sale_jobs">Sale Jobs</string>
     <string name="recruiters">recruiters</string>
     <string name="search_jobsfinder">Job search, recruiters</string>
     <string name="Years_exp">years of experience:</string>
