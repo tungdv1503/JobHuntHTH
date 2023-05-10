@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,8 +24,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.jobhunthth.HTH0205.Check_Login.check_Login;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
+
+import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
     TextInputEditText edtEmail, edtPassword;
@@ -32,8 +42,10 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView loginnow;
-
     SharedPreferences sharedPreferences;
+    FirebaseFirestore db;
+    FirebaseUser currentUser;
+    String uid;
     boolean doubleBackToExitPressedOnce = false;
 
 
@@ -42,6 +54,12 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            uid = currentUser.getUid();
+        }
+        db = FirebaseFirestore.getInstance();
         edtPassword = findViewById(R.id.password_edt);
         btn_log = findViewById(R.id.login_button);
         loginnow = findViewById(R.id.LoginNow);
@@ -59,12 +77,19 @@ public class Login extends AppCompatActivity {
         edtPassword.setText(Password);
 
         if (!edtEmail.getText().toString().trim().equals("") && !edtPassword.getText().toString().trim().equals("")) {
-            showAlertDialog(Login.this);
+            showAlertDialog();
 
         }
+
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mAuth = FirebaseAuth.getInstance();
+                currentUser = mAuth.getCurrentUser();
+                if (currentUser != null) {
+                    uid = currentUser.getUid();
+                }
+                db = FirebaseFirestore.getInstance();
                 progressBar.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(edtEmail.getText());
@@ -78,36 +103,56 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-
-                                    Intent intent = new Intent(getApplicationContext(), MainScreen.class);
-                                    startActivity(intent);
-                                    finish();
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("email", email);
-                                    editor.putString("password", password);
-                                    editor.apply();
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-                                }
+                                db.collection("jobsearch")
+                                        .whereEqualTo(FieldPath.documentId(), uid)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    boolean hasJobSearchData = false;
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        String documentId = document.getId();
+                                                        Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
+                                                        if (documentId.equals(uid)) {
+                                                            hasJobSearchData = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (hasJobSearchData) {
+                                                        Intent intent = new Intent(getApplicationContext(), MainScreen.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        checkRecruiter(uid);
+                                                    }
+                                                } else {
+                                                    Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("email", email);
+                                editor.putString("password", password);
+                                editor.apply();
+                                finish();
                             }
                         });
+
+
+
             }
         });
     }
 
-    public void showAlertDialog(Context context) {
+    public void showAlertDialog() {
 
         // Tạo một đối tượng AlertDialog.Builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
 
         // Thiết lập tiêu đề và thông điệp cho hộp thoại
         builder.setTitle("Thông báo");
@@ -128,9 +173,34 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainScreen.class);
-                                    startActivity(intent);
+                                    db.collection("jobsearch")
+                                            .whereEqualTo(FieldPath.documentId(), uid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        boolean hasJobSearchData = false;
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            String documentId = document.getId();
+                                                            Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
+                                                            if (documentId.equals(uid)) {
+                                                                hasJobSearchData = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                        if (hasJobSearchData) {
+                                                            Intent intent = new Intent(getApplicationContext(), MainScreen.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        } else {
+                                                            checkRecruiter(uid);
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
                                     editor.putString("password", edtPassword.getText().toString().trim());
@@ -140,9 +210,13 @@ public class Login extends AppCompatActivity {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                                 }
+
                             }
+
                         });
+
             }
+
         });
         // Tạo hộp thoại từ đối tượng AlertDialog.Builder
         AlertDialog dialog = builder.create();
@@ -167,7 +241,31 @@ public class Login extends AppCompatActivity {
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, 1000);
 
     }
+    private void checkRecruiter(String uid) {
+        db.collection("recruiter")
+                .whereEqualTo(FieldPath.documentId(), uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            boolean hasRecruiterData = !task.getResult().isEmpty();
+                            Intent intent;
+                            if (hasRecruiterData) {
+                                intent = new Intent(getApplicationContext(), Employers_Activity.class);
+                            } else {
+                                intent = new Intent(getApplicationContext(), check_Login.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu recruiter", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }
+
