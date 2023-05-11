@@ -34,6 +34,7 @@ import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
+import java.io.Console;
 import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
@@ -55,10 +56,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            uid = currentUser.getUid();
-        }
+
         db = FirebaseFirestore.getInstance();
         edtPassword = findViewById(R.id.password_edt);
         btn_log = findViewById(R.id.login_button);
@@ -107,6 +105,10 @@ public class Login extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                currentUser = mAuth.getCurrentUser();
+                                if (currentUser != null) {
+                                    uid = currentUser.getUid();
+                                }
                                 db.collection("jobsearch")
                                         .whereEqualTo(FieldPath.documentId(), uid)
                                         .get()
@@ -172,6 +174,10 @@ public class Login extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                currentUser = mAuth.getCurrentUser();
+                                if (currentUser != null) {
+                                    uid = currentUser.getUid();
+                                }
                                 if (task.isSuccessful()) {
                                     db.collection("jobsearch")
                                             .whereEqualTo(FieldPath.documentId(), uid)
@@ -190,7 +196,7 @@ public class Login extends AppCompatActivity {
                                                             }
                                                         }
                                                         if (hasJobSearchData) {
-                                                            Intent intent = new Intent(getApplicationContext(), MainScreen.class);
+                                                            Intent intent = new Intent(Login.this, MainScreen.class);
                                                             startActivity(intent);
                                                             finish();
                                                         } else {
@@ -245,27 +251,34 @@ public class Login extends AppCompatActivity {
 
     }
     private void checkRecruiter(String uid) {
+
         db.collection("recruiter")
                 .whereEqualTo(FieldPath.documentId(), uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
                         if (task.isSuccessful()) {
                             boolean hasRecruiterData = !task.getResult().isEmpty();
-                            Intent intent;
                             if (hasRecruiterData) {
-                                intent = new Intent(getApplicationContext(), Employers_Activity.class);
+                                Intent intent;
+                                intent = new Intent(Login.this, Employers_Activity.class);
+                                startActivity(intent);
+                                finish();
                             } else {
-                                intent = new Intent(getApplicationContext(), check_Login.class);
+                                Intent intent;
+                                intent = new Intent(Login.this, check_Login.class);
+                                startActivity(intent);
+                                finish();
                             }
-                            startActivity(intent);
-                            finish();
+
                         } else {
                             Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu recruiter", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
 }
 

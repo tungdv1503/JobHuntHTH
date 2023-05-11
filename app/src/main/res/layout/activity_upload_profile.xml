@@ -5,6 +5,10 @@
     android:id="@+id/updateinfor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <LinearLayout
         android:id="@+id/information"
@@ -510,4 +514,5 @@
                 android:text="@string/Information_Update" />
         </LinearLayout>
     </LinearLayout>
+</ScrollView>
 </FrameLayout>
