@@ -10,6 +10,7 @@
     <string name="ImageBackGround">Upload BackGround</string>
     <string name="Address">Address:</string>
     <string name="Name">Name</string>
+    <string name="View_Bio">View your Bio</string>
     <string name="Password">Password</string>
     <string name="txt_JobTitle">Title</string>
     <string name="edt_JobTitle">Input Title</string>
