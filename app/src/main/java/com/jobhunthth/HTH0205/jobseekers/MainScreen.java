@@ -12,10 +12,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +26,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Setting;
 
 public class MainScreen extends AppCompatActivity {
     LinearLayout profile;
@@ -46,8 +48,15 @@ public class MainScreen extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         drawerLayoutMain = findViewById(R.id.drawerlayout_menu);
         navigationMenu = findViewById(R.id.navigationMenu);
-        drawerLayoutMain.close();
+
         //
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = findViewById(R.id.drawerlayout_menu);
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
         profileRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -76,22 +85,23 @@ public class MainScreen extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.fragment_thu:
-//                        Fragment fragment = new FragmentThu();
-//                        FragmentManager fragmentManager = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                        fragmentTransaction.replace(R.id.fragment_view, fragment).commit();
-//                        drawerLayoutMain.close();
+                    case R.id.fragment_favourite:
+                        Toast.makeText(MainScreen.this, "hehe", Toast.LENGTH_SHORT).show();
+                        Fragment fragment = new Favourrecruiter();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.drawer, fragment).commit();
+                        drawerLayoutMain.close();
                         break;
-                    case R.id.fragment_chi:
-//                        Fragment fragment1 = new FragmentChi();
-//                        FragmentManager fragmentManager1 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
-//                        fragmentTransaction1.replace(R.id.fragment_view, fragment1).commit();
-//                        drawerLayoutMain.close();
+                    case R.id.fragment_employer:
+                        Fragment fragment1 = new Setting();
+                        FragmentManager fragmentManager1 = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
+                        fragmentTransaction1.replace(R.id.drawer, fragment1).commit();
+                        drawerLayoutMain.close();
                         break;
 
-                    case R.id.fragment_thongke:
+                    case R.id.fragment_Setting:
 //                        Fragment fragment2 = new FragmentThongKe();
 //                        FragmentManager fragmentManager2 = getSupportFragmentManager();
 //                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
@@ -119,7 +129,7 @@ public class MainScreen extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.menu:
                 drawerLayoutMain.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
