@@ -1,6 +1,8 @@
 package com.jobhunthth.HTH0205.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jobhunthth.HTH0205.AdapterItemView.DetailJobsAd;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +43,13 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
         holder.textJobTitle.setText(job.getTitle());
         holder.textJobType.setText(job.getType_Job());
         holder.textPostedTime.setText(formatDate(job.getCreateAt()));
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DetailJobsAd.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("job",job);
+            intent.putExtra("bundle",bundle);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     private String formatDate(Date createAt) {

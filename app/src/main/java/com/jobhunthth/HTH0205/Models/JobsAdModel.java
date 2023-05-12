@@ -1,8 +1,9 @@
 package com.jobhunthth.HTH0205.Models;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class JobsAdModel {
+public class JobsAdModel implements Serializable {
     private String id_Company;
     private String title;
     private String job_Description;
