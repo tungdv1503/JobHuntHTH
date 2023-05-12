@@ -198,7 +198,7 @@ public class Login extends AppCompatActivity {
                                                         if (hasJobSearchData) {
                                                             Intent intent = new Intent(Login.this, MainScreen.class);
                                                             startActivity(intent);
-                                                            finish();
+
                                                         } else {
                                                             checkRecruiter(uid);
                                                         }
@@ -211,7 +211,6 @@ public class Login extends AppCompatActivity {
                                     editor.putString("email", edtEmail.getText().toString().trim());
                                     editor.putString("password", edtPassword.getText().toString().trim());
                                     editor.apply();
-                                    finish();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
@@ -265,12 +264,12 @@ public class Login extends AppCompatActivity {
                                 Intent intent;
                                 intent = new Intent(Login.this, Employers_Activity.class);
                                 startActivity(intent);
-                                finish();
+
                             } else {
                                 Intent intent;
                                 intent = new Intent(Login.this, check_Login.class);
                                 startActivity(intent);
-                                finish();
+
                             }
 
                         } else {
