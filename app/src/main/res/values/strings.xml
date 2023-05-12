@@ -42,6 +42,10 @@
     <string name="majors">Majors</string>
     <string name="search">Search</string>
     <string name="jobsearch">Job search</string>
+    <string name="setting">Setting</string>
+    <string name="Regis_for_recruiter">Register as an employer</string>
+    <string name="Cv_send_status">Application Status</string>
+    <string name="favourtive_recruiter">Favour Recruiter</string>
     <string name="Online_Jobs">Online Jobs</string>
     <string name="Programming_Jobs">Programming Jobs</string>
     <string name="Sale_jobs">Sale Jobs</string>
