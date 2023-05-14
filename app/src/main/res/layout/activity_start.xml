@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register_Login.Start">
+    tools:context=".Register_Login.Start"
+    android:background="@color/blue"
+    >
 
   <ImageView
       android:id="@+id/logoImageView"
-      android:layout_width="200dp"
-      android:layout_height="200dp"
-      android:layout_centerInParent="true"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_gravity="center"
       android:alpha="0"
       android:scaleType="centerCrop"
       android:src="@drawable/avatar" />
 
   <ProgressBar
       android:id="@+id/loadingProgressBar"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_below="@id/logoImageView"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="16dp"
-      style="?android:attr/progressBarStyleLarge"
-      android:visibility="gone" />
+      android:layout_gravity="bottom"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:max="100"
+      android:progress="0" />
 
-  </RelativeLayout>
+  </FrameLayout>
