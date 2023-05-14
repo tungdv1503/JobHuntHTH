@@ -23,16 +23,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
+import com.jobhunthth.HTH0205.UploadProfile.Fragment.Github_link;
 import com.jobhunthth.HTH0205.UploadProfile.Fragment.Input_Information;
+import com.jobhunthth.HTH0205.UploadProfile.Fragment.View_CV;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 import java.io.Serializable;
 
 public class UploadProfile extends AppCompatActivity {
-Button upload;
+    String githublink,viewcv1;
+Button upload,githublink1,viewcv;
 LinearLayout linearLayout;
 ImageView back,logout,imageavt,imagebackgr;
-TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1,githublink1,viewcv,exp;
+TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1,exp;
     FirebaseAuth mAuth ;
     String currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     FirebaseFirestore db ;
@@ -61,6 +64,7 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
         imageavt = findViewById(R.id.avtUrl);
         imagebackgr = findViewById(R.id.backgrUrl);
 
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,8 +89,8 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
                     String yearsofexp = documentSnapshot.getString("years_of_exp");
                     String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                     String address = documentSnapshot.getString("address");
-                    String viewcv = documentSnapshot.getString("viewcv");
-                    String githublink = documentSnapshot.getString("github");
+                     viewcv1 = documentSnapshot.getString("cvUrl");
+                     githublink = documentSnapshot.getString("github");
                     String backgrUrl = documentSnapshot.getString("backgrUrl");
                     if (Integer.parseInt(yearsofexp) <= 1) {
                         exp.setText("Fresher");
@@ -110,7 +114,7 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
                     yearsofexp1.setText(yearsofexp);
                     email1.setText(email);
                     address1.setText(address);
-                    githublink1.setText(githublink);
+//                    githublink1.setText(githublink);
                     Glide.with(UploadProfile.this)
                             .load(avtUrl)
                             .placeholder(R.drawable.people) // Ảnh placeholder hiển thị khi chờ tải ảnh
@@ -138,6 +142,33 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
                         .commit();
             }
         });
+        githublink1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager=getSupportFragmentManager();
+                Github_link github_link=new Github_link();
+
+                fragmentManager.beginTransaction().replace(R.id.updateinfor,github_link).commit();
+                Bundle bundle=new Bundle();
+                bundle.putString("githublink",githublink);
+                github_link.setArguments(bundle);
+            }
+        });
+        viewcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager1=getSupportFragmentManager();
+                View_CV view_cv=new View_CV();
+
+                fragmentManager1.beginTransaction().replace(R.id.updateinfor,view_cv).commit();
+                Bundle bundle=new Bundle();
+                bundle.putString("viewcv",viewcv1);
+                view_cv.setArguments(bundle);
+            }
+        });
+
+
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,5 +209,6 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
         dialog.show();
 
     }
+
 
 }
