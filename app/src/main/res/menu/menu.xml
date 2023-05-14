@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/fragment_favourite" android:title="@string/favourtive_recruiter" ></item>
+        <item android:id="@+id/fragment_status"  android:title="@string/Cv_send_status"></item>
+        <item android:id="@+id/fragment_employer" android:title="@string/Regis_for_recruiter"></item>
+        <item android:id="@+id/fragment_Setting" android:title="@string/setting"></item>
+    </group>
+    <item android:title="">
+        <menu>
+            <item android:id="@+id/fragment_gioithieu"  android:title="Giới thiệu"></item>
+            <item android:id="@+id/back"  android:title="Thoát"></item>
+        </menu>
+    </item>
+</menu>

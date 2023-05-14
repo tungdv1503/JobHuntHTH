@@ -5,6 +5,10 @@
     android:id="@+id/updateinfor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <LinearLayout
         android:id="@+id/information"
@@ -453,48 +457,26 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ViewCV"
-                            android:textStyle="bold" />
-
-                        <TextView
+                        <Button
                             android:id="@+id/viewcv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginRight="3dp"
                             android:text="View your CV"
                             android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/github"
-                            android:textStyle="bold" />
-
-                        <TextView
+                        <Button
                             android:id="@+id/githublink"
-                            android:layout_width="wrap_content"
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="3dp"
-                            android:text="Link"
+                            android:layout_marginLeft="40dp"
+                            android:layout_marginRight="3dp"
+                            android:text="@string/View_Bio"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
@@ -510,4 +492,5 @@
                 android:text="@string/Information_Update" />
         </LinearLayout>
     </LinearLayout>
+</ScrollView>
 </FrameLayout>

@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +40,10 @@ LinearLayout jobfind,recruter;
                     Map<String, Object> data = new HashMap<>();
                     data.put("status", "yes");
                     db.collection("jobsearch").document(currentUid).set(data);
+                    Intent intent = new Intent(getApplicationContext(), MainScreen.class);
+                    startActivity(intent);
+                    finish();
+
 
                 }
             }
@@ -51,6 +57,9 @@ LinearLayout jobfind,recruter;
                     Map<String, Object> data = new HashMap<>();
                     data.put("Admin_Permission_access", "no");
                     db.collection("recruiter").document(currentUid).set(data);
+                    Intent intent = new Intent(getApplicationContext(), Employers_Activity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
