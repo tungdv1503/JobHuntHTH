@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jobhunthth.HTH0205.Adapter.Jobs_Adapter;
 import com.jobhunthth.HTH0205.R;
 
 public class AdapterRecommed extends RecyclerView.Adapter<AdapterRecommed.ViewHolder>{

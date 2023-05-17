@@ -16,25 +16,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.jobhunthth.HTH0205.Adapter.Jobs_Adapter;
+import com.jobhunthth.HTH0205.Employers.Adapter.Jobs_Adapter;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Employers_Activity extends AppCompatActivity {
 
-    FirebaseFirestore mStore;
+    private FirebaseFirestore mStore;
     private ScrollView scrollView;
     private FloatingActionButton flt_Add;
     private RecyclerView list_Jobs;
     private boolean isButtonVisible;
     private String TAG = Employers_Activity.class.getName();
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class Employers_Activity extends AppCompatActivity {
     private void showData() {
         ArrayList<JobsAdModel> list = new ArrayList<>(  );
 
-        mStore.collection("JobsAd").whereEqualTo("id_Company","1").get()
+        mStore.collection("JobsAd").whereEqualTo("id_Company",mUser.getUid()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>( ) {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -112,6 +113,7 @@ public class Employers_Activity extends AppCompatActivity {
 
     private void initUI() {
         mStore = FirebaseFirestore.getInstance();
+        mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         scrollView = findViewById(R.id.myScrollView);
         flt_Add = findViewById(R.id.flt_Add);
         list_Jobs = findViewById(R.id.list_Jobs);

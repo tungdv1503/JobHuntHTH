@@ -1,29 +1,23 @@
 package com.jobhunthth.HTH0205.Models;
 
+import android.net.Uri;
+
 public class EmployerModel {
-    private String id;
     private String email;
+    private String avatar;
     private String name;
     private String phone_number;
     private String address;
 
-    public EmployerModel(String id, String email, String name, String phone_number, String address) {
-        this.id = id;
+    public EmployerModel(String email, String avatar, String name, String phone_number, String address) {
         this.email = email;
+        this.avatar = avatar;
         this.name = name;
         this.phone_number = phone_number;
         this.address = address;
     }
 
     public EmployerModel() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -56,5 +50,13 @@ public class EmployerModel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
