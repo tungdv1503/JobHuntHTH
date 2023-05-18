@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,7 +42,7 @@ public class Register_Employer extends AppCompatActivity {
     private String imgUri;
     private FirebaseFirestore mStore;
     private FirebaseUser mUser;
-
+    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,6 @@ public class Register_Employer extends AppCompatActivity {
     }
 
     private void initListener() {
-        registerButton.setEnabled(false);
         selectImageButton.setOnClickListener(view -> {
             Intent intent = new Intent(  );
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -69,13 +69,12 @@ public class Register_Employer extends AppCompatActivity {
         });
 
         registerButton.setOnClickListener(view -> {
-            ProgressDialog dialog = new ProgressDialog(this);
             dialog.show();
             String email = companyEmailEditText.getText().toString().trim();
             String name = companyNameEditText.getText().toString().trim();
             String address = companyAddressEditText.getText().toString().trim();
             String phone = companyPhoneEditText.getText().toString().trim();
-            if(email!=null || name !=null || address != null || phone != null || imgUri!=null){
+            if(email.length()!=0 && name.length()!=0 && address.length()!=0 && phone.length()!=0 && imgUri != null){
                 EmployerModel model = new EmployerModel(email,imgUri,name,phone,address);
                 mStore.collection("employer").document(mUser.getUid())
                         .set(model)
@@ -101,6 +100,9 @@ public class Register_Employer extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
+            }else {
+                dialog.dismiss();
+                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show( );
             }
         });
     }
@@ -115,6 +117,7 @@ public class Register_Employer extends AppCompatActivity {
         selectImageButton = findViewById(R.id.select_image_button);
         companyImageView = findViewById(R.id.company_image);
         registerButton = findViewById(R.id.register_button);
+        dialog = new ProgressDialog(this);
     }
 
     @Override
@@ -122,8 +125,8 @@ public class Register_Employer extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(data.getData()!=null||data!=null||resultCode==REQUEST_IMAGE_PICKER||resultCode==RESULT_OK){
             Uri uri = data.getData();
+            dialog.show();
             uploadImageToStorage(uri,FirebaseAuth.getInstance().getCurrentUser().getUid());
-            Glide.with(this).load(uri).error(R.drawable.avatar).into(companyImageView);
         }
     }
 
@@ -135,11 +138,12 @@ public class Register_Employer extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Glide.with(Register_Employer.this).load(imageUri).error(R.drawable.avatar).into(companyImageView);
                         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri downloadUri) {
                                 imgUri = downloadUri.toString();
-                                registerButton.setEnabled(true);
+                                dialog.dismiss();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
