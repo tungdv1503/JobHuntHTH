@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -27,63 +30,96 @@ import com.google.firebase.storage.UploadTask;
 import com.jobhunthth.HTH0205.Models.EmployerModel;
 import com.jobhunthth.HTH0205.R;
 
-public class Register_Employer extends AppCompatActivity {
+public class Employer_Edit_Account extends AppCompatActivity {
 
-    EditText companyEmailEditText,companyNameEditText,companyPhoneEditText,companyAddressEditText;
-    Button selectImageButton;
-    ImageView companyImageView;
-    Button registerButton;
+    private Toolbar toolbar_employer_Edit;
+    private EditText Edt_company_email,Edt_company_name,Edt_company_phone,Edt_company_address;
+    private Button Btn_select_image_button,Btn_register_button;
+    private ImageView ImgEdt_company_image;
     private final int REQUEST_IMAGE_PICKER = 1001;
     private String imgUri;
     private FirebaseFirestore mStore;
-    private FirebaseUser mUser;
+    private FirebaseAuth mAuth;
     private ProgressDialog dialog;
+    private String TAG = Employer_Edit_Account.class.getName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_employer);
+        setContentView(R.layout.activity_employer_edit_account);
 
         initUI();
+        
+        getData();
 
         initListener();
+
+        setSupportActionBar(toolbar_employer_Edit);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar_employer_Edit.setTitle("Edit account");
+    }
+
+    private void getData() {
+        mStore.collection("employer").document(mAuth.getCurrentUser().getUid()).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>( ) {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        EmployerModel company = documentSnapshot.toObject(EmployerModel.class);
+                        assert company != null;
+                        showData(company);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener( ) {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: "+e.getMessage() );
+                    }
+                });
+    }
+
+    private void showData(EmployerModel company) {
+        Edt_company_email.setText(company.getEmail());
+        Edt_company_address.setText(company.getAddress());
+        Edt_company_name.setText(company.getName());
+        Edt_company_phone.setText(company.getPhone_number());
+        Glide.with(this).load(company.getAvatar()).error(R.drawable.avatar).into(ImgEdt_company_image);
+        imgUri = company.getAvatar();
     }
 
     private void initListener() {
-        selectImageButton.setOnClickListener(view -> {
+        Btn_select_image_button.setOnClickListener(view -> {
             Intent intent = new Intent(  );
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent,REQUEST_IMAGE_PICKER);
         });
 
-        companyImageView.setOnClickListener(view -> {
+        ImgEdt_company_image.setOnClickListener(view -> {
             Intent intent = new Intent(  );
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.setType("image/*");
             startActivityForResult(intent,REQUEST_IMAGE_PICKER);
         });
 
-        registerButton.setOnClickListener(view -> {
+        Btn_register_button.setOnClickListener(view -> {
             dialog.show();
-            String email = companyEmailEditText.getText().toString().trim();
-            String name = companyNameEditText.getText().toString().trim();
-            String address = companyAddressEditText.getText().toString().trim();
-            String phone = companyPhoneEditText.getText().toString().trim();
+            String email = Edt_company_email.getText().toString().trim();
+            String name = Edt_company_name.getText().toString().trim();
+            String address = Edt_company_address.getText().toString().trim();
+            String phone = Edt_company_phone.getText().toString().trim();
             if(email.length()!=0 && name.length()!=0 && address.length()!=0 && phone.length()!=0 && imgUri != null){
                 EmployerModel model = new EmployerModel(email,imgUri,name,phone,address);
-                mStore.collection("employer").document(mUser.getUid())
+                mStore.collection("employer").document(mAuth.getCurrentUser().getUid())
                         .set(model)
                         .addOnCompleteListener(new OnCompleteListener<Void>( ) {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(Register_Employer.this, "Đăng ký thông tin thành công", Toast.LENGTH_SHORT).show( );
+                                    Toast.makeText(Employer_Edit_Account.this, "Sửa thông tin thành công", Toast.LENGTH_SHORT).show( );
                                     dialog.dismiss();
-                                    Intent intent = new Intent( Register_Employer.this,Employers_Activity.class );
-                                    startActivity(intent);
-                                    finishAffinity();
+                                    onBackPressed();
                                 }else if(task.isCanceled()){
-                                    Toast.makeText(Register_Employer.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show( );
+                                    Toast.makeText(Employer_Edit_Account.this, "Sửa thất bại", Toast.LENGTH_SHORT).show( );
                                     dialog.dismiss();
                                 }
                             }
@@ -91,7 +127,7 @@ public class Register_Employer extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener( ) {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Register_Employer.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show( );
+                                Toast.makeText(Employer_Edit_Account.this, "Sửa thất bại", Toast.LENGTH_SHORT).show( );
                                 dialog.dismiss();
                             }
                         });
@@ -104,15 +140,28 @@ public class Register_Employer extends AppCompatActivity {
 
     private void initUI() {
         mStore = FirebaseFirestore.getInstance();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        companyEmailEditText = findViewById(R.id.company_email);
-        companyNameEditText = findViewById(R.id.company_name);
-        companyPhoneEditText = findViewById(R.id.company_phone);
-        companyAddressEditText = findViewById(R.id.company_address);
-        selectImageButton = findViewById(R.id.select_image_button);
-        companyImageView = findViewById(R.id.company_image);
-        registerButton = findViewById(R.id.register_button);
+        mAuth = FirebaseAuth.getInstance();
+        toolbar_employer_Edit = findViewById(R.id.toolbar_employer_Edit);
+        Edt_company_email = findViewById(R.id.Edt_company_email);
+        Edt_company_name = findViewById(R.id.Edt_company_name);
+        Edt_company_phone = findViewById(R.id.Edt_company_phone);
+        Edt_company_address = findViewById(R.id.Edt_company_address);
+        Btn_select_image_button = findViewById(R.id.Btn_select_image_button);
+        Btn_register_button = findViewById(R.id.Btn_register_button);
+        ImgEdt_company_image = findViewById(R.id.ImgEdt_company_image);
         dialog = new ProgressDialog(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{
+                onBackPressed();
+                return true;
+            }
+
+            default:return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -133,7 +182,7 @@ public class Register_Employer extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Glide.with(Register_Employer.this).load(imageUri).error(R.drawable.avatar).into(companyImageView);
+                        Glide.with(Employer_Edit_Account.this).load(imageUri).error(R.drawable.avatar).into(ImgEdt_company_image);
                         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri downloadUri) {

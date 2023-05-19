@@ -49,22 +49,22 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
             @Override
             public void onSuccess(EmployerModel company) {
                 holder.textCompanyName.setText(company.getName());
+                holder.textJobTitle.setText(job.getTitle());
+                holder.textJobType.setText(job.getType_Job());
+                holder.textPostedTime.setText(formatDate(job.getCreateAt()));
+                holder.itemView.setOnClickListener(view -> {
+                    Intent intent = new Intent(holder.itemView.getContext(), DetailJobsAd.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("job",job);
+                    intent.putExtra("bundle",bundle);
+                    holder.itemView.getContext().startActivity(intent);
+                });
             }
 
             @Override
             public void onFailure(Exception e) {
 
             }
-        });
-        holder.textJobTitle.setText(job.getTitle());
-        holder.textJobType.setText(job.getType_Job());
-        holder.textPostedTime.setText(formatDate(job.getCreateAt()));
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DetailJobsAd.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("job",job);
-            intent.putExtra("bundle",bundle);
-            holder.itemView.getContext().startActivity(intent);
         });
     }
 
