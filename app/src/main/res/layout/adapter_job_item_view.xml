@@ -9,7 +9,6 @@
         android:id="@+id/text_job_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tên công việc"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -17,21 +16,18 @@
         android:id="@+id/text_company_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tên công ty"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/text_job_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Loại công việc"
         android:textSize="14sp" />
 
     <TextView
         android:id="@+id/text_posted_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thời gian đăng"
         android:textSize="14sp" />
 
 </LinearLayout>

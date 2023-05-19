@@ -1,15 +1,15 @@
 package com.jobhunthth.HTH0205.Employers.AdapterItemView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +53,12 @@ public class DetailJobsAd extends AppCompatActivity {
             @Override
             public void onSuccess(EmployerModel company) {
                 companyNameTextView.setText(company.getName());
+                jobTitleTextView.setText(job.getTitle());
+                jobDescriptionTextView.setText(job.getJob_Description());
+                jobRequirementsTextView.setText(job.getJob_Requirements());
+                jobPerksTextView.setText(job.getJob_Perks());
+                jobTypeTextView.setText(job.getType_Job());
+                job_profession.setText(job.getJob_Profession());
             }
 
             @Override
@@ -60,12 +66,6 @@ public class DetailJobsAd extends AppCompatActivity {
 
             }
         });
-        jobTitleTextView.setText(job.getTitle());
-        jobDescriptionTextView.setText(job.getJob_Description());
-        jobRequirementsTextView.setText(job.getJob_Requirements());
-        jobPerksTextView.setText(job.getJob_Perks());
-        jobTypeTextView.setText(job.getType_Job());
-        job_profession.setText(job.getJob_Profession());
     }
 
     private void getCompanyInfo(String id_company, CompanyInfoCallBack callBack) {
