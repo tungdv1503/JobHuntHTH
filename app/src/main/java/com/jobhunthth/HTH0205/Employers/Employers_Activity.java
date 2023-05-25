@@ -101,7 +101,6 @@ public class Employers_Activity extends AppCompatActivity {
                         Log.e(TAG, "onFailure: "+e );
                     }
                 });
-
     }
 
     @Override
