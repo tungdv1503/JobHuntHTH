@@ -109,42 +109,47 @@ public class Login extends AppCompatActivity {
                                 if (currentUser != null) {
                                     uid = currentUser.getUid();
                                 }
-                                db.collection("jobsearch")
-                                        .whereEqualTo(FieldPath.documentId(), uid)
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    boolean hasJobSearchData = false;
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        String documentId = document.getId();
-                                                        Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
-                                                        if (documentId.equals(uid)) {
-                                                            hasJobSearchData = true;
-                                                            break;
+                                if (task.isSuccessful()) {
+                                    db.collection("jobsearch")
+                                            .whereEqualTo(FieldPath.documentId(), uid)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        boolean hasJobSearchData = false;
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            String documentId = document.getId();
+                                                            Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
+                                                            if (documentId.equals(uid)) {
+                                                                hasJobSearchData = true;
+                                                                break;
+                                                            }
                                                         }
-                                                    }
-                                                    if (hasJobSearchData) {
-                                                        Intent intent = new Intent(getApplicationContext(), MainScreen.class);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    } else {
-                                                        checkRecruiter(uid);
-                                                    }
-                                                } else {
-                                                    Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("email", email);
-                                editor.putString("password", password);
-                                editor.apply();
-                                finish();
-                            }
-                        });
+                                                        if (hasJobSearchData) {
+                                                            Intent intent = new Intent(Login.this, MainScreen.class);
+                                                            startActivity(intent);
 
+                                                        } else {
+                                                            checkRecruiter(uid);
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("email", edtEmail.getText().toString().trim());
+                                    editor.putString("password", edtPassword.getText().toString().trim());
+                                    editor.apply();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                        });
 
 
             }
