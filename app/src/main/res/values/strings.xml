@@ -21,10 +21,18 @@
     <string name="txt_JobPerk">Benefits</string>
     <string name="edt_JobPerk">Input Benefits</string>
     <string name="txt_JobType">Type of Jobs</string>
+    <string name="txt_JobProfession">Profession</string>
     <string name="btn_AddJob">Add Jobs</string>
     <string-array name="spn_JobType">
         <item>Full Time</item>
         <item>Part Time</item>
+    </string-array>
+    <string-array name="spn_JobProfession">
+        <item>Công nghệ thông tin</item>
+        <item>Marketing</item>
+        <item>Kế toán</item>
+        <item>Bảo hiểm</item>
+        <item>Bác sĩ</item>
     </string-array>
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
@@ -47,6 +55,7 @@
     <string name="Regis_for_recruiter">Register as an employer</string>
     <string name="Cv_send_status">Application Status</string>
     <string name="favourtive_recruiter">Favour Recruiter</string>
+    <string name="JobSeekers_Home">Home</string>
     <string name="Online_Jobs">Online Jobs</string>
     <string name="Programming_Jobs">Programming Jobs</string>
     <string name="Sale_jobs">Sale Jobs</string>
@@ -57,4 +66,15 @@
     <string name="Information_Contact">Information Contacts</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_employer">Register Employer</string>
+    <string name="Edit_employer">Edit Employer</string>
+    <string name="company_email">Company Email</string>
+    <string name="company_name">Company Name</string>
+    <string name="company_phone_number">Company Phone Number</string>
+    <string name="company_address">Company Address</string>
+    <string name="select_company_image">Select Company Image</string>
+    <string name="log_out">Log Out</string>
+    <string name="account">Account</string>
+    <string name="home">Home</string>
+    <string name="edit_account">Edit account</string>
 </resources>
