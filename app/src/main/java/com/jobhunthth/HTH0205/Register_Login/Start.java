@@ -21,7 +21,6 @@ import java.util.Date;
 
 public class Start extends AppCompatActivity {
 
-    ImageView logo;
     ProgressBar progressBar;
 
     @Override
@@ -30,45 +29,24 @@ public class Start extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         // Find the logo ImageView and loading ProgressBar
-        logo = findViewById(R.id.logoImageView);
         progressBar = findViewById(R.id.loadingProgressBar);
 
         // Zoom in the logo for 3 seconds
-        ObjectAnimator ani1 = ObjectAnimator.ofFloat(logo, "alpha", 0f, 1f);
-        ObjectAnimator aniX = ObjectAnimator.ofFloat(logo, "scaleX", 0f, 2.5f);
-        ObjectAnimator aniY = ObjectAnimator.ofFloat(logo, "scaleY", 0f, 2.5f);
-        ani1.setDuration(1500);
-        aniX.setDuration(1500);
-        aniY.setDuration(1500);
+        doStartProgressBar();
 
-        AnimatorSet set = new AnimatorSet();
-        set.play(ani1).with(aniX).with(aniY);
-        set.start();
-        aniprogress();
+        CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
+            @Override
+            public void onTick(long l) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                startActivity(new Intent(Start.this, Register.class));
+                finish();
+            }
+        }.start();
     }
-
-        public void aniprogress() {
-//        if(android.os.Build.VERSION.SDK_INT >= 11){
-            // will update the "progress" propriety of seekbar until it reaches progress
-            doStartProgressBar();
-            ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress", 0, 30000);
-            animation.setDuration(3000); // 0.5 second
-            animation.setInterpolator(new LinearInterpolator());
-            animation.start();
-            CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
-                @Override
-                public void onTick(long l) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    startActivity(new Intent(Start.this, Register.class));
-                    finish();
-                }
-            }.start();
-//        }
-        }
 
     private void doStartProgressBar() {
         final int MAX = 100;

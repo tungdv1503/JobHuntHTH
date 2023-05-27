@@ -6,25 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Register_Login.Start"
-    android:background="@color/blue"
     >
 
   <ImageView
       android:id="@+id/logoImageView"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
+      android:layout_width="300dp"
+      android:layout_height="300dp"
       android:layout_gravity="center"
-      android:alpha="0"
-      android:scaleType="centerCrop"
-      android:src="@drawable/avatar" />
+      android:src="@drawable/logoapp" />
 
   <ProgressBar
       android:id="@+id/loadingProgressBar"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="40dp"
       android:layout_gravity="bottom"
       style="?android:attr/progressBarStyleHorizontal"
       android:max="100"
-      android:progress="0" />
+      android:progress="50" />
 
   </FrameLayout>
