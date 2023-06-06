@@ -2,6 +2,7 @@ package com.jobhunthth.HTH0205.Employers.Adapter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.jobhunthth.HTH0205.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder> {
 
@@ -51,7 +53,7 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
                 holder.textCompanyName.setText(company.getName());
                 holder.textJobTitle.setText(job.getTitle());
                 holder.textJobType.setText(job.getType_Job());
-                holder.textPostedTime.setText(formatDate(job.getCreateAt()));
+                holder.textPostedTime.setText(formatTimeAgo(job.getCreateAt()));
                 holder.itemView.setOnClickListener(view -> {
                     Intent intent = new Intent(holder.itemView.getContext(), DetailJobsAd.class);
                     Bundle bundle = new Bundle();
@@ -96,10 +98,31 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
                 });
     }
 
-    private String formatDate(Date createAt) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        return format.format(createAt);
+    private String formatTimeAgo(Date createdAt) {
+        long timeInMillis = createdAt.getTime();
+        long currentTimeMillis = System.currentTimeMillis();
+        long timeDiff = currentTimeMillis - timeInMillis;
+
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeDiff);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeDiff);
+        long hours = TimeUnit.MILLISECONDS.toHours(timeDiff);
+        long days = TimeUnit.MILLISECONDS.toDays(timeDiff);
+
+        if (days >= 30) {
+            long months = days / 30;
+            return months + " tháng trước";
+        } else if (days >= 1) {
+            return days + " ngày trước";
+        } else if (hours >= 1) {
+            return hours + " giờ trước";
+        } else if (minutes >= 1) {
+            return minutes + " phút trước";
+        } else {
+            return "Vài giây trước";
+        }
     }
+
+
 
     @Override
     public int getItemCount() {

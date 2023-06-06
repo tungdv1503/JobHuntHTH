@@ -55,8 +55,6 @@ public class DetailJobsAd extends AppCompatActivity {
                 companyNameTextView.setText(company.getName());
                 jobTitleTextView.setText(job.getTitle());
                 jobDescriptionTextView.setText(job.getJob_Description());
-                jobRequirementsTextView.setText(job.getJob_Requirements());
-                jobPerksTextView.setText(job.getJob_Perks());
                 jobTypeTextView.setText(job.getType_Job());
                 job_profession.setText(job.getJob_Profession());
             }
