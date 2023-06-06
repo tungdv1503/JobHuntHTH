@@ -28,12 +28,6 @@ public class Start extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        // Find the logo ImageView and loading ProgressBar
-        progressBar = findViewById(R.id.loadingProgressBar);
-
-        // Zoom in the logo for 3 seconds
-        doStartProgressBar();
-
         CountDownTimer countDownTimer = new CountDownTimer(3000, 1000) {
             @Override
             public void onTick(long l) {
@@ -42,25 +36,9 @@ public class Start extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                startActivity(new Intent(Start.this, Register.class));
+                startActivity(new Intent(Start.this, Login.class));
                 finish();
             }
         }.start();
-    }
-
-    private void doStartProgressBar() {
-        final int MAX = 100;
-        this.progressBar.setMax(MAX);
-        int progressIncrement = (int) ((2000 / (float) MAX) + 0.5);
-
-        for (int i = 0; i < MAX; i++) {
-            final int progress = i + 1;
-            SystemClock.sleep(progressIncrement);
-
-            progressBar.setProgress(progress);
-            if (progress == MAX) {
-                Toast.makeText(Start.this, "Chào Mừng", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

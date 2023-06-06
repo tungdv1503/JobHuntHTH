@@ -2,9 +2,10 @@
     <string name="app_name">JobHuntHTH</string>
     <string name="Login">Login</string>
     <string name="Register">Register</string>
-    <string name="Email">Email:</string>
+    <string name="Email">Email</string>
     <string name="Phone">Phone:</string>
     <string name="Save">Save</string>
+    <string name="clicktoRegister">No Account! <u>Click to Register</u></string>
     <string name="ImageCV">Upload CV</string>
     <string name="ImageAvatar">Upload Avatar</string>
     <string name="ImageBackGround">Upload BackGround</string>
@@ -12,6 +13,8 @@
     <string name="Name">Name</string>
     <string name="View_Bio">View your Bio</string>
     <string name="Password">Password</string>
+    <string name="PasswordAgain">Password Again</string>
+    <string name="ForgetPassword">Forget the Password</string>
     <string name="txt_JobTitle">Title</string>
     <string name="edt_JobTitle">Input Title</string>
     <string name="txt_JobDesc">Jobs Description</string>

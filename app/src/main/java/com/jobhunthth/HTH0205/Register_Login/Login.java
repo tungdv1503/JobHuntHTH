@@ -54,6 +54,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         edtEmail = findViewById(R.id.email_edt);
         mAuth = FirebaseAuth.getInstance();
 
@@ -65,7 +66,8 @@ public class Login extends AppCompatActivity {
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Register.class);
             startActivity(intent);
-            finish();
+            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
+//            finish();
         });
 
         sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
