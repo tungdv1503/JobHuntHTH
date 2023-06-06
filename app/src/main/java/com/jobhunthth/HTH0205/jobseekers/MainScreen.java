@@ -24,9 +24,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.JobSeekers_Home;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Setting;
 
 public class MainScreen extends AppCompatActivity {
@@ -48,7 +50,7 @@ public class MainScreen extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         drawerLayoutMain = findViewById(R.id.drawerlayout_menu);
         navigationMenu = findViewById(R.id.navigationMenu);
-
+        ChangeFragment(new JobSeekers_Home());
         //
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,20 +87,21 @@ public class MainScreen extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.fragment_favourite:
-                        Toast.makeText(MainScreen.this, "hehe", Toast.LENGTH_SHORT).show();
-                        Fragment fragment = new Favourrecruiter();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.drawer, fragment).commit();
-                        drawerLayoutMain.close();
+                    case R.id.fragment_home:{
+                     Fragment fragment = new JobSeekers_Home();
+                     ChangeFragment(fragment);
+                     break;
+
+                    }
+                    case R.id.fragment_favourite: {
+                        Toast.makeText(MainScreen.this, "hehe", Toast.LENGTH_SHORT).show( );
+                        Fragment fragment = new Favourrecruiter( );
+                        ChangeFragment(fragment);
                         break;
+                    }
                     case R.id.fragment_employer:
                         Fragment fragment1 = new Setting();
-                        FragmentManager fragmentManager1 = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
-                        fragmentTransaction1.replace(R.id.drawer, fragment1).commit();
-                        drawerLayoutMain.close();
+                        ChangeFragment(fragment1);
                         break;
 
                     case R.id.fragment_Setting:
@@ -108,6 +111,14 @@ public class MainScreen extends AppCompatActivity {
 //                        fragmentTransaction2.replace(R.id.fragment_view, fragment2).commit();
 //                        drawerLayoutMain.close();
                         break;
+
+                    case R.id.fragment_change_mode:{
+                        Intent intent = new Intent(MainScreen.this, Employers_Activity.class);
+                        startActivity(intent);
+                        finishAffinity();
+                        break;
+                    }
+
                     case R.id.fragment_gioithieu:
 //                        Fragment fragment3 = new FragmentGioiThieu();
 //                        FragmentManager fragmentManager3 = getSupportFragmentManager();
@@ -125,6 +136,15 @@ public class MainScreen extends AppCompatActivity {
             }
         });
     }
+
+    private void ChangeFragment(Fragment fragment){
+      FragmentManager fragmentManager = getSupportFragmentManager();
+      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+      fragmentTransaction.replace(R.id.drawer,fragment)
+              .disallowAddToBackStack()
+              .commit();
+      drawerLayoutMain.close();
+    };
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

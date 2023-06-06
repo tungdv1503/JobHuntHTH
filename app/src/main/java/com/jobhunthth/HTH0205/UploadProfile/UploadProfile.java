@@ -1,19 +1,18 @@
 package com.jobhunthth.HTH0205.UploadProfile;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,8 +26,6 @@ import com.jobhunthth.HTH0205.UploadProfile.Fragment.Github_link;
 import com.jobhunthth.HTH0205.UploadProfile.Fragment.Input_Information;
 import com.jobhunthth.HTH0205.UploadProfile.Fragment.View_CV;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
-
-import java.io.Serializable;
 
 public class UploadProfile extends AppCompatActivity {
     String githublink,viewcv1;
@@ -180,15 +177,12 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
     }
     public void Logout(){
         mAuth = FirebaseAuth.getInstance();
-        // Tạo đối tượng AlertDialog.Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Xác nhận");
         builder.setMessage("Bạn có muốn đăng xuất không?");
 
-// Thêm nút Đồng ý
         builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // Khởi tạo Intent và chuyển sang màn hình đăng nhập
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
                 mAuth.signOut();
@@ -196,15 +190,12 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
             }
         });
 
-// Thêm nút Hủy bỏ
         builder.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // Đóng hộp thoại và không thực hiện gì thêm
                 dialog.dismiss();
             }
         });
 
-// Hiển thị hộp thoại
         AlertDialog dialog = builder.create();
         dialog.show();
 
