@@ -21,6 +21,7 @@ import com.jobhunthth.HTH0205.Employers.Fragment.Account_Employer;
 import com.jobhunthth.HTH0205.Employers.Fragment.HomeEmployer;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Employers_Activity extends AppCompatActivity {
 
@@ -58,6 +59,13 @@ public class Employers_Activity extends AppCompatActivity {
 
                     case R.id.menu_Account_employer:{
                         ChangeFragment(new Account_Employer());
+                        return true;
+                    }
+
+                    case R.id.menu_change_mode:{
+                        Intent intent = new Intent(Employers_Activity.this, MainScreen.class);
+                        startActivity(intent);
+                        finishAffinity();
                         return true;
                     }
 

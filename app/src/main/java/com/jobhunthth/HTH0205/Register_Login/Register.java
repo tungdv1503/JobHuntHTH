@@ -23,56 +23,57 @@ import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Register extends AppCompatActivity {
-TextInputEditText edtEmail,edtPassword;
-Button btn_reg;
-FirebaseAuth mAuth;
-ProgressBar progressBar;
-TextView loginnow;
+    TextInputEditText edtEmail, edtPassword;
+    Button btn_reg;
+    FirebaseAuth mAuth;
+    ProgressBar progressBar;
+    TextView loginnow;
 
- boolean doubleBackToExitPressedOnce= false;
+    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         edtEmail = findViewById(R.id.email_edt);
         edtPassword = findViewById(R.id.password_edt);
-        btn_reg  = findViewById(R.id.button_register);
+        btn_reg = findViewById(R.id.button_register);
         loginnow = findViewById(R.id.LoginNow);
-progressBar = findViewById(R.id.progressbar);
+        progressBar = findViewById(R.id.progressbar);
         loginnow.setOnClickListener(view -> {
-            Intent intent  = new Intent(getApplicationContext(),Login.class);
+            Intent intent = new Intent(getApplicationContext( ), Login.class);
             startActivity(intent);
-            finish();
+            finish( );
         });
-        btn_reg.setOnClickListener(new View.OnClickListener() {
+        btn_reg.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email,password;
-                email = String.valueOf(edtEmail.getText());
-                password = String.valueOf(edtPassword.getText());
-                mAuth = FirebaseAuth.getInstance();
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this,"Enter Email", Toast.LENGTH_SHORT).show();
+                String email, password;
+                email = String.valueOf(edtEmail.getText( ));
+                password = String.valueOf(edtPassword.getText( ));
+                mAuth = FirebaseAuth.getInstance( );
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show( );
                     return;
                 }
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this,"Enter Password", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(Register.this, "Enter Password", Toast.LENGTH_SHORT).show( );
                     return;
                 }
                 mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Succes", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                if (task.isSuccessful( )) {
+                                    Toast.makeText(Register.this, "Succes", Toast.LENGTH_SHORT).show( );
+                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
                                     startActivity(intent);
-                                    finish();
+                                    finish( );
                                 } else {
 
-                                    Toast.makeText(Register.this, "Fail", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Register.this, "Fail", Toast.LENGTH_SHORT).show( );
 
                                 }
                             }
@@ -80,17 +81,18 @@ progressBar = findViewById(R.id.progressbar);
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+            super.onBackPressed( );
             return;
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
 
             @Override
             public void run() {

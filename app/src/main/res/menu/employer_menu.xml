@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_Home_employer" android:title="@string/home"/>
-    <item android:id="@+id/menu_Account_employer" android:title="@string/account"/>
+    <group>
+        <item
+            android:id="@+id/menu_Home_employer"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/menu_Account_employer"
+            android:title="@string/account" />
 
-    <item android:menuCategory="container" android:title="">
+        <item android:id="@+id/menu_ChangePassword"
+            android:title="Change password"/>
+
+        <item android:id="@+id/menu_Info_employer"
+            android:title="Employer Info"/>
+    </group>
+
+    <item android:title="">
         <menu>
-            <item android:id="@+id/menu_Logout_employer" android:title="@string/log_out"/>
+            <item android:id="@+id/menu_change_mode"
+                android:title="Chế độ ứng viên"/>
+
+            <item
+                android:id="@+id/menu_Logout_employer"
+                android:title="@string/log_out" />
         </menu>
     </item>
 

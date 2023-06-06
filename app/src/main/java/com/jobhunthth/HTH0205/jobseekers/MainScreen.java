@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
@@ -110,6 +111,14 @@ public class MainScreen extends AppCompatActivity {
 //                        fragmentTransaction2.replace(R.id.fragment_view, fragment2).commit();
 //                        drawerLayoutMain.close();
                         break;
+
+                    case R.id.fragment_change_mode:{
+                        Intent intent = new Intent(MainScreen.this, Employers_Activity.class);
+                        startActivity(intent);
+                        finishAffinity();
+                        break;
+                    }
+
                     case R.id.fragment_gioithieu:
 //                        Fragment fragment3 = new FragmentGioiThieu();
 //                        FragmentManager fragmentManager3 = getSupportFragmentManager();
