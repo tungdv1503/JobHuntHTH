@@ -1,8 +1,10 @@
 package com.jobhunthth.HTH0205.Employers;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -30,12 +32,13 @@ public class Employers_Activity extends AppCompatActivity {
     private NavigationView nav_employer;
     private DrawerLayout drawerLayout_employer;
 
-
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employers);
-
+        sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         initUI( );
 
         initListener( );
@@ -63,6 +66,10 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_change_mode:{
+                        sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("VaiTro",1);
+                        editor.apply( );
                         Intent intent = new Intent(Employers_Activity.this, MainScreen.class);
                         startActivity(intent);
                         finishAffinity();

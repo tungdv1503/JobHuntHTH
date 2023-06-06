@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,8 @@ public class MainScreen extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentReference profileRef = db.collection("profile").document(currentUid);
     NavigationView navigationMenu;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +117,10 @@ public class MainScreen extends AppCompatActivity {
                         break;
 
                     case R.id.fragment_change_mode:{
+                        sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("VaiTro",2);
+                        editor.apply( );
                         Intent intent = new Intent(MainScreen.this, Employers_Activity.class);
                         startActivity(intent);
                         finishAffinity();
