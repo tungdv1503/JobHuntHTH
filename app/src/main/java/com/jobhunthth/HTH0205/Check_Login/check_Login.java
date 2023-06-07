@@ -1,8 +1,5 @@
 package com.jobhunthth.HTH0205.Check_Login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,9 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
-import com.jobhunthth.HTH0205.Employers.Register_Employer;
 import com.jobhunthth.HTH0205.R;
-import com.jobhunthth.HTH0205.Register_Login.Login;
+import com.jobhunthth.HTH0205.Register_Login.RegisterInfo;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 import java.util.HashMap;
@@ -82,10 +81,12 @@ public class check_Login extends AppCompatActivity {
                     Map<String, Object> data = new HashMap<>( );
                     data.put("Admin_Permission_access", "no");
                     db.collection("recruiter").document(currentUid).set(data);
+                    Intent intent = new Intent(getApplicationContext( ), RegisterInfo.class);
+                    startActivity(intent);
+                    finish( );
 //                    Intent intent = new Intent(getApplicationContext( ), Register_Employer.class);
 //                    startActivity(intent);
                     Signin(2, email, password);
-
                 }
             }
         });

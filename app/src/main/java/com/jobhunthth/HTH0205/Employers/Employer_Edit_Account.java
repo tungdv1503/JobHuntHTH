@@ -167,7 +167,7 @@ public class Employer_Edit_Account extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data.getData()!=null||data!=null||resultCode==REQUEST_IMAGE_PICKER||resultCode==RESULT_OK){
+        if(data.getData()!=null||data!=null||requestCode==REQUEST_IMAGE_PICKER||resultCode==RESULT_OK){
             Uri uri = data.getData();
             dialog.show();
             uploadImageToStorage(uri,FirebaseAuth.getInstance().getCurrentUser().getUid());
