@@ -48,96 +48,73 @@ public class Login extends AppCompatActivity {
     FirebaseUser currentUser;
     String uid;
     boolean doubleBackToExitPressedOnce = false;
-
+    int check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance( );
 
-        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance( );
         edtPassword = findViewById(R.id.password_edt);
         btn_log = findViewById(R.id.login_button);
         loginnow = findViewById(R.id.LoginNow);
         progressBar = findViewById(R.id.progressbar);
         loginnow.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), Register.class);
+            Intent intent = new Intent(getApplicationContext( ), Register.class);
             startActivity(intent);
-            finish();
+            finish( );
         });
 
         sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
+        check = sharedPreferences.getInt("VaiTro", 1);
         String Email = sharedPreferences.getString("email", "");
         String Password = sharedPreferences.getString("password", "");
         edtEmail.setText(Email);
         edtPassword.setText(Password);
 
-        if (!edtEmail.getText().toString().trim().equals("") && !edtPassword.getText().toString().trim().equals("")) {
-            showAlertDialog();
+        if (!edtEmail.getText( ).toString( ).trim( ).equals("") && !edtPassword.getText( ).toString( ).trim( ).equals("")) {
+            showAlertDialog( );
 
         }
 
-        btn_log.setOnClickListener(new View.OnClickListener() {
+        btn_log.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View view) {
-                mAuth = FirebaseAuth.getInstance();
-                currentUser = mAuth.getCurrentUser();
+                mAuth = FirebaseAuth.getInstance( );
+                currentUser = mAuth.getCurrentUser( );
                 if (currentUser != null) {
-                    uid = currentUser.getUid();
+                    uid = currentUser.getUid( );
                 }
-                db = FirebaseFirestore.getInstance();
+                db = FirebaseFirestore.getInstance( );
                 progressBar.setVisibility(View.VISIBLE);
                 String email, password;
-                email = String.valueOf(edtEmail.getText());
-                password = String.valueOf(edtPassword.getText());
-                mAuth = FirebaseAuth.getInstance();
+                email = String.valueOf(edtEmail.getText( ));
+                password = String.valueOf(edtPassword.getText( ));
+                mAuth = FirebaseAuth.getInstance( );
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(Login.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Enter Email", Toast.LENGTH_SHORT).show( );
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(Login.this, "Enter Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Enter Password", Toast.LENGTH_SHORT).show( );
                     return;
                 }
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                currentUser = mAuth.getCurrentUser();
-                                if (currentUser != null) {
-                                    uid = currentUser.getUid();
-                                }
                                 if (task.isSuccessful()) {
-                                    db.collection("jobsearch")
-                                            .whereEqualTo(FieldPath.documentId(), uid)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        boolean hasJobSearchData = false;
-                                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                                            String documentId = document.getId();
-                                                            Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
-                                                            if (documentId.equals(uid)) {
-                                                                hasJobSearchData = true;
-                                                                break;
-                                                            }
-                                                        }
-                                                        if (hasJobSearchData) {
-                                                            Intent intent = new Intent(Login.this, MainScreen.class);
-                                                            startActivity(intent);
-
-                                                        } else {
-                                                            checkRecruiter(uid);
-                                                        }
-                                                    } else {
-                                                        Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
+                                    if (check == 1) {
+                                        Intent intent = new Intent(Login.this, MainScreen.class);
+                                        startActivity(intent);
+                                    } else if (check == 2) {
+                                        Intent intent = new Intent(Login.this, Employers_Activity.class);
+                                        startActivity(intent);
+                                    }
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
                                     editor.putString("password", edtPassword.getText().toString().trim());
@@ -150,8 +127,6 @@ public class Login extends AppCompatActivity {
                             }
 
                         });
-
-
             }
         });
     }
@@ -166,52 +141,27 @@ public class Login extends AppCompatActivity {
         builder.setMessage("Bạn có muốn đăng nhập bằng tài khoản này không?");
 
         // Định nghĩa một nút "Đóng" cho hộp thoại
-        builder.setPositiveButton("Không", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Không", new DialogInterface.OnClickListener( ) {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss(); // Đóng hộp thoại
+                dialog.dismiss( ); // Đóng hộp thoại
             }
         });
-        builder.setNegativeButton("Có", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Có", new DialogInterface.OnClickListener( ) {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mAuth = FirebaseAuth.getInstance();
-                mAuth.signInWithEmailAndPassword(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim())
+                mAuth = FirebaseAuth.getInstance( );
+                mAuth.signInWithEmailAndPassword(edtEmail.getText( ).toString( ).trim( ), edtPassword.getText( ).toString( ).trim( ))
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                currentUser = mAuth.getCurrentUser();
-                                if (currentUser != null) {
-                                    uid = currentUser.getUid();
-                                }
                                 if (task.isSuccessful()) {
-                                    db.collection("jobsearch")
-                                            .whereEqualTo(FieldPath.documentId(), uid)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        boolean hasJobSearchData = false;
-                                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                                            String documentId = document.getId();
-                                                            Log.d("IDDDDDDDDDDDDDDDDĐ",documentId);
-                                                            if (documentId.equals(uid)) {
-                                                                hasJobSearchData = true;
-                                                                break;
-                                                            }
-                                                        }
-                                                        if (hasJobSearchData) {
-                                                            Intent intent = new Intent(Login.this, MainScreen.class);
-                                                            startActivity(intent);
-
-                                                        } else {
-                                                            checkRecruiter(uid);
-                                                        }
-                                                    } else {
-                                                        Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu jobsearch", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
+                                    if (check == 1) {
+                                        Intent intent = new Intent(Login.this, MainScreen.class);
+                                        startActivity(intent);
+                                    } else if (check == 2) {
+                                        Intent intent = new Intent(Login.this, Employers_Activity.class);
+                                        startActivity(intent);
+                                    }
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
                                     editor.putString("password", edtPassword.getText().toString().trim());
@@ -229,23 +179,23 @@ public class Login extends AppCompatActivity {
 
         });
         // Tạo hộp thoại từ đối tượng AlertDialog.Builder
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = builder.create( );
 
         // Hiển thị hộp thoại
-        dialog.show();
+        dialog.show( );
     }
 
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
+            super.onBackPressed( );
             return;
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
 
             @Override
             public void run() {
@@ -254,17 +204,18 @@ public class Login extends AppCompatActivity {
         }, 1000);
 
     }
+
     private void checkRecruiter(String uid) {
 
         db.collection("recruiter")
-                .whereEqualTo(FieldPath.documentId(), uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .whereEqualTo(FieldPath.documentId( ), uid)
+                .get( )
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>( ) {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        if (task.isSuccessful()) {
-                            boolean hasRecruiterData = !task.getResult().isEmpty();
+                        if (task.isSuccessful( )) {
+                            boolean hasRecruiterData = !task.getResult( ).isEmpty( );
                             if (hasRecruiterData) {
                                 Intent intent;
                                 intent = new Intent(Login.this, Employers_Activity.class);
@@ -278,7 +229,7 @@ public class Login extends AppCompatActivity {
                             }
 
                         } else {
-                            Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu recruiter", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Lỗi khi kiểm tra dữ liệu recruiter", Toast.LENGTH_SHORT).show( );
                         }
                     }
                 });
