@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.jobhunthth.HTH0205.Employers.Fragment.Account_Employer;
+import com.jobhunthth.HTH0205.Employers.Fragment.Company_Info;
 import com.jobhunthth.HTH0205.Employers.Fragment.HomeEmployer;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
@@ -61,8 +61,6 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_Account_employer:{
-                        ChangeFragment(new Account_Employer());
-                        return true;
                     }
 
                     case R.id.menu_change_mode:{
@@ -73,6 +71,11 @@ public class Employers_Activity extends AppCompatActivity {
                         Intent intent = new Intent(Employers_Activity.this, MainScreen.class);
                         startActivity(intent);
                         finishAffinity();
+                        return true;
+                    }
+
+                    case R.id.menu_Info_employer:{
+                        ChangeFragment(new Company_Info());
                         return true;
                     }
 

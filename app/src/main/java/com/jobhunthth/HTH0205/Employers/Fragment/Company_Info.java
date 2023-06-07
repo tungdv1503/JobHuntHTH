@@ -18,20 +18,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.jobhunthth.HTH0205.Employers.Employer_Edit_Account;
-import com.jobhunthth.HTH0205.Models.EmployerModel;
+import com.jobhunthth.HTH0205.Employers.Edit_Company_Info;
+import com.jobhunthth.HTH0205.Models.CompanyInfo;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-public class Account_Employer extends Fragment {
+public class Company_Info extends Fragment {
 
     private View view;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mStore;
     private RoundedImageView Account_employer_img;
-    private TextView Account_employer_name,Account_employer_email,Account_employer_address,Account_employer_phone;
+    private TextView companyNameTextView,companyScaleTextView  ,companyIndustryTextView ,companyPhoneTextView ,companyWebsiteTextView
+            ,companyAddressTextView ,companyDescriptionTextView ;
     private Button Account_employer_btn_edit;
-    private final String TAG = Account_Employer.class.getName();
+    private final String TAG = Company_Info.class.getName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class Account_Employer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_account__employer, container, false);
+        view = inflater.inflate(R.layout.fragment_company_info, container, false);
 
         initUI();
 
@@ -54,17 +55,17 @@ public class Account_Employer extends Fragment {
 
     private void initListener() {
         Account_employer_btn_edit.setOnClickListener(view1 -> {
-            Intent intent = new Intent( getContext(), Employer_Edit_Account.class );
+            Intent intent = new Intent( getContext(), Edit_Company_Info.class );
             startActivity(intent);
         });
     }
 
     private void getData() {
-        mStore.collection("employer").document(mAuth.getCurrentUser().getUid()).get()
+        mStore.collection("CompanyInfo").document(mAuth.getCurrentUser().getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>( ) {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        EmployerModel company = documentSnapshot.toObject(EmployerModel.class);
+                        CompanyInfo company = documentSnapshot.toObject(CompanyInfo.class);
                         assert company != null;
                         showData(company);
                     }
@@ -77,22 +78,28 @@ public class Account_Employer extends Fragment {
                 });
     }
 
-    private void showData(EmployerModel company) {
-        Glide.with(this).load(company.getAvatar()).error(R.drawable.avatar).into(Account_employer_img);
-        Account_employer_name.setText(company.getName());
-        Account_employer_email.setText(company.getEmail());
-        Account_employer_phone.setText(company.getPhone_number());
-        Account_employer_address.setText(company.getAddress());
+    private void showData(CompanyInfo company) {
+        Glide.with(this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(Account_employer_img);
+        companyNameTextView.setText("Tên công ty : "+company.getCompanyName());
+        companyScaleTextView.setText("Quy mô công ty : "+company.getCompanyScale());
+        companyIndustryTextView.setText("Ngành nghề công ty : "+company.getCompanyIndustry());
+        companyPhoneTextView.setText("Số điện thoại công ty : "+company.getCompanyPhone());
+        companyWebsiteTextView.setText("Website công ty : "+company.getCompanyWebsite());
+        companyAddressTextView.setText("Địa chỉ : "+company.getCompanyAddress());
+        companyDescriptionTextView.setText("Mô tả : "+company.getCompanyDescription());
     }
 
     private void initUI() {
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
         Account_employer_img = view.findViewById(R.id.Account_employer_img);
-        Account_employer_name = view.findViewById(R.id.Account_employer_name);
-        Account_employer_email = view.findViewById(R.id.Account_employer_email);
-        Account_employer_address = view.findViewById(R.id.Account_employer_address);
-        Account_employer_phone = view.findViewById(R.id.Account_employer_phone);
+        companyNameTextView = view.findViewById(R.id.companyNameTextView);
+        companyScaleTextView = view.findViewById(R.id.companyScaleTextView);
+        companyIndustryTextView = view.findViewById(R.id.companyIndustryTextView);
+        companyPhoneTextView = view.findViewById(R.id.companyPhoneTextView);
+        companyWebsiteTextView = view.findViewById(R.id.companyWebsiteTextView);
+        companyAddressTextView = view.findViewById(R.id.companyAddressTextView);
+        companyDescriptionTextView = view.findViewById(R.id.companyDescriptionTextView);
         Account_employer_btn_edit = view.findViewById(R.id.Account_employer_btn_edit);
     }
 

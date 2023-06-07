@@ -86,7 +86,6 @@ public class check_Login extends AppCompatActivity {
                     finish( );
 //                    Intent intent = new Intent(getApplicationContext( ), Register_Employer.class);
 //                    startActivity(intent);
-                    Signin(2, email, password);
                 }
             }
         });
