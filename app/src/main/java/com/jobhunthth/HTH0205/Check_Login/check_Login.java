@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Employers.Register_Employer;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.Register_Login.RegisterInfo;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public class check_Login extends AppCompatActivity {
                     Map<String, Object> data = new HashMap<>( );
                     data.put("Admin_Permission_access", "no");
                     db.collection("recruiter").document(currentUid).set(data);
-                    Intent intent = new Intent(getApplicationContext( ), Register_Employer.class);
+                    Intent intent = new Intent(getApplicationContext( ), RegisterInfo.class);
                     startActivity(intent);
                     finish( );
                 }
