@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Employers.Fragment.Account_Employer">
+    tools:context=".Employers.Fragment.Company_Info">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/Account_employer_img"
@@ -18,30 +18,46 @@
         android:layout_marginBottom="8dp"/>
 
     <TextView
-        android:id="@+id/Account_employer_name"
+        android:id="@+id/companyNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:text="Tên công ty" />
 
     <TextView
-        android:id="@+id/Account_employer_email"
+        android:id="@+id/companyScaleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" />
+        android:text="Quy mô công ty" />
 
     <TextView
-        android:id="@+id/Account_employer_address"
+        android:id="@+id/companyIndustryTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" />
+        android:text="Ngành nghề công ty" />
 
     <TextView
-        android:id="@+id/Account_employer_phone"
+        android:id="@+id/companyPhoneTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"/>
+        android:text="Số điện thoại công ty" />
+
+    <TextView
+        android:id="@+id/companyWebsiteTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Website công ty" />
+
+    <TextView
+        android:id="@+id/companyAddressTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ làm việc" />
+
+    <TextView
+        android:id="@+id/companyDescriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mô tả công ty" />
 
     <Button
         android:id="@+id/Account_employer_btn_edit"

@@ -2,7 +2,6 @@ package com.jobhunthth.HTH0205.Register_Login;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -28,7 +26,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jobhunthth.HTH0205.Employers.Employer_Edit_Account;
 import com.jobhunthth.HTH0205.Models.UserInfo;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
