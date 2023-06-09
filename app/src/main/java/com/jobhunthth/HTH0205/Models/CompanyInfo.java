@@ -9,12 +9,13 @@ public class CompanyInfo {
     private String companyWebsite;
     private String companyAddress;
     private String companyDescription;
+    private String accountId;
 
     public CompanyInfo() {
     }
 
-    public CompanyInfo(String companyAvatar,String companyName, String companyScale, String companyIndustry, String companyPhone,
-                       String companyWebsite, String companyAddress, String companyDescription) {
+    public CompanyInfo(String companyAvatar, String companyName, String companyScale, String companyIndustry, String companyPhone,
+                       String companyWebsite, String companyAddress, String companyDescription, String accountId) {
         this.companyAvatar = companyAvatar;
         this.companyName = companyName;
         this.companyScale = companyScale;
@@ -23,6 +24,15 @@ public class CompanyInfo {
         this.companyWebsite = companyWebsite;
         this.companyAddress = companyAddress;
         this.companyDescription = companyDescription;
+        this.accountId = accountId;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getCompanyAvatar() {

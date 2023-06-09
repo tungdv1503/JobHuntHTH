@@ -111,7 +111,7 @@ public class Edit_Company_Info extends AppCompatActivity {
                 String companyDescription = companyDescriptionEditText.getText().toString().trim();
 
                 CompanyInfo companyInfo = new CompanyInfo( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
-                        companyAddress,companyDescription);
+                        companyAddress,companyDescription,mAuth.getCurrentUser().getUid());
 
                 mStore.collection("CompanyInfo").document( mAuth.getCurrentUser().getUid() ).set(companyInfo)
                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {

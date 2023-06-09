@@ -1,7 +1,12 @@
-package com.jobhunthth.HTH0205.Employers;
+package com.jobhunthth.HTH0205;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,16 +16,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,53 +29,53 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
-import com.jobhunthth.HTH0205.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class Employers_AddJobs extends AppCompatActivity {
+public class Employers_EditJob extends AppCompatActivity {
 
     FirebaseFirestore mStore;
     private TextInputEditText edt_Title, edt_MinSalary, edt_MaxSalary,edt_countRecruit,edt_addressWork,edt_MinAge,edt_MaxAge,edt_exDate;
     private TextInputLayout til_Date;
-    private RadioButton rdo_USD, rdo_VND;
+    private RadioButton rdo_USD, rdo_VND,rdo_personal,rdo_company,rdo_genderMale,rdo_genderFemale,rdo_genderAll;
     private RadioGroup rdog_Gender,rdog_Role;
     private TextView edt_JobDesc;
     private Spinner spn_Jobtype, spn_JobProfession,spn_area;
-    private Button btn_AddJob;
+    private Button btn_EditJob;
     private Toolbar jobAd_Toolbar;
-    private String TAG = Employers_AddJobs.class.getName( );
+    private String TAG = Employers_EditJob.class.getName( );
     private FirebaseUser mUser;
     private ProgressDialog dialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employers_add_jobs);
+        setContentView(R.layout.activity_employers_edit_job);
+
+        Intent intent = getIntent();
+        JobsAdModel job = (JobsAdModel) intent.getSerializableExtra("job");
 
         initUI( );
-        showSpnJobType( );
-        initListener( );
+        showSpnJobType(job);
+        showData(job);
+        initListener(job);
 
         setSupportActionBar(jobAd_Toolbar);
         getSupportActionBar( ).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar( ).setTitle("Add job");
-
+        getSupportActionBar( ).setTitle("Edit job");
     }
 
-    private void initListener() {
+    private void initListener(JobsAdModel job) {
         final String[] jobType = new String[2];
         final String[] area = new String[1];
         spnListener(jobType,area);
 
-        btn_AddJob.setOnClickListener(view -> {
+        btn_EditJob.setOnClickListener(view -> {
             String Title = edt_Title.getText( ).toString( ).trim( );
             String number = edt_countRecruit.getText().toString().trim();
             String address = edt_addressWork.getText().toString().trim();
@@ -91,7 +91,8 @@ public class Employers_AddJobs extends AppCompatActivity {
             Date currentTime = Calendar.getInstance( ).getTime( );
             if(validateData()){
                 dialog.show();
-                String jobId = mStore.collection("JobsAd").document().getId();
+
+                String jobId = job.getJobId();
 
                 JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
                         typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
@@ -111,7 +112,7 @@ public class Employers_AddJobs extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener( ) {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Employers_AddJobs.this, "Fail", Toast.LENGTH_SHORT).show( );
+                                Toast.makeText(Employers_EditJob.this, "Fail", Toast.LENGTH_SHORT).show( );
                             }
                         });
             }
@@ -126,7 +127,7 @@ public class Employers_AddJobs extends AppCompatActivity {
                 int day = selectedDate.get(Calendar.DAY_OF_MONTH);
 
                 // Tạo DatePickerDialog
-                DatePickerDialog datePickerDialog = new DatePickerDialog(Employers_AddJobs.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Employers_EditJob.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
                         // Lưu ngày đã chọn vào biến toàn cục
@@ -147,6 +148,52 @@ public class Employers_AddJobs extends AppCompatActivity {
 
 
     }
+
+    private void showData(JobsAdModel job) {
+        edt_Title.setText(job.getTitle());
+        edt_addressWork.setText(job.getAddress());
+        edt_countRecruit.setText(job.getNumber());
+        edt_MinSalary.setText(job.getMinSalary());
+        edt_MaxSalary.setText(job.getMaxSalary());
+        edt_MinAge.setText(job.getMinAge());
+        edt_MaxAge.setText(job.getMaxAge());
+        edt_exDate.setText(job.getExDate());
+        edt_JobDesc.setText(job.getDesc());
+
+        showRadio(job);
+    }
+
+    private void showRadio(JobsAdModel job) {
+        String role = job.getRole();
+        if(role.equals("Cá nhân")){
+            rdo_personal.setChecked(true);
+        }else {
+            rdo_company.setChecked(true);
+        }
+
+        String typeOfSalary = job.getTypeOfSalary( );
+        if(typeOfSalary.equals("VND")){
+            rdo_VND.setChecked(true);
+        }else {
+            rdo_USD.setChecked(true);
+        }
+
+        String gender = job.getGender( );
+        switch (gender){
+            case "Nam":
+                rdo_genderMale.setChecked(true);
+                break;
+            case "Nữ":{
+                rdo_genderFemale.setChecked(true);
+                break;
+            }
+            case "Cả 2":{
+                rdo_genderAll.setChecked(true);
+                break;
+            }
+        }
+    }
+
     private String getRole() {
         int selectedId = rdog_Role.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(selectedId);
@@ -323,7 +370,7 @@ public class Employers_AddJobs extends AppCompatActivity {
         });
     }
 
-    private void showSpnJobType() {
+    private void showSpnJobType(JobsAdModel job) {
         ArrayAdapter<CharSequence> adapter_jobType = ArrayAdapter.createFromResource(this,
                 R.array.spn_JobType, android.R.layout.simple_spinner_item);
         adapter_jobType.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -338,6 +385,10 @@ public class Employers_AddJobs extends AppCompatActivity {
                 R.array.spn_vietnam_provinces, android.R.layout.simple_spinner_item);
         adapter_area.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spn_area.setAdapter(adapter_area);
+
+        spn_Jobtype.setSelection(adapter_jobType.getPosition(job.getTypeOfWork()));
+        spn_JobProfession.setSelection(adapter_jobProfession.getPosition(job.getProfession()));
+        spn_area.setSelection(adapter_area.getPosition(job.getArea()));
     }
 
     private void initUI() {
@@ -349,10 +400,15 @@ public class Employers_AddJobs extends AppCompatActivity {
         edt_MaxSalary = findViewById(R.id.edt_MaxSalary);
         rdo_USD = findViewById(R.id.rdo_USD);
         rdo_VND = findViewById(R.id.rdo_VND);
+        rdo_personal = findViewById(R.id.rdo_personal);
+        rdo_company = findViewById(R.id.rdo_company);
+        rdo_genderMale = findViewById(R.id.rdo_genderMale);
+        rdo_genderFemale = findViewById(R.id.rdo_genderFemale);
+        rdo_genderAll = findViewById(R.id.rdo_genderAll);
         edt_JobDesc = findViewById(R.id.edt_JobDesc);
         spn_Jobtype = findViewById(R.id.spn_Jobtype);
         spn_JobProfession = findViewById(R.id.spn_JobProfession);
-        btn_AddJob = findViewById(R.id.btn_AddJob);
+        btn_EditJob = findViewById(R.id.btn_EditJob);
         jobAd_Toolbar = findViewById(R.id.jobAd_Toolbar);
         edt_countRecruit = findViewById(R.id.edt_countRecruit);
         edt_addressWork = findViewById(R.id.edt_addressWork);

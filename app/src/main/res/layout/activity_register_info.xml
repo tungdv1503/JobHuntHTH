@@ -52,7 +52,11 @@
                 android:layout_height="wrap_content"
                 android:inputType="none"
                 android:cursorVisible="false"
-                android:padding="12dp" />
+                android:drawableEnd="@drawable/calendar"
+                android:focusableInTouchMode="false"
+                android:clickable="true"
+                android:padding="12dp"
+                android:focusable="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
