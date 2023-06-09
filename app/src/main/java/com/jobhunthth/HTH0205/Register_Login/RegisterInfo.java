@@ -154,9 +154,10 @@ public class RegisterInfo extends AppCompatActivity {
         return true;
     }
 
+
+    Calendar calendar = Calendar.getInstance();
+
     private void selectBirth(){
-        // Lấy ngày, tháng, năm hiện tại
-        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
+import com.jobhunthth.HTH0205.Models.CompanyInfo;
 import com.jobhunthth.HTH0205.Models.EmployerModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
@@ -49,21 +50,7 @@ public class DetailJobsAd extends AppCompatActivity {
         Intent intent = getIntent( );
         Bundle bundle = intent.getBundleExtra("bundle");
         JobsAdModel job = (JobsAdModel) bundle.getSerializable("job");
-        getCompanyInfo(job.getId_Company( ), new CompanyInfoCallBack( ) {
-            @Override
-            public void onSuccess(EmployerModel company) {
-                companyNameTextView.setText(company.getName());
-                jobTitleTextView.setText(job.getTitle());
-                jobDescriptionTextView.setText(job.getJob_Description());
-                jobTypeTextView.setText(job.getType_Job());
-                job_profession.setText(job.getJob_Profession());
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
     }
 
     private void getCompanyInfo(String id_company, CompanyInfoCallBack callBack) {
@@ -74,7 +61,7 @@ public class DetailJobsAd extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                EmployerModel company = document.toObject(EmployerModel.class);
+                                CompanyInfo company = document.toObject(CompanyInfo.class);
                                 callBack.onSuccess(company);
                             }
                         } else {

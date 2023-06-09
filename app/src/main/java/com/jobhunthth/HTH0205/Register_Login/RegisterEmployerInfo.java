@@ -71,7 +71,7 @@ public class RegisterEmployerInfo extends AppCompatActivity {
                 String companyDescription = companyDescriptionEditText.getText().toString().trim();
 
                 CompanyInfo companyInfo = new CompanyInfo( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
-                        companyAddress,companyDescription);
+                        companyAddress,companyDescription,mUser.getUid());
 
                 mStore.collection("CompanyInfo").document( mUser.getUid() ).set(companyInfo)
                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {

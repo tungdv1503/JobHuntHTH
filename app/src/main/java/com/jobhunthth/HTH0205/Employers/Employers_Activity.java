@@ -61,6 +61,7 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_Account_employer:{
+                        return true;
                     }
 
                     case R.id.menu_change_mode:{

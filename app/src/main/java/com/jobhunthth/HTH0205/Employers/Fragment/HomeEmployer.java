@@ -60,7 +60,7 @@ public class HomeEmployer extends Fragment {
     private void showData() {
         ArrayList<JobsAdModel> list = new ArrayList<>();
 
-        mStore.collection("JobsAd").whereEqualTo("id_Company", mUser.getUid()).get()
+        mStore.collection("JobsAd").whereEqualTo("idPutJob", mUser.getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
