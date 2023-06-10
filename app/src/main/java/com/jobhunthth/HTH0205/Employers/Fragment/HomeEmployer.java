@@ -20,6 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jobhunthth.HTH0205.Employers.Adapter.Jobs_Adapter;
@@ -60,7 +61,9 @@ public class HomeEmployer extends Fragment {
     private void showData() {
         ArrayList<JobsAdModel> list = new ArrayList<>();
 
-        mStore.collection("JobsAd").whereEqualTo("idPutJob", mUser.getUid()).get()
+        mStore.collection("JobsAd")
+                .orderBy("view", Query.Direction.ASCENDING)
+                .whereEqualTo("idPutJob", mUser.getUid()).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
