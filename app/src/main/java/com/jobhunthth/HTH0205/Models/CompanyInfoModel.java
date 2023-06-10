@@ -1,6 +1,6 @@
 package com.jobhunthth.HTH0205.Models;
 
-public class CompanyInfo {
+public class CompanyInfoModel {
     private String companyAvatar;
     private String companyName;
     private String companyScale;
@@ -11,11 +11,11 @@ public class CompanyInfo {
     private String companyDescription;
     private String accountId;
 
-    public CompanyInfo() {
+    public CompanyInfoModel() {
     }
 
-    public CompanyInfo(String companyAvatar, String companyName, String companyScale, String companyIndustry, String companyPhone,
-                       String companyWebsite, String companyAddress, String companyDescription, String accountId) {
+    public CompanyInfoModel(String companyAvatar, String companyName, String companyScale, String companyIndustry, String companyPhone,
+                            String companyWebsite, String companyAddress, String companyDescription, String accountId) {
         this.companyAvatar = companyAvatar;
         this.companyName = companyName;
         this.companyScale = companyScale;

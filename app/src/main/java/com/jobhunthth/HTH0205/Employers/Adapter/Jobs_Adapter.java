@@ -2,8 +2,6 @@ package com.jobhunthth.HTH0205.Employers.Adapter;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,12 +24,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.AdapterItemView.DetailJobsAd;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
 import com.jobhunthth.HTH0205.Employers_EditJob;
-import com.jobhunthth.HTH0205.Models.CompanyInfo;
-import com.jobhunthth.HTH0205.Models.EmployerModel;
+import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +59,7 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
 
         getCompany(job.getIdPutJob( ), new CompanyInfoCallBack( ) {
             @Override
-            public void onSuccess(CompanyInfo company) {
+            public void onSuccess(CompanyInfoModel company) {
                 holder.textJobTitle.setText(job.getTitle());
                 holder.textArea.setText(job.getArea());
                 holder.textJobType.setText(job.getTypeOfWork());
@@ -142,7 +138,7 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                CompanyInfo company = document.toObject(CompanyInfo.class);
+                                CompanyInfoModel company = document.toObject(CompanyInfoModel.class);
                                 callBack.onSuccess(company);
                             }
                         } else {
