@@ -1,6 +1,6 @@
 package com.jobhunthth.HTH0205.Models;
 
-public class UserInfo {
+public class UserInfoModel {
 
     private String name;
     private String birth;
@@ -10,10 +10,10 @@ public class UserInfo {
     private String gender;
     private String avatar;
 
-    public UserInfo() {
+    public UserInfoModel() {
     }
 
-    public UserInfo(String name, String birth, String phone, String email, String address, String gender, String avatar) {
+    public UserInfoModel(String name, String birth, String phone, String email, String address, String gender, String avatar) {
         this.name = name;
         this.birth = birth;
         this.phone = phone;

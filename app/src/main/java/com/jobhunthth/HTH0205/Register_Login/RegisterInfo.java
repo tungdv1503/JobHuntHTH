@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jobhunthth.HTH0205.Models.UserInfo;
+import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -88,7 +88,7 @@ public class RegisterInfo extends AppCompatActivity {
             String email = emailEditText.getText().toString().trim();
             String address = addressEditText.getText().toString().trim();
             String gender = getGender();
-            UserInfo info = new UserInfo(name,birth,phone,email,address,gender,imgUri);
+            UserInfoModel info = new UserInfoModel(name,birth,phone,email,address,gender,imgUri);
             mStore.collection("UserInfo").document( mUser.getUid() ).set(info)
                     .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                         @Override

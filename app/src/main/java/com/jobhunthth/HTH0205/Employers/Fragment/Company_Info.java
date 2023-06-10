@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Edit_Company_Info;
-import com.jobhunthth.HTH0205.Models.CompanyInfo;
+import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -65,7 +65,7 @@ public class Company_Info extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>( ) {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        CompanyInfo company = documentSnapshot.toObject(CompanyInfo.class);
+                        CompanyInfoModel company = documentSnapshot.toObject(CompanyInfoModel.class);
                         assert company != null;
                         showData(company);
                     }
@@ -78,7 +78,7 @@ public class Company_Info extends Fragment {
                 });
     }
 
-    private void showData(CompanyInfo company) {
+    private void showData(CompanyInfoModel company) {
         Glide.with(this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(Account_employer_img);
         companyNameTextView.setText("Tên công ty : "+company.getCompanyName());
         companyScaleTextView.setText("Quy mô công ty : "+company.getCompanyScale());

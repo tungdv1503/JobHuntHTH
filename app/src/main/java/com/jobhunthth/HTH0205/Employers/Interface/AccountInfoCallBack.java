@@ -1,9 +1,9 @@
 package com.jobhunthth.HTH0205.Employers.Interface;
 
-import com.jobhunthth.HTH0205.Models.UserInfo;
+import com.jobhunthth.HTH0205.Models.UserInfoModel;
 
 public interface AccountInfoCallBack {
-    void onSuccess(UserInfo info);
+    void onSuccess(UserInfoModel info);
 
     void onFailure(Exception e);
 }

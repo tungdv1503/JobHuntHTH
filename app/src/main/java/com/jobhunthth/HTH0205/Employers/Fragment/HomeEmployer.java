@@ -62,8 +62,9 @@ public class HomeEmployer extends Fragment {
         ArrayList<JobsAdModel> list = new ArrayList<>();
 
         mStore.collection("JobsAd")
-                .orderBy("view", Query.Direction.ASCENDING)
-                .whereEqualTo("idPutJob", mUser.getUid()).get()
+                .whereEqualTo("idPutJob", mUser.getUid())
+                .orderBy("currentTime", Query.Direction.ASCENDING)
+                .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
@@ -74,8 +75,7 @@ public class HomeEmployer extends Fragment {
 
                         // Kiểm tra xem đã lấy xong tất cả dữ liệu chưa
                         if (list.size() == querySnapshot.size()) {
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                                    RecyclerView.VERTICAL, false);
+                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                             Jobs_Adapter adapter = new Jobs_Adapter(list);
                             list_Jobs.setLayoutManager(layoutManager);
                             list_Jobs.setAdapter(adapter);
@@ -85,9 +85,10 @@ public class HomeEmployer extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: " + e.getMessage());
+                        Log.e(TAG, "onFailure: "+e );
                     }
                 });
+
     }
 
     private void initListener() {
