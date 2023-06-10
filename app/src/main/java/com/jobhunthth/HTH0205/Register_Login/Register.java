@@ -27,6 +27,10 @@ public class Register extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView loginnow,txtRegister;
+    Button btn_reg;
+    FirebaseAuth mAuth;
+    ProgressBar progressBar;
+    TextView loginnow;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -51,7 +55,6 @@ public class Register extends AppCompatActivity {
 //            overridePendingTransition(R.anim.sliderighttoleft,R.anim.slidelefttoright);
             finish( );
         });
-
         btn_reg.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View view) {

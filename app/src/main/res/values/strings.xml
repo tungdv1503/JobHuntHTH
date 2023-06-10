@@ -80,4 +80,6 @@
     <string name="account">Account</string>
     <string name="home">Home</string>
     <string name="edit_account">Edit account</string>
+    <string name="min_salary">Minimum salary</string>
+    <string name="max_salary">Maximum salary</string>
 </resources>
