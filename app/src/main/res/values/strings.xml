@@ -147,4 +147,8 @@
     <string name="txt_number_of_recruiter">Number of Recruiter</string>
     <string name="txt_Address">Address</string>
     <string name="btn_editJob">Edit Job</string>
+    <string name="company_size">Company Size</string>
+    <string name="company_profession">Company Industries</string>
+    <string name="company_web">Company Website</string>
+    <string name="company_description">Mô tả công ty</string>
 </resources>

@@ -1,71 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".Employers.Fragment.Company_Info">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/Account_employer_img"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center"
-        app:riv_corner_radius="100dp"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:id="@+id/companyNameTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tên công ty" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/companyScaleTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Quy mô công ty" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/Account_employer_img"
+            android:src="@drawable/avatar"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            app:riv_corner_radius="100dp"
+            android:layout_marginBottom="8dp"/>
 
-    <TextView
-        android:id="@+id/companyIndustryTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ngành nghề công ty" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/companyPhoneTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Số điện thoại công ty" />
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/companyWebsiteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Website công ty" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
 
-    <TextView
-        android:id="@+id/companyAddressTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Địa chỉ làm việc" />
+                <TextView
+                    android:id="@+id/companyNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+                
+                <ImageButton
+                    android:id="@+id/btn_editCompanyName"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
 
-    <TextView
-        android:id="@+id/companyDescriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Mô tả công ty" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/Account_employer_btn_edit"
-        android:text="@string/edit_account"
-        android:textSize="24sp"
-        android:textAllCaps="false"
-        android:background="@color/Account_employer_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/company_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyScaleTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanySize"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/company_profession" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyIndustryTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"/>
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanyIndustry"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/company_phone_number" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyPhoneTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanyPhone"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/company_web" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyWebsiteTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanyWeb"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/company_address" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyAddressTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanyAddress"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/company_description" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <TextView
+                    android:id="@+id/companyDescriptionTextView"
+                    android:layout_width="0dp"
+                    android:layout_weight="12"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+
+                <ImageButton
+                    android:id="@+id/btn_editCompanyDesc"
+                    android:src="@drawable/edit_24"
+                    android:backgroundTintMode="screen"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

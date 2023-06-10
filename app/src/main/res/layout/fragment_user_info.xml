@@ -24,15 +24,6 @@
                 android:src="@drawable/avatar"
                 app:riv_corner_radius="70dp" />
 
-            <TextView
-                android:id="@+id/userInfo_name"
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:drawableEnd=""
-                android:text="Lee Hung" />
 
         </LinearLayout>
 
