@@ -24,9 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Interface.AccountInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
 import com.jobhunthth.HTH0205.Employers_EditJob;
-import com.jobhunthth.HTH0205.Models.CompanyInfo;
+import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
-import com.jobhunthth.HTH0205.Models.UserInfo;
+import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -73,7 +73,7 @@ public class DetailJobsAd extends AppCompatActivity {
         if(job.getRole().equals("Cá nhân")){
             getAccountInfo(job.getIdPutJob( ), new AccountInfoCallBack( ) {
                 @Override
-                public void onSuccess(UserInfo info) {
+                public void onSuccess(UserInfoModel info) {
                     jobDetail_companyName.setText(info.getName());
                     Glide.with(DetailJobsAd.this).load(info.getAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
                     jobDetail_Title.setText(job.getTitle());
@@ -96,7 +96,7 @@ public class DetailJobsAd extends AppCompatActivity {
         else {
             getCompanyInfo(job.getIdPutJob( ), new CompanyInfoCallBack( ) {
                 @Override
-                public void onSuccess(CompanyInfo company) {
+                public void onSuccess(CompanyInfoModel company) {
                     jobDetail_companyName.setText(company.getCompanyName());
                     Glide.with(DetailJobsAd.this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
                     jobDetail_Title.setText(job.getTitle());
@@ -126,7 +126,7 @@ public class DetailJobsAd extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                UserInfo info = document.toObject(UserInfo.class);
+                                UserInfoModel info = document.toObject(UserInfoModel.class);
                                 callBack.onSuccess(info);
                             }
                         } else {
@@ -154,7 +154,7 @@ public class DetailJobsAd extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                CompanyInfo company = document.toObject(CompanyInfo.class);
+                                CompanyInfoModel company = document.toObject(CompanyInfoModel.class);
                                 callBack.onSuccess(company);
                             }
                         } else {

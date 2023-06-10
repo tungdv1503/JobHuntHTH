@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.jobhunthth.HTH0205.Models.CompanyInfo;
+import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -66,7 +66,7 @@ public class Edit_Company_Info extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>( ) {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        CompanyInfo company = documentSnapshot.toObject(CompanyInfo.class);
+                        CompanyInfoModel company = documentSnapshot.toObject(CompanyInfoModel.class);
                         assert company != null;
                         showData(company);
                     }
@@ -79,7 +79,7 @@ public class Edit_Company_Info extends AppCompatActivity {
                 });
     }
 
-    private void showData(CompanyInfo company) {
+    private void showData(CompanyInfoModel company) {
         companyNameEditText.setText(company.getCompanyName());
         companyScaleEditText.setText(company.getCompanyScale());
         companyIndustryEditText.setText(company.getCompanyIndustry());
@@ -110,10 +110,10 @@ public class Edit_Company_Info extends AppCompatActivity {
                 String companyAddress = companyAddressEditText.getText().toString().trim();
                 String companyDescription = companyDescriptionEditText.getText().toString().trim();
 
-                CompanyInfo companyInfo = new CompanyInfo( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
+                CompanyInfoModel companyInfoModel = new CompanyInfoModel( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
                         companyAddress,companyDescription,mAuth.getCurrentUser().getUid());
 
-                mStore.collection("CompanyInfo").document( mAuth.getCurrentUser().getUid() ).set(companyInfo)
+                mStore.collection("CompanyInfo").document( mAuth.getCurrentUser().getUid() ).set(companyInfoModel)
                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                             @Override
                             public void onSuccess(Void unused) {
