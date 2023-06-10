@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
+import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
@@ -99,7 +100,7 @@ public class MainScreen extends AppCompatActivity {
                     }
                     case R.id.fragment_favourite: {
                         Toast.makeText(MainScreen.this, "hehe", Toast.LENGTH_SHORT).show( );
-                        Fragment fragment = new Favourrecruiter( );
+                        Fragment fragment = new UserInfo( );
                         ChangeFragment(fragment);
                         break;
                     }

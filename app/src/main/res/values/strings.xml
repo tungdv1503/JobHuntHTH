@@ -151,4 +151,13 @@
     <string name="company_profession">Company Industries</string>
     <string name="company_web">Company Website</string>
     <string name="company_description">Mô tả công ty</string>
+    <string name="brith_day">Ngày sinh</string>
+    <string name="user_infor">Thông tin cá nhân</string>
+    <string name="phone_number">Số điện thoại</string>
+    <string name="email">Đ/c email</string>
+    <string name="not_infor">Chưa có thông tin</string>
+    <string name="gender">Giới tính</string>
+    <string name="others">Khác</string>
+    <string name="address_default">Địa chỉ mặc định</string>
+
 </resources>
