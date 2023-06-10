@@ -22,11 +22,15 @@ public class JobsAdModel implements Serializable {
     private String typeOfWork;
     private String jobId;
     private String exDate;
+    private int view;
 
-    public JobsAdModel(String title, String number, String address, String gender, String minAge,
-                       String maxAge, String typeOfSalary, String minSalary, String maxSalary,
-                       String desc, Date currentTime, String role, String idPutJob, String area,
-                       String profession, String typeOfWork, String jobId, String exDate) {
+    public JobsAdModel() {
+    }
+
+    public JobsAdModel(String title, String number, String address, String gender
+            , String minAge, String maxAge, String typeOfSalary, String minSalary
+            , String maxSalary, String desc, Date currentTime, String role, String idPutJob
+            , String area, String profession, String typeOfWork, String jobId, String exDate, int view) {
         this.title = title;
         this.number = number;
         this.address = address;
@@ -45,9 +49,15 @@ public class JobsAdModel implements Serializable {
         this.typeOfWork = typeOfWork;
         this.jobId = jobId;
         this.exDate = exDate;
+        this.view = view;
     }
 
-    public JobsAdModel() {
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
     }
 
     public String getJobId() {

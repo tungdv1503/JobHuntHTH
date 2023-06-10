@@ -95,7 +95,7 @@ public class Employers_AddJobs extends AppCompatActivity {
 
                 JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
                         typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
-                        ,area[0],jobType[1],jobType[0],jobId,exDate);
+                        ,area[0],jobType[1],jobType[0],jobId,exDate,0);
                 mStore.collection("JobsAd").document( jobId ).set(jobAd)
                         .addOnCompleteListener(new OnCompleteListener<Void>( ) {
                             @Override

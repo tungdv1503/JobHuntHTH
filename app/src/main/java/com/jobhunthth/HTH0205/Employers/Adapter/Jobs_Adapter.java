@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.AdapterItemView.DetailJobsAd;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
@@ -69,6 +70,8 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
                 holder.text_exDate.setText(job.getExDate());
                 holder.textMinSalary.setText(job.getMinSalary());
                 holder.textMaxSalary.setText(job.getMaxSalary());
+                holder.text_typeOfSalary.setText(job.getTypeOfSalary());
+                holder.textView.setText(job.getView()+" lượt xem");
             }
 
             @Override
@@ -122,6 +125,7 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
         });
 
         holder.itemView.setOnClickListener(view -> {
+            mStore.collection("JobsAd").document( job.getJobId() ).update("view", FieldValue.increment(1));
             Intent intent = new Intent( holder.itemView.getContext(), DetailJobsAd.class );
             intent.putExtra("job",job);
             intent.putExtra("pos",position);
@@ -190,15 +194,16 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
     }
 
     static class myViewHolder extends RecyclerView.ViewHolder {
-        public TextView textJobTitle;
-        public TextView textArea;
-        public TextView text_exDate;
-        public TextView textJobType;
-        public TextView textMinSalary;
-        public TextView textMaxSalary;
-        public TextView textView;
-        public TextView textCV;
-        public TextView textApplied;
+        private TextView textJobTitle;
+        private TextView textArea;
+        private TextView text_exDate;
+        private TextView textJobType;
+        private TextView textMinSalary;
+        private TextView textMaxSalary;
+        private TextView textView;
+        private TextView textCV;
+        private TextView textApplied;
+        private TextView text_typeOfSalary;
 
         public myViewHolder(View itemView) {
             super(itemView);
@@ -211,6 +216,7 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
             textView = itemView.findViewById(R.id.text_view);
             textCV = itemView.findViewById(R.id.text_cv);
             textApplied = itemView.findViewById(R.id.text_applied);
+            text_typeOfSalary = itemView.findViewById(R.id.text_typeOfSalary);
         }
     }
 

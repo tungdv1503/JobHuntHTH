@@ -40,9 +40,9 @@ public class DetailJobsAd extends AppCompatActivity {
     private TextView jobDetail_salary, jobDetail_typeOfWork, jobDetail_numberRecruiter,
             jobDetail_address,jobDetail_Title, jobDetail_companyName, jobDetail_exDate,jobDetail_age,
             jobDetail_gender, jobDetail_jobDesc;
-    private int pos;
-    JobsAdModel job;
     private ProgressDialog dialog;
+
+    private JobsAdModel mjob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,10 @@ public class DetailJobsAd extends AppCompatActivity {
         setContentView(R.layout.activity_detail_jobs_ad);
 
         Intent intent = getIntent( );
-        job = (JobsAdModel) intent.getSerializableExtra("job");
-        pos = intent.getIntExtra("pos",-1);
+        JobsAdModel job = (JobsAdModel) intent.getSerializableExtra("job");
+        int pos = intent.getIntExtra("pos",-1);
+
+        mjob = job;
 
         initUI( );
         initListener();
@@ -69,7 +71,7 @@ public class DetailJobsAd extends AppCompatActivity {
 
     private void showData(JobsAdModel job) {
         if(job.getRole().equals("Cá nhân")){
-            getAccountInfo(job.getJobId( ), new AccountInfoCallBack( ) {
+            getAccountInfo(job.getIdPutJob( ), new AccountInfoCallBack( ) {
                 @Override
                 public void onSuccess(UserInfo info) {
                     jobDetail_companyName.setText(info.getName());
@@ -95,7 +97,6 @@ public class DetailJobsAd extends AppCompatActivity {
             getCompanyInfo(job.getIdPutJob( ), new CompanyInfoCallBack( ) {
                 @Override
                 public void onSuccess(CompanyInfo company) {
-                    Log.d(TAG, "onSuccess: "+company.getCompanyName());
                     jobDetail_companyName.setText(company.getCompanyName());
                     Glide.with(DetailJobsAd.this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
                     jobDetail_Title.setText(job.getTitle());
@@ -199,14 +200,14 @@ public class DetailJobsAd extends AppCompatActivity {
             }
             case R.id.cmpDetail_edit:{
                 Intent intent = new Intent( DetailJobsAd.this, Employers_EditJob.class );
-                intent.putExtra("job",job);
+                intent.putExtra("job",mjob);
                 startActivity(intent);
                 return true;
             }
 
             case R.id.cmpDetail_delete:{
                 dialog.show();
-                mStore.collection("JobsAd").document(job.getJobId()).delete()
+                mStore.collection("JobsAd").document(mjob.getJobId()).delete()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
