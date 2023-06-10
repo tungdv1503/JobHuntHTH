@@ -30,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 
 import java.text.ParseException;
@@ -103,7 +104,9 @@ public class Employers_EditJob extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful( )) {
                                     dialog.dismiss();
-                                    onBackPressed( );
+                                    Intent intent = new Intent( Employers_EditJob.this, Employers_Activity.class );
+                                    startActivity(intent);
+                                    finishAffinity();
                                 } else {
                                     Log.e(TAG, "onComplete: " + task.getException( ));
                                 }

@@ -122,7 +122,10 @@ public class Jobs_Adapter extends RecyclerView.Adapter<Jobs_Adapter.myViewHolder
         });
 
         holder.itemView.setOnClickListener(view -> {
-
+            Intent intent = new Intent( holder.itemView.getContext(), DetailJobsAd.class );
+            intent.putExtra("job",job);
+            intent.putExtra("pos",position);
+            holder.itemView.getContext().startActivity(intent);
         });
 
     }
