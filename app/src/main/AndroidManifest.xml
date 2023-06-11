@@ -13,7 +13,10 @@
         android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Employers_EditJob"
+            android:name=".Employers.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".Employers.Employers_EditJob"
             android:exported="false" />
         <activity
             android:name=".Register_Login.RegisterEmployerInfo"

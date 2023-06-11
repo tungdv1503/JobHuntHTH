@@ -66,6 +66,12 @@ public class Employers_Activity extends AppCompatActivity {
                         return true;
                     }
 
+                    case R.id.menu_ChangePassword:{
+                        Intent intent = new Intent( Employers_Activity.this, ChangePassword.class );
+                        startActivity(intent);
+                        return true;
+                    }
+
                     case R.id.menu_change_mode:{
                         sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();

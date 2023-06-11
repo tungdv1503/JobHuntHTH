@@ -159,5 +159,6 @@
     <string name="gender">Giới tính</string>
     <string name="others">Khác</string>
     <string name="address_default">Địa chỉ mặc định</string>
+    <string name="en_go_back">Go back</string>
 
 </resources>

@@ -23,7 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Interface.AccountInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
-import com.jobhunthth.HTH0205.Employers_EditJob;
+import com.jobhunthth.HTH0205.Employers.Employers_EditJob;
 import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.Models.UserInfoModel;

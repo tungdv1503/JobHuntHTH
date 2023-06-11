@@ -1,4 +1,4 @@
-package com.jobhunthth.HTH0205;
+package com.jobhunthth.HTH0205.Employers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,8 +30,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
+import com.jobhunthth.HTH0205.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
