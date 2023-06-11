@@ -46,8 +46,28 @@
                     android:layout_width="0dp"
                     android:layout_weight="12"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp" />
-                
+                    android:textSize="20sp"
+                    android:visibility="visible"/>
+
+                <LinearLayout
+                    android:id="@+id/lo_companyName"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyName"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/btn_editCompanyName"
                     android:src="@drawable/edit_24"
@@ -84,6 +104,27 @@
                     android:layout_weight="12"
                     android:layout_height="wrap_content"
                     android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/lo_companyScale"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyScale"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"
+                        android:inputType="number"
+                        android:maxLength="9"/>
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btn_editCompanySize"
@@ -122,6 +163,25 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"/>
 
+                <LinearLayout
+                    android:id="@+id/lo_companyIndustry"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyIndustry"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/btn_editCompanyIndustry"
                     android:src="@drawable/edit_24"
@@ -158,6 +218,27 @@
                     android:layout_weight="12"
                     android:layout_height="wrap_content"
                     android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/lo_companyPhone"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyPhone"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"
+                        android:maxLength="10"
+                        android:inputType="phone"/>
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btn_editCompanyPhone"
@@ -196,6 +277,25 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp" />
 
+                <LinearLayout
+                    android:id="@+id/lo_companyWeb"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyWeb"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
                 <ImageButton
                     android:id="@+id/btn_editCompanyWeb"
                     android:src="@drawable/edit_24"
@@ -231,7 +331,27 @@
                     android:layout_width="0dp"
                     android:layout_weight="12"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:maxLines="1"/>
+
+                <LinearLayout
+                    android:id="@+id/lo_companyAddress"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyAddress"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btn_editCompanyAddress"
@@ -269,6 +389,28 @@
                     android:layout_weight="12"
                     android:layout_height="wrap_content"
                     android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/lo_companyDesc"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="12"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edt_companyDesc"
+                        android:background="@drawable/outline_box_bg"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:maxLines="4"
+                        android:inputType="textMultiLine"
+                        android:scrollbars="vertical"
+                        android:gravity="top"/>
+
+                </LinearLayout>
 
                 <ImageButton
                     android:id="@+id/btn_editCompanyDesc"

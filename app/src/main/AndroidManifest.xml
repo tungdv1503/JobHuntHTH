@@ -22,9 +22,6 @@
             android:name=".Register_Login.RegisterInfo"
             android:exported="false" />
         <activity
-            android:name=".Employers.Edit_Company_Info"
-            android:exported="false" />
-        <activity
             android:name=".Employers.AdapterItemView.DetailJobsAd"
             android:exported="false" />
         <activity
