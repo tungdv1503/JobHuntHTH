@@ -111,9 +111,11 @@ public class Login extends AppCompatActivity {
                                     if (check == 1) {
                                         Intent intent = new Intent(Login.this, MainScreen.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     } else if (check == 2) {
                                         Intent intent = new Intent(Login.this, Employers_Activity.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     }
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
