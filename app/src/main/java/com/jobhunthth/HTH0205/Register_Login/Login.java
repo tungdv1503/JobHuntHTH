@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     Button btn_log;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-    TextView loginnow;
+    TextView loginnow,clickhere;
     SharedPreferences sharedPreferences;
     FirebaseFirestore db;
     FirebaseUser currentUser;
@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
         mAuth = FirebaseAuth.getInstance( );
-
+clickhere = findViewById(R.id.forgetpass);
         db = FirebaseFirestore.getInstance( );
         edtPassword = findViewById(R.id.password_edt);
         btn_log = findViewById(R.id.login_button);
@@ -64,6 +64,10 @@ public class Login extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar);
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Register.class);
+            startActivity(intent);
+            finish( );
+        }); clickhere.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext( ), forgetpassword.class);
             startActivity(intent);
             finish( );
         });
