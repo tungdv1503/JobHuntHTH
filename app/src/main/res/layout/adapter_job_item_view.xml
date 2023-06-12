@@ -16,27 +16,126 @@
             android:id="@+id/text_job_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:text="Hello"/>
 
         <TextView
-            android:id="@+id/text_company_name"
+            android:layout_marginTop="8dp"
+            android:id="@+id/text_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:drawablePadding="8dp"
+            android:text="Hà Nội"
+            android:textSize="20sp"
+            app:drawableStartCompat="@drawable/marker_24" />
 
         <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/text_exDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:text="20/10/2023"
+            android:textSize="20sp"
+            android:textColor="@color/red"
+            app:drawableStartCompat="@drawable/calendar_24" />
+
+        <TextView
+            android:layout_marginTop="8dp"
             android:id="@+id/text_job_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:textSize="20sp"
+            android:drawablePadding="8dp"
+            android:text="0123456789"
+            app:drawableStartCompat="@drawable/briefcase_24" />
 
-        <TextView
-            android:id="@+id/text_posted_time"
+        <LinearLayout
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/text_minSalary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="20"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/usd_circle_24" />
+
+            <TextView
+                android:id="@+id/text_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_maxSalary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="20"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/text_typeOfSalary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="VND"
+                android:gravity="center"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/dashed_line"/>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="12">
+
+            <TextView
+                android:id="@+id/text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:drawablePadding="8dp"
+                android:text="5 lượt xem"
+                app:drawableStartCompat="@drawable/eye_24" />
+
+            <TextView
+                android:id="@+id/text_cv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:drawablePadding="8dp"
+                android:text="0 hồ sơ"
+                app:drawableStartCompat="@drawable/document" />
+
+            <TextView
+                android:id="@+id/text_applied"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:drawablePadding="8dp"
+                android:text="5 đã tuyển"
+                app:drawableStartCompat="@drawable/eye_24" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

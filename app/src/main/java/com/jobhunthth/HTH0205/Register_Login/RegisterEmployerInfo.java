@@ -23,7 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
-import com.jobhunthth.HTH0205.Models.CompanyInfo;
+import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -70,10 +70,10 @@ public class RegisterEmployerInfo extends AppCompatActivity {
                 String companyAddress = companyAddressEditText.getText().toString().trim();
                 String companyDescription = companyDescriptionEditText.getText().toString().trim();
 
-                CompanyInfo companyInfo = new CompanyInfo( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
-                        companyAddress,companyDescription);
+                CompanyInfoModel companyInfoModel = new CompanyInfoModel( imgUri,companyName,companyScale,companyIndustry,companyPhone,companyWebsite,
+                        companyAddress,companyDescription,mUser.getUid());
 
-                mStore.collection("CompanyInfo").document( mUser.getUid() ).set(companyInfo)
+                mStore.collection("CompanyInfo").document( mUser.getUid() ).set(companyInfoModel)
                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                             @Override
                             public void onSuccess(Void unused) {
