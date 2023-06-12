@@ -23,6 +23,7 @@
         </activity>
         <activity
             android:name=".Employers_EditJob"
+
             android:exported="false" />
 
         <activity
