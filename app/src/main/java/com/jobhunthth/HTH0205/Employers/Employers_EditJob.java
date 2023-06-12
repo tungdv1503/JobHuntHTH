@@ -396,9 +396,13 @@ public class Employers_EditJob extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter_area = ArrayAdapter.createFromResource(this,
                 R.array.spn_vietnam_provinces, android.R.layout.simple_spinner_item);
 
+        ArrayAdapter<CharSequence> adapter_education = ArrayAdapter.createFromResource(this,
+                R.array.spn_education_levels, android.R.layout.simple_spinner_item);
+
         spn_Jobtype.setSelection(adapter_jobType.getPosition(job.getTypeOfWork()));
         spn_JobProfession.setSelection(adapter_jobProfession.getPosition(job.getProfession()));
         spn_area.setSelection(adapter_area.getPosition(job.getArea()));
+        spn_education_levels.setSelection(adapter_education.getPosition(job.getEducation()));
     }
 
     private void initUI() {
