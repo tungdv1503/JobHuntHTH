@@ -46,7 +46,7 @@ public class Employers_EditJob extends AppCompatActivity {
     private RadioButton rdo_USD, rdo_VND,rdo_personal,rdo_company,rdo_genderMale,rdo_genderFemale,rdo_genderAll;
     private RadioGroup rdog_Gender,rdog_Role;
     private TextView edt_JobDesc;
-    private Spinner spn_Jobtype, spn_JobProfession,spn_area;
+    private Spinner spn_Jobtype, spn_JobProfession,spn_area,spn_education_levels;
     private Button btn_EditJob;
     private Toolbar jobAd_Toolbar;
     private String TAG = Employers_EditJob.class.getName( );
@@ -72,9 +72,10 @@ public class Employers_EditJob extends AppCompatActivity {
     }
 
     private void initListener(JobsAdModel job) {
-        final String[] jobType = new String[2];
-        final String[] area = new String[1];
-        spnListener(jobType,area);
+        String[] jobType = new String[2];
+        String[] area = new String[1];
+        String[] education = new String[1];
+        spnListener(jobType,area,education);
 
         btn_EditJob.setOnClickListener(view -> {
             String Title = edt_Title.getText( ).toString( ).trim( );
@@ -97,7 +98,7 @@ public class Employers_EditJob extends AppCompatActivity {
 
                 JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
                         typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
-                        ,area[0],jobType[1],jobType[0],jobId,exDate, job.getView( ));
+                        ,area[0],jobType[1],jobType[0],jobId,exDate,education[0], job.getView( ));
                 mStore.collection("JobsAd").document( jobId ).set(jobAd)
                         .addOnCompleteListener(new OnCompleteListener<Void>( ) {
                             @Override
@@ -335,7 +336,7 @@ public class Employers_EditJob extends AppCompatActivity {
         }
     }
 
-    private void spnListener(String[] jobType, String[] area) {
+    private void spnListener(String[] jobType, String[] area, String[] education) {
         spn_Jobtype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -371,23 +372,29 @@ public class Employers_EditJob extends AppCompatActivity {
 
             }
         });
+
+        spn_education_levels.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                education[0] = adapterView.getItemAtPosition(i).toString().trim();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void showSpnJobType(JobsAdModel job) {
         ArrayAdapter<CharSequence> adapter_jobType = ArrayAdapter.createFromResource(this,
                 R.array.spn_JobType, android.R.layout.simple_spinner_item);
-        adapter_jobType.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_Jobtype.setAdapter(adapter_jobType);
 
         ArrayAdapter<CharSequence> adapter_jobProfession = ArrayAdapter.createFromResource(this,
                 R.array.spn_JobProfession, android.R.layout.simple_spinner_item);
-        adapter_jobProfession.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_JobProfession.setAdapter(adapter_jobProfession);
 
         ArrayAdapter<CharSequence> adapter_area = ArrayAdapter.createFromResource(this,
                 R.array.spn_vietnam_provinces, android.R.layout.simple_spinner_item);
-        adapter_area.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_area.setAdapter(adapter_area);
 
         spn_Jobtype.setSelection(adapter_jobType.getPosition(job.getTypeOfWork()));
         spn_JobProfession.setSelection(adapter_jobProfession.getPosition(job.getProfession()));
@@ -420,6 +427,7 @@ public class Employers_EditJob extends AppCompatActivity {
         rdog_Role = findViewById(R.id.rdog_Role);
         rdog_Gender = findViewById(R.id.rdog_Gender);
         spn_area = findViewById(R.id.spn_area);
+        spn_education_levels = findViewById(R.id.spn_EducationLevel);
         edt_exDate = findViewById(R.id.edt_exDate);
         til_Date = findViewById(R.id.til_Date);
     }

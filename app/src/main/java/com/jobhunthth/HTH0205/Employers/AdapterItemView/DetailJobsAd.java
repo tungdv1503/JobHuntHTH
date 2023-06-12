@@ -39,7 +39,7 @@ public class DetailJobsAd extends AppCompatActivity {
     private Button jobDetail_btn_moreJob;
     private TextView jobDetail_salary, jobDetail_typeOfWork, jobDetail_numberRecruiter,
             jobDetail_address,jobDetail_Title, jobDetail_companyName, jobDetail_exDate,jobDetail_age,
-            jobDetail_gender, jobDetail_jobDesc;
+            jobDetail_gender, jobDetail_jobDesc,jobDetail_education;
     private ProgressDialog dialog;
 
     private JobsAdModel mjob;
@@ -83,6 +83,7 @@ public class DetailJobsAd extends AppCompatActivity {
                     jobDetail_exDate.setText(job.getExDate());
                     jobDetail_jobDesc.setText(job.getDesc());
                     jobDetail_numberRecruiter.setText(job.getNumber());
+                    jobDetail_education.setText(job.getEducation());
                     jobDetail_salary.setText(job.getMinSalary()+"-"+job.getMaxSalary()+" "+job.getTypeOfSalary()+"/tháng");
                     jobDetail_typeOfWork.setText(job.getTypeOfWork());
                 }
@@ -106,6 +107,7 @@ public class DetailJobsAd extends AppCompatActivity {
                     jobDetail_exDate.setText(job.getExDate());
                     jobDetail_jobDesc.setText(job.getDesc());
                     jobDetail_numberRecruiter.setText(job.getNumber());
+                    jobDetail_education.setText(job.getEducation());
                     jobDetail_salary.setText(job.getMinSalary()+"-"+job.getMaxSalary()+" "+job.getTypeOfSalary()+"/tháng");
                     jobDetail_typeOfWork.setText(job.getTypeOfWork());
                 }
@@ -189,6 +191,7 @@ public class DetailJobsAd extends AppCompatActivity {
         jobDetail_age = findViewById(R.id.jobDetail_age);
         jobDetail_gender = findViewById(R.id.jobDetail_gender);
         jobDetail_jobDesc = findViewById(R.id.jobDetail_jobDesc);
+        jobDetail_education = findViewById(R.id.jobDetail_education);
     }
 
     @Override

@@ -99,6 +99,15 @@
         <item>Yên Bái</item>
         <item>Phú Yên</item>
     </string-array>
+    <string-array name="spn_education_levels">
+        <item>Không yêu cầu</item>
+        <item>Tốt nghiệp THPT</item>
+        <item>Tốt nghiệp trung cấp</item>
+        <item>Tốt nghiệp Cao đẳng</item>
+        <item>Tốt nghiệp đại học</item>
+        <item>Trên đại học</item>
+    </string-array>
+
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
     <string name="age">Age:</string>
@@ -160,5 +169,6 @@
     <string name="others">Khác</string>
     <string name="address_default">Địa chỉ mặc định</string>
     <string name="en_go_back">Go back</string>
+    <string name="en_education_levels">Education levels</string>
 
 </resources>
