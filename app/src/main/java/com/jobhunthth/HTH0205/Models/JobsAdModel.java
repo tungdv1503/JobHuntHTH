@@ -4,40 +4,116 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class JobsAdModel implements Serializable {
-    private String id_Company;
     private String title;
-    private String job_Description;
-    private String type_Job;
-    private String job_Profession;
-    private Date createAt;
-
-    public JobsAdModel(String id_Company, String title, String job_Description, String type_Job,
-                       String job_Profession, Date createAt) {
-        this.id_Company = id_Company;
-        this.title = title;
-        this.job_Description = job_Description;
-        this.type_Job = type_Job;
-        this.job_Profession = job_Profession;
-        this.createAt = createAt;
-    }
+    private String number;
+    private String address;
+    private String gender;
+    private String minAge;
+    private String maxAge;
+    private String typeOfSalary;
+    private String minSalary;
+    private String maxSalary;
+    private String desc;
+    private Date currentTime;
+    private String role;
+    private String idPutJob;
+    private String area;
+    private String profession;
+    private String typeOfWork;
+    private String jobId;
+    private String exDate;
+    private int view;
 
     public JobsAdModel() {
     }
 
-    public String getJob_Profession() {
-        return job_Profession;
+    public JobsAdModel(String title, String number, String address, String gender
+            , String minAge, String maxAge, String typeOfSalary, String minSalary
+            , String maxSalary, String desc, Date currentTime, String role, String idPutJob
+            , String area, String profession, String typeOfWork, String jobId, String exDate, int view) {
+        this.title = title;
+        this.number = number;
+        this.address = address;
+        this.gender = gender;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.typeOfSalary = typeOfSalary;
+        this.minSalary = minSalary;
+        this.maxSalary = maxSalary;
+        this.desc = desc;
+        this.currentTime = currentTime;
+        this.role = role;
+        this.idPutJob = idPutJob;
+        this.area = area;
+        this.profession = profession;
+        this.typeOfWork = typeOfWork;
+        this.jobId = jobId;
+        this.exDate = exDate;
+        this.view = view;
     }
 
-    public void setJob_Profession(String job_Profession) {
-        this.job_Profession = job_Profession;
+    public int getView() {
+        return view;
     }
 
-    public String getId_Company() {
-        return id_Company;
+    public void setView(int view) {
+        this.view = view;
     }
 
-    public void setId_Company(String id_Company) {
-        this.id_Company = id_Company;
+    public String getJobId() {
+        return jobId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getExDate() {
+        return exDate;
+    }
+
+    public void setExDate(String exDate) {
+        this.exDate = exDate;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getTypeOfWork() {
+        return typeOfWork;
+    }
+
+    public void setTypeOfWork(String typeOfWork) {
+        this.typeOfWork = typeOfWork;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getIdPutJob() {
+        return idPutJob;
+    }
+
+    public void setIdPutJob(String idPutJob) {
+        this.idPutJob = idPutJob;
     }
 
     public String getTitle() {
@@ -48,27 +124,83 @@ public class JobsAdModel implements Serializable {
         this.title = title;
     }
 
-    public String getJob_Description() {
-        return job_Description;
+    public String getNumber() {
+        return number;
     }
 
-    public void setJob_Description(String job_Description) {
-        this.job_Description = job_Description;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getType_Job() {
-        return type_Job;
+    public String getAddress() {
+        return address;
     }
 
-    public void setType_Job(String type_Job) {
-        this.type_Job = type_Job;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Date getCreateAt() {
-        return createAt;
+    public String getGender() {
+        return gender;
     }
 
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(String minAge) {
+        this.minAge = minAge;
+    }
+
+    public String getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(String maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public String getTypeOfSalary() {
+        return typeOfSalary;
+    }
+
+    public void setTypeOfSalary(String typeOfSalary) {
+        this.typeOfSalary = typeOfSalary;
+    }
+
+    public String getMinSalary() {
+        return minSalary;
+    }
+
+    public void setMinSalary(String minSalary) {
+        this.minSalary = minSalary;
+    }
+
+    public String getMaxSalary() {
+        return maxSalary;
+    }
+
+    public void setMaxSalary(String maxSalary) {
+        this.maxSalary = maxSalary;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public Date getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(Date currentTime) {
+        this.currentTime = currentTime;
     }
 }

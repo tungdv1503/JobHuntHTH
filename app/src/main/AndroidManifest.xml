@@ -14,6 +14,7 @@
         android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+
             android:name=".Register_Login.forgetpassword"
             android:exported="false">
             <meta-data
@@ -21,13 +22,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".Employers_EditJob"
+            android:exported="false" />
+
+        <activity
             android:name=".Register_Login.RegisterEmployerInfo"
             android:exported="true" />
         <activity
             android:name=".Register_Login.RegisterInfo"
-            android:exported="false" />
-        <activity
-            android:name=".Employers.Edit_Company_Info"
             android:exported="false" />
         <activity
             android:name=".Employers.AdapterItemView.DetailJobsAd"

@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.jobhunthth.HTH0205.Employers.Fragment.Company_Info;
 import com.jobhunthth.HTH0205.Employers.Fragment.HomeEmployer;
+import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
@@ -61,6 +62,8 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_Account_employer:{
+                        ChangeFragment(new UserInfo());
+                        return true;
                     }
 
                     case R.id.menu_change_mode:{

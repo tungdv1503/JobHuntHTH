@@ -115,9 +115,11 @@ clickhere = findViewById(R.id.forgetpass);
                                     if (check == 1) {
                                         Intent intent = new Intent(Login.this, MainScreen.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     } else if (check == 2) {
                                         Intent intent = new Intent(Login.this, Employers_Activity.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     }
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
@@ -162,9 +164,11 @@ clickhere = findViewById(R.id.forgetpass);
                                     if (check == 1) {
                                         Intent intent = new Intent(Login.this, MainScreen.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     } else if (check == 2) {
                                         Intent intent = new Intent(Login.this, Employers_Activity.class);
                                         startActivity(intent);
+                                        finishAffinity();
                                     }
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("email", edtEmail.getText().toString().trim());
@@ -224,12 +228,12 @@ clickhere = findViewById(R.id.forgetpass);
                                 Intent intent;
                                 intent = new Intent(Login.this, Employers_Activity.class);
                                 startActivity(intent);
-
+                                finishAffinity();
                             } else {
                                 Intent intent;
                                 intent = new Intent(Login.this, check_Login.class);
                                 startActivity(intent);
-
+                                finishAffinity();
                             }
 
                         } else {
