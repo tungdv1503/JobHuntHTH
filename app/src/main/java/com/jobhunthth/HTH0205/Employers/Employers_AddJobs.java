@@ -8,10 +8,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -27,10 +25,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
@@ -48,13 +44,12 @@ public class Employers_AddJobs extends AppCompatActivity {
     private RadioButton rdo_USD, rdo_VND;
     private RadioGroup rdog_Gender,rdog_Role;
     private TextView edt_JobDesc;
-    private Spinner spn_Jobtype, spn_JobProfession,spn_area;
+    private Spinner spn_Jobtype, spn_JobProfession,spn_area,spn_EducationLevel;
     private Button btn_AddJob;
     private Toolbar jobAd_Toolbar;
     private String TAG = Employers_AddJobs.class.getName( );
     private FirebaseUser mUser;
     private ProgressDialog dialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +57,6 @@ public class Employers_AddJobs extends AppCompatActivity {
         setContentView(R.layout.activity_employers_add_jobs);
 
         initUI( );
-        showSpnJobType( );
         initListener( );
 
         setSupportActionBar(jobAd_Toolbar);
@@ -72,9 +66,10 @@ public class Employers_AddJobs extends AppCompatActivity {
     }
 
     private void initListener() {
-        final String[] jobType = new String[2];
-        final String[] area = new String[1];
-        spnListener(jobType,area);
+        String[] jobType = new String[2];
+        String[] area = new String[1];
+        String[] education = new String[1];
+        spnListener(jobType,area,education);
 
         btn_AddJob.setOnClickListener(view -> {
             String Title = edt_Title.getText( ).toString( ).trim( );
@@ -96,7 +91,7 @@ public class Employers_AddJobs extends AppCompatActivity {
 
                 JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
                         typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
-                        ,area[0],jobType[1],jobType[0],jobId,exDate,0);
+                        ,area[0],jobType[1],jobType[0],jobId,exDate,education[0],0);
                 mStore.collection("JobsAd").document( jobId ).set(jobAd)
                         .addOnCompleteListener(new OnCompleteListener<Void>( ) {
                             @Override
@@ -286,7 +281,7 @@ public class Employers_AddJobs extends AppCompatActivity {
         }
     }
 
-    private void spnListener(String[] jobType, String[] area) {
+    private void spnListener(String[] jobType, String[] area, String[] education) {
         spn_Jobtype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -322,23 +317,18 @@ public class Employers_AddJobs extends AppCompatActivity {
 
             }
         });
-    }
 
-    private void showSpnJobType() {
-        ArrayAdapter<CharSequence> adapter_jobType = ArrayAdapter.createFromResource(this,
-                R.array.spn_JobType, android.R.layout.simple_spinner_item);
-        adapter_jobType.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_Jobtype.setAdapter(adapter_jobType);
+        spn_EducationLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                education[0] = adapterView.getItemAtPosition(i).toString().trim();
+            }
 
-        ArrayAdapter<CharSequence> adapter_jobProfession = ArrayAdapter.createFromResource(this,
-                R.array.spn_JobProfession, android.R.layout.simple_spinner_item);
-        adapter_jobProfession.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_JobProfession.setAdapter(adapter_jobProfession);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        ArrayAdapter<CharSequence> adapter_area = ArrayAdapter.createFromResource(this,
-                R.array.spn_vietnam_provinces, android.R.layout.simple_spinner_item);
-        adapter_area.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spn_area.setAdapter(adapter_area);
+            }
+        });
     }
 
     private void initUI() {
@@ -362,6 +352,7 @@ public class Employers_AddJobs extends AppCompatActivity {
         rdog_Role = findViewById(R.id.rdog_Role);
         rdog_Gender = findViewById(R.id.rdog_Gender);
         spn_area = findViewById(R.id.spn_area);
+        spn_EducationLevel = findViewById(R.id.spn_EducationLevel);
         edt_exDate = findViewById(R.id.edt_exDate);
         til_Date = findViewById(R.id.til_Date);
     }

@@ -84,7 +84,8 @@
                 android:id="@+id/spn_JobProfession"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:entries="@array/spn_JobProfession"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -97,7 +98,8 @@
                 android:id="@+id/spn_Jobtype"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:entries="@array/spn_JobType"/>
 
             <TextView
                 android:text="Số người ứng tuyển"
@@ -133,7 +135,8 @@
                 android:id="@+id/spn_area"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:entries="@array/spn_vietnam_provinces"/>
 
             <TextView
                 android:text="Ngày hết hạn nhận hồ sơ"
@@ -249,6 +252,19 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/en_education_levels"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spn_EducationLevel"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:entries="@array/spn_education_levels" />
 
             <TextView
                 android:layout_width="match_parent"
