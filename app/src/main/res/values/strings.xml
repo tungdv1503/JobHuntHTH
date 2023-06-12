@@ -12,6 +12,14 @@
     <string name="Name">Name</string>
     <string name="View_Bio">View your Bio</string>
     <string name="Password">Password</string>
+    <string name="USD">USD</string>
+    <string name="VND">VNĐ</string>
+    <string name="Distance">Distance:</string>
+    <string name="Over">Over</string>
+    <string name="About">About</string>
+    <string name="Below">Below</string>
+    <string name="Kilometer">km</string>
+    <string name="Mile">mi</string>
     <string name="txt_JobTitle">Title</string>
     <string name="edt_JobTitle">Input Title</string>
     <string name="txt_JobDesc">Jobs Description</string>
@@ -23,6 +31,12 @@
     <string name="txt_JobType">Type of Jobs</string>
     <string name="txt_JobProfession">Profession</string>
     <string name="btn_AddJob">Add Jobs</string>
+    <string name="sent">Send</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Forget_password">Forget your password?</string>
+    <string name="Forget_password1">Click Here</string>
+    <string name="forgetpassword">Forget Your Password?</string>
+    <string name="forgetpasswordtext">Please enter your Email to get the new password</string>
     <string-array name="spn_JobType">
         <item>Full Time</item>
         <item>Part Time</item>
@@ -124,6 +138,8 @@
     <string name="university">University:</string>
     <string name="majors">Majors</string>
     <string name="search">Search</string>
+    <string name="view">View</string>
+    <string name="Apply">Apply</string>
     <string name="jobsearch">Job search</string>
     <string name="setting">Setting</string>
     <string name="Regis_for_recruiter">Register as an employer</string>
