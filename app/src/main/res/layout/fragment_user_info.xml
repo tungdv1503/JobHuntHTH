@@ -91,14 +91,7 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:src="@drawable/edit_24" />
-                    <ImageButton
-                        android:visibility="gone"
-                        android:layout_gravity="center"
-                        android:id="@+id/imgbtn_edit_name1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/checkmark" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -230,17 +223,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
                         <TextView
+                            android:id="@+id/txt_label_phonenumber"
                             style="@style/TextViewUserInforUP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/phone_number" />
                         <TextView
-
                             android:id="@+id/tv_phonenumber"
                             style="@style/TextViewUserInforDOWN"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_infor" />
+                        <EditText
+                            android:visibility="gone"
+                            android:id="@+id/edt_userinfor_phonenumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_background_userinfor"
+                            android:padding="10dp"
+                            android:hint="Nhập nội dung"
+                            android:inputType="text" />
                     </LinearLayout>
                     <LinearLayout
                         android:gravity="end"
@@ -275,6 +277,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
                         <TextView
+                            android:id="@+id/txt_label_email"
                             style="@style/TextViewUserInforUP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -285,6 +288,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_infor" />
+                        <EditText
+                            android:visibility="gone"
+                            android:id="@+id/edt_userinfor_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_background_userinfor"
+                            android:padding="10dp"
+                            android:hint="Nhập nội dung"
+                            android:inputType="text" />
                     </LinearLayout>
                     <LinearLayout
                         android:gravity="end"
@@ -319,6 +331,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
                         <TextView
+                            android:id="@+id/txt_label_address"
                             style="@style/TextViewUserInforUP"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -329,6 +342,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/not_infor" />
+                        <EditText
+                            android:visibility="gone"
+                            android:id="@+id/edt_userinfor_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_background_userinfor"
+                            android:padding="10dp"
+                            android:hint="Nhập nội dung"
+                            android:inputType="text" />
                     </LinearLayout>
                     <LinearLayout
                         android:gravity="end"
