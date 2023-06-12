@@ -186,5 +186,6 @@
     <string name="address_default">Địa chỉ mặc định</string>
     <string name="en_go_back">Go back</string>
     <string name="en_education_levels">Education levels</string>
+    <string name="en_skip">Skip</string>
 
 </resources>
