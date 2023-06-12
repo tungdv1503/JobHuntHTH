@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,16 +14,21 @@
         android:theme="@style/Theme.Material3.Light.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".Register_Login.forgetpassword"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Employers_EditJob"
-            android:exported="false" />
+           android:exported="false" />
+
         <activity
             android:name=".Register_Login.RegisterEmployerInfo"
             android:exported="true" />
         <activity
             android:name=".Register_Login.RegisterInfo"
-            android:exported="false" />
-        <activity
-            android:name=".Employers.Edit_Company_Info"
             android:exported="false" />
         <activity
             android:name=".Employers.AdapterItemView.DetailJobsAd"
