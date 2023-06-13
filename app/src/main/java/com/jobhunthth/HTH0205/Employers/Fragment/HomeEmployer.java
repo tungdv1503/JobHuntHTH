@@ -63,7 +63,7 @@ public class HomeEmployer extends Fragment {
 
         mStore.collection("JobsAd")
                 .whereEqualTo("idPutJob", mUser.getUid())
-                .orderBy("currentTime", Query.Direction.ASCENDING)
+                .orderBy("currentTime", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

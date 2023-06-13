@@ -134,7 +134,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thêm thông tin công ty"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/txt_skip"
+            android:text="@string/en_skip"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/gray"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

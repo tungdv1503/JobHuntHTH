@@ -22,13 +22,13 @@ public class JobSeekers_Home extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
+        View v = inflate(R.layout.fragment_job_seekers__home, container, false);
 
         return v;
     }

@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     Button btn_log;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-    TextView loginnow,clickhere;
+    TextView loginnow, clickhere;
     SharedPreferences sharedPreferences;
     FirebaseFirestore db;
     FirebaseUser currentUser;
@@ -56,7 +56,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         edtEmail = findViewById(R.id.email_edt);
         mAuth = FirebaseAuth.getInstance( );
-clickhere = findViewById(R.id.forgetpass);
+        clickhere = findViewById(R.id.forgetpass);
         db = FirebaseFirestore.getInstance( );
         edtPassword = findViewById(R.id.password_edt);
         btn_log = findViewById(R.id.login_button);
@@ -66,7 +66,8 @@ clickhere = findViewById(R.id.forgetpass);
             Intent intent = new Intent(getApplicationContext( ), Register.class);
             startActivity(intent);
             finish( );
-        }); clickhere.setOnClickListener(view -> {
+        });
+        clickhere.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), forgetpassword.class);
             startActivity(intent);
             finish( );
@@ -108,26 +109,26 @@ clickhere = findViewById(R.id.forgetpass);
                     return;
                 }
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                if (task.isSuccessful( )) {
                                     if (check == 1) {
                                         Intent intent = new Intent(Login.this, MainScreen.class);
                                         startActivity(intent);
-                                        finishAffinity();
+                                        finishAffinity( );
                                     } else if (check == 2) {
                                         Intent intent = new Intent(Login.this, Employers_Activity.class);
                                         startActivity(intent);
-                                        finishAffinity();
+                                        finishAffinity( );
                                     }
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("email", edtEmail.getText().toString().trim());
-                                    editor.putString("password", edtPassword.getText().toString().trim());
-                                    editor.apply();
+                                    SharedPreferences.Editor editor = sharedPreferences.edit( );
+                                    editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
+                                    editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
+                                    editor.apply( );
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
                                 }
 
                             }
@@ -157,26 +158,26 @@ clickhere = findViewById(R.id.forgetpass);
             public void onClick(DialogInterface dialog, int which) {
                 mAuth = FirebaseAuth.getInstance( );
                 mAuth.signInWithEmailAndPassword(edtEmail.getText( ).toString( ).trim( ), edtPassword.getText( ).toString( ).trim( ))
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                                if (task.isSuccessful( )) {
                                     if (check == 1) {
                                         Intent intent = new Intent(Login.this, MainScreen.class);
                                         startActivity(intent);
-                                        finishAffinity();
+                                        finishAffinity( );
                                     } else if (check == 2) {
                                         Intent intent = new Intent(Login.this, Employers_Activity.class);
                                         startActivity(intent);
-                                        finishAffinity();
+                                        finishAffinity( );
                                     }
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("email", edtEmail.getText().toString().trim());
-                                    editor.putString("password", edtPassword.getText().toString().trim());
-                                    editor.apply();
+                                    SharedPreferences.Editor editor = sharedPreferences.edit( );
+                                    editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
+                                    editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
+                                    editor.apply( );
                                 } else {
                                     // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
                                 }
 
                             }
@@ -228,12 +229,12 @@ clickhere = findViewById(R.id.forgetpass);
                                 Intent intent;
                                 intent = new Intent(Login.this, Employers_Activity.class);
                                 startActivity(intent);
-                                finishAffinity();
+                                finishAffinity( );
                             } else {
                                 Intent intent;
                                 intent = new Intent(Login.this, check_Login.class);
                                 startActivity(intent);
-                                finishAffinity();
+                                finishAffinity( );
                             }
 
                         } else {

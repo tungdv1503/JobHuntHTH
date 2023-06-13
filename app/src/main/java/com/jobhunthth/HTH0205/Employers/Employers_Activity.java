@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,13 +19,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Fragment.Company_Info;
 import com.jobhunthth.HTH0205.Employers.Fragment.HomeEmployer;
 import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
+import com.jobhunthth.HTH0205.Register_Login.RegisterEmployerInfo;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Employers_Activity extends AppCompatActivity {
@@ -32,6 +41,8 @@ public class Employers_Activity extends AppCompatActivity {
     private Toolbar toolbar_employer;
     private NavigationView nav_employer;
     private DrawerLayout drawerLayout_employer;
+    private FirebaseFirestore mStore;
+    private FirebaseUser mUser;
 
     SharedPreferences sharedPreferences;
     @Override
@@ -66,6 +77,12 @@ public class Employers_Activity extends AppCompatActivity {
                         return true;
                     }
 
+                    case R.id.menu_ChangePassword:{
+                        Intent intent = new Intent( Employers_Activity.this, ChangePassword.class );
+                        startActivity(intent);
+                        return true;
+                    }
+
                     case R.id.menu_change_mode:{
                         sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -78,7 +95,26 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_Info_employer:{
-                        ChangeFragment(new Company_Info());
+                        mStore.collection("CompanyInfo").document(mUser.getUid()).get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>( ) {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot doc = task.getResult( );
+                                            if(doc.exists()){
+                                                ChangeFragment(new Company_Info());
+                                            }else {
+                                                showAlertDialog();
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener( ) {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "GetCompanyInfo: "+e );
+                                    }
+                                });
                         return true;
                     }
 
@@ -112,6 +148,28 @@ public class Employers_Activity extends AppCompatActivity {
         });
     }
 
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn chưa đăng ký công ty, bạn có muốn đăng ký luôn không ?");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent( Employers_Activity.this, RegisterEmployerInfo.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener( ) {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -125,6 +183,8 @@ public class Employers_Activity extends AppCompatActivity {
     }
 
     private void initUI() {
+        mStore = FirebaseFirestore.getInstance();
+        mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         toolbar_employer = findViewById(R.id.toolbar_employer);
         nav_employer = findViewById(R.id.nav_employer);
         drawerLayout_employer = findViewById(R.id.drawerLayout_employer);
