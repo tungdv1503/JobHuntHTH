@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +18,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldPath;
@@ -24,14 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.jobhunthth.HTH0205.Check_Login.check_Login;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Register extends AppCompatActivity {
     TextInputEditText edtEmail, edtPassword;
-    TextInputLayout layoutEmail, layoutPassword;
-    Button btn_reg;
-    FirebaseAuth mAuth;
-    ProgressBar progressBar;
-    TextView loginnow,txtRegister;
     Button btn_reg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -43,21 +40,14 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         edtEmail = findViewById(R.id.email_edt);
         edtPassword = findViewById(R.id.password_edt);
-        layoutEmail = findViewById(R.id.email_layout);
-        layoutPassword = findViewById(R.id.password_layout);
         btn_reg = findViewById(R.id.button_register);
         loginnow = findViewById(R.id.LoginNow);
-        txtRegister = findViewById(R.id.txtRegister);
         progressBar = findViewById(R.id.progressbar);
-
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Login.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
-//            overridePendingTransition(R.anim.sliderighttoleft,R.anim.slidelefttoright);
             finish( );
         });
         btn_reg.setOnClickListener(new View.OnClickListener( ) {
@@ -86,9 +76,6 @@ public class Register extends AppCompatActivity {
 //                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
 //                                    startActivity(intent);
                                     checkRecruiter(email,password);
-                                    Toast.makeText(Register.this, "Success", Toast.LENGTH_SHORT).show( );
-                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
-                                    startActivity(intent);
                                     finish( );
                                 } else {
 
@@ -103,23 +90,21 @@ public class Register extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.sliderighttoleft,R.anim.slidelefttoright);
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed( );
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
-//
-//        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce = false;
-//            }
-//        }, 2000);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed( );
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
+
+        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
 
     }
 
