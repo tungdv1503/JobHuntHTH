@@ -250,6 +250,7 @@
                         android:layout_marginLeft="10dp">
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/programing_jobs"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
                     </HorizontalScrollView>
@@ -371,10 +372,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="fill_parent">
 
-                        <HorizontalScrollView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/marketing_id"
@@ -500,7 +497,7 @@
                                 android:id="@+id/doctor_id"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" />
-                        </HorizontalScrollView>
+
                     </LinearLayout>
 
                 </LinearLayout>

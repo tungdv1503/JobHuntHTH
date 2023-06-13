@@ -3,11 +3,16 @@ package com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_doctor;
@@ -15,17 +20,21 @@ import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_insurance;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_marketing;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_sale;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class JobSeekers_Home extends Fragment {
 
 
     private RecyclerView recyclerView,recyclerViewsale,recyclerViewmarketing,recyclerViewinsurance,recyclerViewdoctor;
+
     private JobAdapter jobAdapter;
     private JobAdapter_marketing jobAdapter_marketing;
     private JobAdapter_sale jobAdapter_sale;
     private JobAdapter_insurance jobAdapter_insurance;
     private JobAdapter_doctor jobAdapter_doctor;
+
     private List<JobsAdModel> jobList;
     private List<JobsAdModel> jobList1;
     private List<JobsAdModel> jobList2;
@@ -161,23 +170,10 @@ public class JobSeekers_Home extends Fragment {
     }
 
 
-
-
-
-
-}
-=======
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
 
-        return v;
-    }
 }
 
