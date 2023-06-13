@@ -43,6 +43,7 @@ public class RegisterEmployerInfo extends AppCompatActivity {
     private FirebaseUser mUser;
     private FirebaseFirestore mStore;
     private ProgressDialog dialog;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,14 @@ public class RegisterEmployerInfo extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void unused) {
                                 dialog.dismiss();
-                                Intent intent = new Intent( RegisterEmployerInfo.this, Employers_Activity.class);
-                                startActivity(intent);
-                                finishAffinity();
+                                int type = mIntent.getIntExtra("type",-1);
+                                if(type==-1){
+                                    Intent intent = new Intent( RegisterEmployerInfo.this, Employers_Activity.class);
+                                    startActivity(intent);
+                                    finishAffinity();
+                                }else {
+                                    onBackPressed();
+                                }
                             }
                         })
                         .addOnFailureListener(new OnFailureListener( ) {
@@ -99,7 +105,14 @@ public class RegisterEmployerInfo extends AppCompatActivity {
         txt_skip.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View view) {
-
+                int type = mIntent.getIntExtra("type",-1);
+                if(type==-1){
+                    Intent intent = new Intent( RegisterEmployerInfo.this, Employers_Activity.class);
+                    startActivity(intent);
+                    finishAffinity();
+                }else {
+                    onBackPressed();
+                }
             }
         });
     }
@@ -170,6 +183,7 @@ public class RegisterEmployerInfo extends AppCompatActivity {
     }
 
     private void initUI() {
+        mIntent = getIntent();
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         mStore = FirebaseFirestore.getInstance();
         dialog = new ProgressDialog(this);

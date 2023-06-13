@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -143,6 +144,11 @@ public class UserInfo extends Fragment {
                     Glide.with(getContext( )).load(R.drawable.edit_24).into(imgEditName);
                     if (!text.isEmpty( )) {
                         if (!text.equals(infoModel.getName( ))) {
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(text)
+                                    .build();
+
+                            currentUser.updateProfile(profileUpdates);
                             db.collection("UserInfo").document(currentUser.getUid( ))
                                     .update("name", text);
                             getAccountInfo(currentUser.getUid( ), new AccountInfoCallBack( ) {
@@ -506,6 +512,11 @@ public class UserInfo extends Fragment {
                         imageRef.getDownloadUrl( ).addOnSuccessListener(new OnSuccessListener<Uri>( ) {
                             @Override
                             public void onSuccess(Uri downloadUri) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setPhotoUri(downloadUri)
+                                        .build();
+
+                                currentUser.updateProfile(profileUpdates);
                                 db.collection("UserInfo").document(currentUser.getUid( ))
                                         .update("avatar", downloadUri.toString( ))
                                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {

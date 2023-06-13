@@ -5,11 +5,11 @@
             android:id="@+id/fragment_home"
             android:title="@string/JobSeekers_Home" />
         <item
-            android:id="@+id/fragment_favourite"
-            android:title="@string/favourtive_recruiter" />
+            android:id="@+id/fragment_info"
+            android:title="@string/en_user_info" />
         <item
-            android:id="@+id/fragment_status"
-            android:title="@string/Cv_send_status" />
+            android:id="@+id/fragment_profile"
+            android:title="@string/en_user_profile" />
         <item
             android:id="@+id/fragment_employer"
             android:title="@string/Regis_for_recruiter" />
