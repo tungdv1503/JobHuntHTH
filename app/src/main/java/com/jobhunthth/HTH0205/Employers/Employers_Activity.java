@@ -156,6 +156,7 @@ public class Employers_Activity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent( Employers_Activity.this, RegisterEmployerInfo.class);
+                intent.putExtra("type",1);
                 startActivity(intent);
                 dialog.dismiss();
             }

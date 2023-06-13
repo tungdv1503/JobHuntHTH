@@ -16,18 +16,22 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.Calendar;
@@ -45,6 +49,7 @@ public class RegisterInfo extends AppCompatActivity {
     private final int REQUEST_IMAGE_PICKER = 1001;
     private ProgressDialog dialog;
     private String imgUri;
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +94,32 @@ public class RegisterInfo extends AppCompatActivity {
             String address = addressEditText.getText().toString().trim();
             String gender = getGender();
             UserInfoModel info = new UserInfoModel(name,birth,phone,email,address,gender,imgUri);
+
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .setPhotoUri(Uri.parse(imgUri))
+                    .build();
+
+            mUser.updateProfile(profileUpdates);
+
             mStore.collection("UserInfo").document( mUser.getUid() ).set(info)
                     .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                         @Override
                         public void onSuccess(Void unused) {
                             dialog.dismiss();
-                            Intent intent = new Intent( RegisterInfo.this,RegisterEmployerInfo.class );
-                            startActivity(intent);
+                            int type = mIntent.getIntExtra("type",-1);
+                            //type được sử dụng để kiểm tra xem phần mở activity này lên là gì để
+                            //tiếp tục điều hướng ứng dụng
+                            if(type==-1){
+                                Intent intent = new Intent( RegisterInfo.this,RegisterEmployerInfo.class );
+                                startActivity(intent);
+                            }else if(type==2){
+                                Intent intent = new Intent( RegisterInfo.this, MainScreen.class );
+                                startActivity(intent);
+                            }
+                            else {
+                                onBackPressed();
+                            }
                             finishAffinity();
                         }
                     })
@@ -179,6 +203,7 @@ public class RegisterInfo extends AppCompatActivity {
     }
 
     private void initUI() {
+        mIntent = getIntent();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         dialog = new ProgressDialog(this);
         mStore = FirebaseFirestore.getInstance();

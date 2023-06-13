@@ -33,6 +33,7 @@ import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.JobSeekers_Home;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Setting;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.UserProfile;
 
 public class MainScreen extends AppCompatActivity {
     LinearLayout profile;
@@ -98,10 +99,12 @@ public class MainScreen extends AppCompatActivity {
                      break;
 
                     }
-                    case R.id.fragment_favourite: {
-                        Toast.makeText(MainScreen.this, "hehe", Toast.LENGTH_SHORT).show( );
-                        Fragment fragment = new UserInfo( );
-                        ChangeFragment(fragment);
+                    case R.id.fragment_info: {
+                        ChangeFragment(new UserInfo());
+                        break;
+                    }
+                    case R.id.fragment_profile:{
+                        ChangeFragment(new UserProfile());
                         break;
                     }
                     case R.id.fragment_employer:
