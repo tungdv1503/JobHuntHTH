@@ -48,13 +48,6 @@
             android:textSize="30dp"
             android:textColor="#FFFFFF" />
 
-        <ProgressBar
-            android:foregroundGravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressbar"
-            android:visibility="gone"/>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_layout"
             android:layout_width="match_parent"
@@ -95,6 +88,7 @@
                 android:textColor="#FFFFFF"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <ProgressBar
             android:foregroundGravity="center"
             android:layout_width="wrap_content"
@@ -128,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtAnother"
-            android:layout_below="@id/ForgetNow"
+            android:layout_below="@id/forgetpass"
             android:layout_marginTop="15dp"
             android:gravity="center">
 
@@ -155,7 +149,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/ForgetNow"
+            android:layout_below="@id/forgetpass"
             android:layout_marginTop="50dp"
             android:gravity="center">
 
@@ -190,7 +184,7 @@
 
         <TextView
             android:layout_marginTop="120dp"
-            android:layout_below="@id/ForgetNow"
+            android:layout_below="@id/forgetpass"
             android:id="@+id/LoginNow"
             android:gravity="center"
             android:text="@string/clicktoRegister"
