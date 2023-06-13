@@ -67,7 +67,7 @@
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".Register_Login.Register"
+            android:name=".Register_Login.Start"
             android:exported="true"
             android:theme="@style/Theme.Material3.Light.NoActionBar">
             <intent-filter>
@@ -82,6 +82,14 @@
         </activity>
         <activity
             android:name=".Register_Login.Login"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Register_Login.Register"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar">
             <meta-data
