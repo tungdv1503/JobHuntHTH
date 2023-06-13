@@ -15,6 +15,13 @@
         tools:targetApi="31">
         <activity
 
+            android:name=".Employers.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".Employers.Employers_EditJob"
+            android:exported="false" />
+        <activity
+
             android:name=".Register_Login.forgetpassword"
             android:exported="false">
             <meta-data
@@ -22,11 +29,10 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Employers_EditJob"
-
+            android:name=".Employers.Employers_EditJob"
             android:exported="false" />
-
         <activity
+
             android:name=".Register_Login.RegisterEmployerInfo"
             android:exported="true" />
         <activity
