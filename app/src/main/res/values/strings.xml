@@ -164,7 +164,9 @@
     <string name="Cv_send_status">Application Status</string>
     <string name="favourtive_recruiter">Favour Recruiter</string>
     <string name="JobSeekers_Home">Home</string>
-    <string name="Online_Jobs">Online Jobs</string>
+    <string name="Online_Jobs">Marketing Jobs</string>
+    <string name="doctor_Jobs">Doctor Jobs</string>
+    <string name="Insurance_Jobs">Insurance Jobs</string>
     <string name="Programming_Jobs">Programming Jobs</string>
     <string name="Sale_jobs">Sale Jobs</string>
     <string name="recruiters">recruiters</string>
