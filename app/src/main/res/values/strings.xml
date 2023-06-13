@@ -121,7 +121,25 @@
         <item>Tốt nghiệp đại học</item>
         <item>Trên đại học</item>
     </string-array>
-
+    <string-array name="skill_array">
+        <item>Kỹ năng giao tiếp</item>
+        <item>Kỹ năng viết</item>
+        <item>Kỹ năng thuyết trình</item>
+        <item>Kỹ năng giải quyết vấn đề</item>
+        <item>Kỹ năng lắng nghe</item>
+        <item>Kỹ năng chăm sóc trẻ em</item>
+        <item>Kỹ năng đàm phán</item>
+        <item>Kỹ năng làm việc nhóm</item>
+        <item>Kỹ năng quản lý thời gian</item>
+        <item>Kỹ năng đặt mục tiêu</item>
+        <item>Kỹ năng quan sát</item>
+        <item>Kỹ năng lên kế hoạch</item>
+        <item>Khả năng học hỏi</item>
+        <item>Khả năng thích nghi</item>
+        <item>Khả năng sáng tạo, tư duy</item>
+        <item>Khả năng lắng nghe</item>
+        <item>Khác</item>
+    </string-array>
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
     <string name="age">Age:</string>
@@ -187,5 +205,7 @@
     <string name="en_go_back">Go back</string>
     <string name="en_education_levels">Education levels</string>
     <string name="en_skip">Skip</string>
+    <string name="en_user_info">User Info</string>
+    <string name="en_user_profile">User Profile</string>
 
 </resources>

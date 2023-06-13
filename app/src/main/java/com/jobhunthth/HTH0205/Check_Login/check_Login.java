@@ -61,8 +61,6 @@ public class check_Login extends AppCompatActivity {
                     Map<String, Object> data = new HashMap<>( );
                     data.put("status", "yes");
                     db.collection("jobsearch").document(currentUid).set(data);
-//                    Intent intent = new Intent(getApplicationContext( ), MainScreen.class);
-//                    startActivity(intent);
                     Signin(1, email, password);
 
                 }
@@ -81,9 +79,7 @@ public class check_Login extends AppCompatActivity {
                     Map<String, Object> data = new HashMap<>( );
                     data.put("Admin_Permission_access", "no");
                     db.collection("recruiter").document(currentUid).set(data);
-                    Intent intent = new Intent(getApplicationContext( ), RegisterInfo.class);
-                    startActivity(intent);
-                    finish( );
+                    Signin(2,email,password);
 //                    Intent intent = new Intent(getApplicationContext( ), Register_Employer.class);
 //                    startActivity(intent);
                 }
@@ -100,11 +96,12 @@ public class check_Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful( )) {
                             if (check == 1) {
-                                Intent intent = new Intent(check_Login.this, MainScreen.class);
+                                Intent intent = new Intent(check_Login.this, RegisterInfo.class);
+                                intent.putExtra("type",2);
                                 startActivity(intent);
                                 finish( );
                             } else if (check == 2) {
-                                Intent intent = new Intent(check_Login.this, Employers_Activity.class);
+                                Intent intent = new Intent(check_Login.this, RegisterInfo.class);
                                 startActivity(intent);
                                 finish( );
                             }

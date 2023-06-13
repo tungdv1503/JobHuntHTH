@@ -1,7 +1,10 @@
 package com.jobhunthth.HTH0205.Employers;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,9 +30,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.Register_Login.RegisterEmployerInfo;
+import com.jobhunthth.HTH0205.Register_Login.RegisterInfo;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -50,6 +56,10 @@ public class Employers_AddJobs extends AppCompatActivity {
     private String TAG = Employers_AddJobs.class.getName( );
     private FirebaseUser mUser;
     private ProgressDialog dialog;
+    String[] jobType = new String[2];
+    String[] area = new String[1];
+    String[] education = new String[1];
+    private Intent mIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,52 +76,12 @@ public class Employers_AddJobs extends AppCompatActivity {
     }
 
     private void initListener() {
-        String[] jobType = new String[2];
-        String[] area = new String[1];
-        String[] education = new String[1];
-        spnListener(jobType,area,education);
+        spnListener();
 
         btn_AddJob.setOnClickListener(view -> {
-            String Title = edt_Title.getText( ).toString( ).trim( );
-            String number = edt_countRecruit.getText().toString().trim();
-            String address = edt_addressWork.getText().toString().trim();
-            String minSalary = edt_MinSalary.getText( ).toString( ).trim( );
-            String maxSalary = edt_MaxSalary.getText( ).toString( ).trim( );
-            String Desc = edt_JobDesc.getText().toString().trim();
-            String minAge = edt_MinAge.getText().toString().trim();
-            String maxAge = edt_MaxAge.getText().toString().trim();
-            String exDate = edt_exDate.getText().toString().trim();
-            String gender = getGender();
-            String typeOfSalary = getTypeOfSalary( );
-            String role = getRole();
-            Date currentTime = Calendar.getInstance( ).getTime( );
-            if(validateData()){
-                dialog.show();
-                String jobId = mStore.collection("JobsAd").document().getId();
-
-                JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
-                        typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
-                        ,area[0],jobType[1],jobType[0],jobId,exDate,education[0],0);
-                mStore.collection("JobsAd").document( jobId ).set(jobAd)
-                        .addOnCompleteListener(new OnCompleteListener<Void>( ) {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful( )) {
-                                    dialog.dismiss();
-                                    onBackPressed( );
-                                } else {
-                                    Log.e(TAG, "onComplete: " + task.getException( ));
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener( ) {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Employers_AddJobs.this, "Fail", Toast.LENGTH_SHORT).show( );
-                            }
-                        });
-            }
+            checkRdo();
         });
+
 
         Calendar selectedDate = Calendar.getInstance();
         edt_exDate.setOnClickListener(new View.OnClickListener() {
@@ -140,9 +110,137 @@ public class Employers_AddJobs extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-
-
     }
+
+    private void checkRdo() {
+        int id = rdog_Role.getCheckedRadioButtonId();
+        RadioButton rdo = findViewById(id);
+        String text = rdo.getText().toString().trim();
+        Log.d(TAG, "checkRdo: "+text );
+        switch (text){
+            case "Cá nhân":{
+                mStore.collection("UserInfo").document(mUser.getUid()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>( ) {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot doc = task.getResult( );
+                                    if(doc.exists()){
+                                        validateData();
+                                    }else {
+                                        showAlertDialog(1);
+                                    }
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener( ) {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: "+e );
+                            }
+                        });
+                break;
+            }
+            case "Công ty":{
+                mStore.collection("CompanyInfo").document(mUser.getUid()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>( ) {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot doc = task.getResult( );
+                                    if(doc.exists()){
+                                        validateData();
+                                    }else {
+                                        showAlertDialog(2);
+                                    }
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener( ) {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "onFailure: "+e );
+                            }
+                        });
+                break;
+            }
+        }
+    }
+
+    private void showAlertDialog(int i) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn chưa đăng ký thông tin, bạn có muốn đăng ký luôn không ?");
+
+        switch (i){
+            case 1:{
+                mIntent = new Intent( Employers_AddJobs.this, RegisterInfo.class );
+                mIntent.putExtra("type",1);
+                break;
+            }
+            case 2:{
+                mIntent = new Intent( Employers_AddJobs.this, RegisterEmployerInfo.class );
+                mIntent.putExtra("type",1);
+                break;
+            }
+        }
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(mIntent);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("Cancle", new DialogInterface.OnClickListener( ) {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void addJob(){
+        String Title = edt_Title.getText( ).toString( ).trim( );
+        String number = edt_countRecruit.getText().toString().trim();
+        String address = edt_addressWork.getText().toString().trim();
+        String minSalary = edt_MinSalary.getText( ).toString( ).trim( );
+        String maxSalary = edt_MaxSalary.getText( ).toString( ).trim( );
+        String Desc = edt_JobDesc.getText().toString().trim();
+        String minAge = edt_MinAge.getText().toString().trim();
+        String maxAge = edt_MaxAge.getText().toString().trim();
+        String exDate = edt_exDate.getText().toString().trim();
+        String gender = getGender();
+        String typeOfSalary = getTypeOfSalary( );
+        String role = getRole();
+        Date currentTime = Calendar.getInstance( ).getTime( );
+        dialog.show();
+        String jobId = mStore.collection("JobsAd").document().getId();
+
+        JobsAdModel jobAd = new JobsAdModel(Title, number, address, gender, minAge, maxAge,
+                typeOfSalary, minSalary, maxSalary, Desc, currentTime,role,mUser.getUid()
+                ,area[0],jobType[1],jobType[0],jobId,exDate,education[0],0);
+        mStore.collection("JobsAd").document( jobId ).set(jobAd)
+                .addOnCompleteListener(new OnCompleteListener<Void>( ) {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful( )) {
+                            dialog.dismiss();
+                            onBackPressed( );
+                        } else {
+                            Log.e(TAG, "onComplete: " + task.getException( ));
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener( ) {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Employers_AddJobs.this, "Fail", Toast.LENGTH_SHORT).show( );
+                    }
+                });
+    }
+
     private String getRole() {
         int selectedId = rdog_Role.getCheckedRadioButtonId();
         RadioButton radioButton = findViewById(selectedId);
@@ -155,7 +253,7 @@ public class Employers_AddJobs extends AppCompatActivity {
         return selectedRole;
     }
 
-    private boolean validateData() {
+    private void validateData() {
         String title = edt_Title.getText().toString().trim();
         String number = edt_countRecruit.getText().toString().trim();
         String address = edt_addressWork.getText().toString().trim();
@@ -259,7 +357,9 @@ public class Employers_AddJobs extends AppCompatActivity {
             }
         }
 
-        return isValidate;
+        if(isValidate){
+            addJob();
+        };
     }
 
     private String getGender() {
@@ -281,7 +381,7 @@ public class Employers_AddJobs extends AppCompatActivity {
         }
     }
 
-    private void spnListener(String[] jobType, String[] area, String[] education) {
+    private void spnListener() {
         spn_Jobtype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
