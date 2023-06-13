@@ -29,10 +29,11 @@ import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Register extends AppCompatActivity {
     TextInputEditText edtEmail, edtPassword;
+    TextInputLayout layoutEmail, layoutPassword;
     Button btn_reg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-    TextView loginnow;
+    TextView loginnow,txtRegister;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -44,6 +45,7 @@ public class Register extends AppCompatActivity {
         edtPassword = findViewById(R.id.password_edt);
         btn_reg = findViewById(R.id.button_register);
         loginnow = findViewById(R.id.LoginNow);
+//        txtRegister = findViewById(R.id.txtRegister);
         progressBar = findViewById(R.id.progressbar);
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Login.class);

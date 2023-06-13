@@ -65,6 +65,7 @@ public class Login extends AppCompatActivity {
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Register.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
             finish( );
         });
         clickhere.setOnClickListener(view -> {
