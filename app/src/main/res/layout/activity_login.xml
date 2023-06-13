@@ -21,17 +21,17 @@
             android:src="@drawable/logoapp2"
             android:layout_gravity="center|top" />
 
-<!--        <TextView-->
-<!--            android:layout_width="240dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Một câu slogan siêu đẳng cấp sẽ thêm vào đây"-->
-<!--            android:layout_gravity="center|top"-->
-<!--            android:gravity="center"-->
-<!--            android:layout_below="@id/logoIn"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:background="#8B43D9"-->
-<!--            />-->
+        <!--        <TextView-->
+        <!--            android:layout_width="240dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Một câu slogan siêu đẳng cấp sẽ thêm vào đây"-->
+        <!--            android:layout_gravity="center|top"-->
+        <!--            android:gravity="center"-->
+        <!--            android:layout_below="@id/logoIn"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:background="#8B43D9"-->
+        <!--            />-->
     </LinearLayout>
 
     <RelativeLayout
@@ -46,9 +46,15 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="30dp"
-            android:textColor="#FFFFFF"
-            />
-        <!-- Email TextInputLayout -->
+            android:textColor="#FFFFFF" />
+
+        <ProgressBar
+            android:foregroundGravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressbar"
+            android:visibility="gone"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_layout"
             android:layout_width="match_parent"
@@ -60,56 +66,6 @@
             android:textColorHint="#FFFFFF"
             app:startIconDrawable="@drawable/baseline_email_24">
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <ProgressBar
-        android:foregroundGravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressbar"
-        android:visibility="gone"/>
-    <!-- Login button -->
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_below="@id/password_layout"
-        android:layout_marginTop="40dp"
-        android:text="@string/Login" />
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_marginTop="300dp"
-            android:id="@+id/LoginNow"
-            android:gravity="center"
-            android:text="No Account! Click to Register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:gravity="center"
-                android:text="@string/Forget_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_marginLeft="10dp"
-                android:id="@+id/forgetpass"
-                android:text="@string/Forget_password1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_edt"
                 android:layout_width="match_parent"
@@ -159,7 +115,7 @@
         <TextView
             android:layout_marginTop="30dp"
             android:layout_below="@id/login_button"
-            android:id="@+id/ForgetNow"
+            android:id="@+id/forgetpass"
             android:gravity="center"
             android:text="@string/ForgetPassword"
             android:layout_width="match_parent"
@@ -244,5 +200,4 @@
             android:textSize="18dp"/>
 
     </RelativeLayout>
-
 </FrameLayout>

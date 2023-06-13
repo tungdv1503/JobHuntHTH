@@ -66,14 +66,13 @@ public class Login extends AppCompatActivity {
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Register.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
             finish( );
         });
         clickhere.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), forgetpassword.class);
             startActivity(intent);
             finish( );
-            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
-//            finish();
         });
 
         sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
