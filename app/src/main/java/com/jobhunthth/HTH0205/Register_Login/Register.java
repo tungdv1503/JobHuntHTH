@@ -46,7 +46,7 @@ public class Register extends AppCompatActivity {
         layoutPassword = findViewById(R.id.password_layout);
         btn_reg = findViewById(R.id.button_register);
         loginnow = findViewById(R.id.LoginNow);
-        txtRegister = findViewById(R.id.txtRegister);
+//        txtRegister = findViewById(R.id.txtRegister);
         progressBar = findViewById(R.id.progressbar);
 
         loginnow.setOnClickListener(view -> {
