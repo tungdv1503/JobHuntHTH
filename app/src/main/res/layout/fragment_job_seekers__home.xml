@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiplayout_search_home"
                 style="@style/TextInputLayoutAppearance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

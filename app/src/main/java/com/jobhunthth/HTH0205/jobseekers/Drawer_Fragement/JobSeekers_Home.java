@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -28,7 +29,7 @@ public class JobSeekers_Home extends Fragment {
     private JobAdapter jobAdapter;
     private List<JobsAdModel> jobList;
     private FirebaseFirestore firestore;
-
+    private TextInputLayout tipSearch;
     public JobSeekers_Home() {
         // Required empty public constructor
     }
@@ -36,7 +37,7 @@ public class JobSeekers_Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
-
+        initView(v);
         recyclerView = v.findViewById(R.id.programing_jobs);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         jobList = new ArrayList<>();
@@ -71,10 +72,21 @@ public class JobSeekers_Home extends Fragment {
                 .addOnFailureListener(e -> {
                     // Xử lý khi có lỗi xảy ra
                 });
-
+        listener();
         return v;
     }
+    private void initView(View v){
+        tipSearch = v.findViewById(R.id.tiplayout_search_home);
 
+    }
+    private void listener(){
+        tipSearch.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
 
 
 
