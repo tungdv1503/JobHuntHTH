@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_location_job"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:textColor="@color/blue"
@@ -40,6 +41,7 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:textColor="@color/blue"
+                android:id="@+id/tv_name_job"
                 android:text="Tuyển Thực tập sinh lập trình Mobile App"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -58,6 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_view_job"
                     android:layout_marginLeft="3dp"
                     android:layout_gravity="center"
                     android:textSize="12dp"
@@ -89,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/tv_apply_job"
                     android:layout_marginLeft="3dp"
                     android:layout_gravity="center"
                     android:textSize="12dp"
@@ -114,7 +118,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
-
+        android:id="@+id/tv_minsalary_job"
         android:text="6.000.000"
         android:textStyle="bold"
         android:textColor="@color/red"
@@ -131,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-
+        android:id="@+id/tv_maxsalary_job"
         android:text="8.000.000"
         android:textStyle="bold"
         android:textColor="@color/red"
@@ -156,7 +160,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-
+                android:id="@+id/tv_location_detail_job"
                 android:text="Cầu Giấy, Hà Nội"
                 android:textStyle="bold"
                 android:textColor="@color/black"
