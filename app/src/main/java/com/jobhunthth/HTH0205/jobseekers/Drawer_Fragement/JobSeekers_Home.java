@@ -1,5 +1,6 @@
 package com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,7 +43,7 @@ public class JobSeekers_Home extends Fragment {
     private List<JobsAdModel> jobList3;
     private List<JobsAdModel> jobList4;
     private FirebaseFirestore firestore;
-
+    private TextView tvSearch;
 
     public JobSeekers_Home() {
         // Required empty public constructor
@@ -49,7 +51,7 @@ public class JobSeekers_Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
-
+        initView(v);
         recyclerView = v.findViewById(R.id.programing_jobs);
         recyclerViewsale = v.findViewById(R.id.sale_jobs);
         recyclerViewmarketing = v.findViewById(R.id.marketing_id);
@@ -170,13 +172,27 @@ public class JobSeekers_Home extends Fragment {
                 .addOnFailureListener(e -> {
                     // Xử lý khi có lỗi xảy ra
                 });
-
+        listener();
         return v;
     }
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+    private void initView(View v) {
+        tvSearch = v.findViewById(R.id.edit_search_job);
+    }
+
+    private void listener() {
+
+        tvSearch.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity( ), SearchJobActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
