@@ -68,16 +68,21 @@ public class JobSeekers_Home extends Fragment {
         jobAdapter_insurance = new JobAdapter_insurance(getActivity(), jobList3);
         jobAdapter_doctor = new JobAdapter_doctor(getActivity(), jobList4);
 
+
+
         firestore = FirebaseFirestore.getInstance();
         firestore.collection("JobsAd").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         JobsAdModel job = documentSnapshot.toObject(JobsAdModel.class);
                         String idPutJob = job.getIdPutJob();
-                        String collectionName = job.getProfession().equals("Công nghệ thông tin") ? "UserInfo" : "CompanyInfo";
-                        String avatarField = job.getProfession().equals("Công nghệ thông tin") ? "avatar" : "companyAvatar";
+                        String profession = documentSnapshot.getString("profession");
+                        String collectionName = job.getRole().equals("Cá nhân") ? "UserInfo" : (job.getRole().equals("Công ty") ? "CompanyInfo" : "");
+                        String avatarField = job.getRole().equals("Cá nhân") ? "avatar" : (job.getRole().equals("Công ty") ? "companyAvatar" : "");
 
-                        if (job.getProfession().equals("Công nghệ thông tin")) {
+
+                        assert profession != null;
+                        if (profession.equals("Công nghệ thông tin")) {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                             recyclerView.setAdapter(jobAdapter);
                             firestore.collection(collectionName).document(idPutJob)
@@ -93,7 +98,7 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
-                        } else if (job.getProfession().equals("Marketing")) {
+                        } else if (profession.equals("Marketing")) {
                             recyclerViewmarketing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewmarketing.setAdapter(jobAdapter_marketing);
                             firestore.collection(collectionName).document(idPutJob)
@@ -109,7 +114,7 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
-                        } else if (job.getProfession().equals("Kế toán")) {
+                        } else if (profession.equals("Kế toán")) {
                             recyclerViewsale.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewsale.setAdapter(jobAdapter_sale);
                             firestore.collection(collectionName).document(idPutJob)
@@ -125,7 +130,7 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
-                        } else if (job.getProfession().equals("Bảo hiểm")) {
+                        } else if (profession.equals("Bảo hiểm")) {
                             recyclerViewinsurance.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewinsurance.setAdapter(jobAdapter_insurance);
                             firestore.collection(collectionName).document(idPutJob)
@@ -141,7 +146,7 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
-                        } else if (job.getProfession().equals("Bác sĩ")) {
+                        } else if (profession.equals("Bác sĩ")) {
                             recyclerViewdoctor.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewdoctor.setAdapter(jobAdapter_doctor);
                             firestore.collection(collectionName).document(idPutJob)

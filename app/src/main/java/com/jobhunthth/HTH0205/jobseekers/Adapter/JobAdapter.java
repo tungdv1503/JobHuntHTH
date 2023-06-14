@@ -1,6 +1,7 @@
 package com.jobhunthth.HTH0205.jobseekers.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.AdapterItemView.DetailJobsAd;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
+import com.jobhunthth.HTH0205.jobseekers.ApplyActivity;
 
 import java.util.List;
 
@@ -22,7 +27,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 
     private Context context;
     private List<JobsAdModel> jobList4;
-
+    private FirebaseFirestore mStore;
     public JobAdapter(Context context, List<JobsAdModel> jobList) {
         this.context = context;
         this.jobList4 = jobList;
@@ -32,6 +37,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     @Override
     public JobViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.doctor_item, parent, false);
+        mStore = FirebaseFirestore.getInstance();
         return new JobViewHolder(view);
     }
 
@@ -50,6 +56,14 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 //        holder.tvApplyCount.setText(String.valueOf(job.get()));
         holder.tvMinSalary.setText(job.getMinSalary());
         holder.tvMaxSalary.setText(job.getMaxSalary());
+
+        holder.itemView.setOnClickListener(view -> {
+            mStore.collection("JobsAd").document( job.getJobId() ).update("view", FieldValue.increment(1));
+            Intent intent = new Intent( holder.itemView.getContext(), ApplyActivity.class );
+            intent.putExtra("job",job);
+            intent.putExtra("pos",position);
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
