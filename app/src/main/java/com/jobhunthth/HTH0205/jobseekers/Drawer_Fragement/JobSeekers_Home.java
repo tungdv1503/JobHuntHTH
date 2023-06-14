@@ -21,6 +21,7 @@ import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_doctor;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_insurance;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_marketing;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter_sale;
+import com.jobhunthth.HTH0205.jobseekers.activity.SearchJobActivity;
 
 import java.util.ArrayList;
 import java.util.List;
