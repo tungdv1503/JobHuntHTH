@@ -213,5 +213,7 @@
     <string name="en_skip">Skip</string>
     <string name="en_user_info">User Info</string>
     <string name="en_user_profile">User Profile</string>
+    <string name="search_job">Nghề nghiệp</string>
+    <string name="search_job_location">Địa điểm</string>
 
 </resources>
