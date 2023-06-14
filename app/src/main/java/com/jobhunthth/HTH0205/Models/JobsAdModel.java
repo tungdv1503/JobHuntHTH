@@ -6,6 +6,12 @@ import java.util.Date;
 public class JobsAdModel implements Serializable {
     private String title;
     private String number;
+    private String avatar;
+
+    public JobsAdModel(String avatar) {
+        this.avatar = avatar;
+    }
+
     private String address;
     private String gender;
     private String minAge;
@@ -14,6 +20,15 @@ public class JobsAdModel implements Serializable {
     private String minSalary;
     private String maxSalary;
     private String desc;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     private Date currentTime;
     private String role;
     private String idPutJob;

@@ -167,9 +167,12 @@
     <string name="Cv_send_status">Application Status</string>
     <string name="favourtive_recruiter">Favour Recruiter</string>
     <string name="JobSeekers_Home">Home</string>
-    <string name="Online_Jobs">Online Jobs</string>
+    <string name="Online_Jobs">Marketing Jobs</string>
+    <string name="doctor_Jobs">Doctor Jobs</string>
+    <string name="Insurance_Jobs">Insurance Jobs</string>
     <string name="Programming_Jobs">Programming Jobs</string>
     <string name="Sale_jobs">Sale Jobs</string>
+    <string name="Contact">Contact</string>
     <string name="recruiters">recruiters</string>
     <string name="search_jobsfinder">Job search, recruiters</string>
     <string name="Years_exp">years of experience:</string>
@@ -210,5 +213,7 @@
     <string name="en_skip">Skip</string>
     <string name="en_user_info">User Info</string>
     <string name="en_user_profile">User Profile</string>
+    <string name="search_job">Nghề nghiệp</string>
+    <string name="search_job_location">Địa điểm</string>
 
 </resources>
