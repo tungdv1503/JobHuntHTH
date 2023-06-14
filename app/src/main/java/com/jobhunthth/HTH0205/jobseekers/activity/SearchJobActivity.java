@@ -129,11 +129,14 @@ public class SearchJobActivity extends AppCompatActivity {
         ImageButton btnClose = bottomSheetDialog.findViewById(R.id.btn_closeDialog);
         ListView lvLocationJob = bottomSheetDialog.findViewById(R.id.lv_ds_job);
         EditText edtSearch = bottomSheetDialog.findViewById(R.id.edt_search_job);
+        TextView tvLabel = bottomSheetDialog.findViewById(R.id.tv_label);
         String[] items = getResources( ).getStringArray(R.array.spn_vietnam_provinces);
         bottomSheetDialog.setCancelable(false); // Không cho phép hủy dialog khi nhấn nút back
         bottomSheetDialog.setCanceledOnTouchOutside(false); // Không cho phép hủy dialog khi click bên ngoài
         //
         ViewDialogBottom(bottomSheetDialog);
+        //
+        tvLabel.setText(R.string.search_job_location);
         edtSearch.addTextChangedListener(new TextWatcher( ) {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -200,12 +203,14 @@ public class SearchJobActivity extends AppCompatActivity {
         ImageButton btnClose = bottomSheetDialog.findViewById(R.id.btn_closeDialog);
         ListView lvNameJob = bottomSheetDialog.findViewById(R.id.lv_ds_job);
         EditText edtSearch = bottomSheetDialog.findViewById(R.id.edt_search_job);
+        TextView tvLabel = bottomSheetDialog.findViewById(R.id.tv_label);
         String[] items = getResources( ).getStringArray(R.array.spn_JobProfession);
         bottomSheetDialog.setCancelable(false); // Không cho phép hủy dialog khi nhấn nút back
         bottomSheetDialog.setCanceledOnTouchOutside(false); // Không cho phép hủy dialog khi click bên ngoài
         //
         ViewDialogBottom(bottomSheetDialog);
-
+        //
+        tvLabel.setText(R.string.search_job);
         edtSearch.addTextChangedListener(new TextWatcher( ) {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
