@@ -58,6 +58,8 @@
                 android:gravity="center"
                 android:id="@+id/spin_search_name_job"
                 android:textSize="15sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/spinner_border_search"
@@ -74,6 +76,8 @@
             android:padding="5dp">
 
             <TextView
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:textSize="15sp"
                 android:drawableRight="@drawable/arrow_down"
                 android:id="@+id/spn_search_location_job"
@@ -93,7 +97,7 @@
         android:layout_weight="8">
         <TextView
             android:padding="15dp"
-            android:text="Số lượng công việc"
+            android:id="@+id/tv_"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <androidx.recyclerview.widget.RecyclerView

@@ -1,20 +1,14 @@
 package com.jobhunthth.HTH0205.jobseekers.activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -133,7 +127,7 @@ public class SearchJobActivity extends AppCompatActivity {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SearchJobActivity.this);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_loction);
         ImageButton btnClose = bottomSheetDialog.findViewById(R.id.btn_closeDialog);
-        ListView lvLocationJob = bottomSheetDialog.findViewById(R.id.lv_ds_location_job);
+        ListView lvLocationJob = bottomSheetDialog.findViewById(R.id.lv_ds_job);
         EditText edtSearch = bottomSheetDialog.findViewById(R.id.edt_search_job);
         String[] items = getResources( ).getStringArray(R.array.spn_vietnam_provinces);
         bottomSheetDialog.setCancelable(false); // Không cho phép hủy dialog khi nhấn nút back
@@ -204,7 +198,7 @@ public class SearchJobActivity extends AppCompatActivity {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(SearchJobActivity.this);
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_dialog_loction);
         ImageButton btnClose = bottomSheetDialog.findViewById(R.id.btn_closeDialog);
-        ListView lvLocationJob = bottomSheetDialog.findViewById(R.id.lv_ds_location_job);
+        ListView lvNameJob = bottomSheetDialog.findViewById(R.id.lv_ds_job);
         EditText edtSearch = bottomSheetDialog.findViewById(R.id.edt_search_job);
         String[] items = getResources( ).getStringArray(R.array.spn_JobProfession);
         bottomSheetDialog.setCancelable(false); // Không cho phép hủy dialog khi nhấn nút back
@@ -233,13 +227,13 @@ public class SearchJobActivity extends AppCompatActivity {
                     if (name.startsWith(searchText)) {
                         location.add(loca);
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(SearchJobActivity.this, android.R.layout.simple_list_item_1, location);
-                        lvLocationJob.setAdapter(adapter);
+                        lvNameJob.setAdapter(adapter);
                     }
                 }
             }
         });
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        lvLocationJob.setOnItemClickListener(new AdapterView.OnItemClickListener( ) {
+        lvNameJob.setOnItemClickListener(new AdapterView.OnItemClickListener( ) {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<String> itemList = new ArrayList<>(Arrays.asList(items));
@@ -253,7 +247,7 @@ public class SearchJobActivity extends AppCompatActivity {
                 bottomSheetDialog.dismiss( );
             }
         });
-        lvLocationJob.setAdapter(adapter);
+        lvNameJob.setAdapter(adapter);
         bottomSheetDialog.show( );
 
     }
