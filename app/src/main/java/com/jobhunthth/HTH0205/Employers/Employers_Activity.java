@@ -1,6 +1,7 @@
 package com.jobhunthth.HTH0205.Employers;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
 import com.jobhunthth.HTH0205.Register_Login.RegisterEmployerInfo;
+import com.jobhunthth.HTH0205.Register_Login.RegisterInfo;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 
 public class Employers_Activity extends AppCompatActivity {
@@ -43,7 +45,6 @@ public class Employers_Activity extends AppCompatActivity {
     private DrawerLayout drawerLayout_employer;
     private FirebaseFirestore mStore;
     private FirebaseUser mUser;
-
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class Employers_Activity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         initUI( );
-
         initListener( );
 
         setSupportActionBar(toolbar_employer);
@@ -73,7 +73,26 @@ public class Employers_Activity extends AppCompatActivity {
                     }
 
                     case R.id.menu_Account_employer:{
-                        ChangeFragment(new UserInfo());
+                        mStore.collection("UserInfo").document(mUser.getUid()).get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>( ) {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot doc = task.getResult( );
+                                            if(doc.exists()){
+                                                ChangeFragment(new UserInfo());
+                                            }else {
+                                                showAlertDialog(1);
+                                            }
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener( ) {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.e(TAG, "onFailure: "+e );
+                                    }
+                                });
                         return true;
                     }
 
@@ -104,7 +123,7 @@ public class Employers_Activity extends AppCompatActivity {
                                             if(doc.exists()){
                                                 ChangeFragment(new Company_Info());
                                             }else {
-                                                showAlertDialog();
+                                                showAlertDialog(2);
                                             }
                                         }
                                     }
@@ -148,16 +167,22 @@ public class Employers_Activity extends AppCompatActivity {
         });
     }
 
-    private void showAlertDialog() {
+    private void showAlertDialog(int typeAlert) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Thông báo");
-        builder.setMessage("Bạn chưa đăng ký công ty, bạn có muốn đăng ký luôn không ?");
+        builder.setMessage("Bạn chưa đăng ký thông tin, bạn có muốn đăng ký luôn không ?");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent( Employers_Activity.this, RegisterEmployerInfo.class);
-                intent.putExtra("type",1);
-                startActivity(intent);
+                if(typeAlert==1){
+                    Intent intent = new Intent( Employers_Activity.this, RegisterInfo.class);
+                    intent.putExtra("type",1);
+                    startActivity(intent);
+                }else if(typeAlert==2){
+                    Intent intent = new Intent( Employers_Activity.this, RegisterEmployerInfo.class);
+                    intent.putExtra("type",1);
+                    startActivity(intent);
+                }
                 dialog.dismiss();
             }
         });

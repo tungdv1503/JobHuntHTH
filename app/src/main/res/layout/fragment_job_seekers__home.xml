@@ -17,21 +17,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                style="@style/TextInputLayoutAppearance"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="@string/search_jobsfinder"-->
-<!--                app:startIconContentDescription="@string/search"-->
-<!--                app:startIconDrawable="@drawable/ic_search">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                style="@style/TextInputLayoutAppearance"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:hint="@string/search_jobsfinder"-->
+            <!--                app:startIconContentDescription="@string/search"-->
+            <!--                app:startIconDrawable="@drawable/ic_search">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/email_edt"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:inputType="textEmailAddress" />-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/email_edt"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:inputType="textEmailAddress" />-->
 
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
             <TextView
                 android:id="@+id/edit_search_job"
                 android:layout_width="match_parent"
@@ -52,6 +52,7 @@
                 android:paddingRight="10dp"
                 android:textColorHint="#9F9F9F"
                 android:textSize="14sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -203,15 +204,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent">
 
-                    <HorizontalScrollView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </HorizontalScrollView>
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -263,16 +258,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent">
 
-                    <HorizontalScrollView
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/programing_jobs"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/programing_jobs"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </HorizontalScrollView>
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -325,16 +314,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="fill_parent">
 
-                        <HorizontalScrollView
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/sale_jobs"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/sale_jobs"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-                        </HorizontalScrollView>
+                            android:layout_height="match_parent" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -392,10 +375,10 @@
                         android:layout_height="fill_parent">
 
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/marketing_id"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/marketing_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 
@@ -403,7 +386,9 @@
 
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView> <androidx.cardview.widget.CardView
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -451,11 +436,10 @@
                         android:layout_height="fill_parent">
 
 
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/insurance_id"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/insurance_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 
@@ -463,7 +447,9 @@
 
             </RelativeLayout>
 
-        </androidx.cardview.widget.CardView> <androidx.cardview.widget.CardView
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -511,11 +497,10 @@
                         android:layout_height="fill_parent">
 
 
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/doctor_id"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/doctor_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
 
                     </LinearLayout>
 
