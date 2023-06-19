@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -505,6 +506,16 @@ public class UserInfo extends Fragment {
         dialog.show( );
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data.getData( ) != null || data != null || requestCode == REQUEST_IMAGE_PICKER || resultCode == RESULT_OK) {
+            Uri uri = data.getData( );
+            dialog.show( );
+            uploadImageToStorage(uri, currentUser.getUid( ));
+        }
+    }
+
     private void uploadImageToStorage(Uri imageUri, String id) {
         StorageReference storageRef = FirebaseStorage.getInstance( ).getReference( );
         StorageReference imageRef = storageRef.child("userinfor_images/" + id + ".jpg");
@@ -521,7 +532,11 @@ public class UserInfo extends Fragment {
                                         .setPhotoUri(downloadUri)
                                         .build( );
 
-                                currentUser.updateProfile(profileUpdates);
+                                currentUser.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(task -> {
+                                            Intent intent = new Intent("onAvatarChange");
+                                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                        });
                                 db.collection("UserInfo").document(currentUser.getUid( ))
                                         .update("avatar", downloadUri.toString( ))
                                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {
@@ -543,16 +558,6 @@ public class UserInfo extends Fragment {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data.getData( ) != null || data != null || requestCode == REQUEST_IMAGE_PICKER || resultCode == RESULT_OK) {
-            Uri uri = data.getData( );
-            dialog.show( );
-            uploadImageToStorage(uri, currentUser.getUid( ));
-        }
     }
 
 }

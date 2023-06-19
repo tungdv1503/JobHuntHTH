@@ -7,11 +7,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -55,17 +59,20 @@ public class MainScreen extends AppCompatActivity {
     NavigationView navigationMenu;
     SharedPreferences sharedPreferences;
     private String TAG = MainScreen.class.getName( );
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         profile = findViewById(R.id.profile);
         nameaccount = findViewById(R.id.nameaccount);
         imageavt = findViewById(R.id.imageavt);
         menu = findViewById(R.id.menu);
         drawerLayoutMain = findViewById(R.id.drawerlayout_menu);
         navigationMenu = findViewById(R.id.navigationMenu);
+        showAccount();
         ChangeFragment(new JobSeekers_Home( ));
         //
         menu.setOnClickListener(new View.OnClickListener( ) {
@@ -196,6 +203,11 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
+    private void showAccount() {
+        nameaccount.setText(mUser.getDisplayName());
+        Glide.with(MainScreen.this).load(mUser.getPhotoUrl()).into(imageavt);
+    }
+
     private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Thông báo");
@@ -238,5 +250,28 @@ public class MainScreen extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver( ) {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals("onAvatarChange")){
+                Glide.with(MainScreen.this).load(mUser.getPhotoUrl()).into(imageavt);
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart( );
+        IntentFilter intentFilter = new IntentFilter("onAvatarChange");
+        LocalBroadcastManager.getInstance(MainScreen.this).registerReceiver(broadcastReceiver,intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop( );
+        IntentFilter intentFilter = new IntentFilter("onAvatarChange");
+        LocalBroadcastManager.getInstance(MainScreen.this).unregisterReceiver(broadcastReceiver);
     }
 }

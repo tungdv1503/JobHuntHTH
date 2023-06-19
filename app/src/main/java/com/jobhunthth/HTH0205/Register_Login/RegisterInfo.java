@@ -34,6 +34,7 @@ import com.google.firebase.storage.UploadTask;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
 import com.makeramen.roundedimageview.RoundedImageView;
 
