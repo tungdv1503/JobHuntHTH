@@ -1,32 +1,27 @@
-package com.jobhunthth.HTH0205.jobseekers;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+package com.jobhunthth.HTH0205.Employers.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jobhunthth.HTH0205.Employers.AdapterItemView.DetailJobsAd;
-import com.jobhunthth.HTH0205.Employers.Employers_EditJob;
 import com.jobhunthth.HTH0205.Employers.Interface.AccountInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
 import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
@@ -35,36 +30,31 @@ import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-public class ApplyActivity extends AppCompatActivity {
-
+public class DetailJobsFragment extends Fragment {
 
     private FirebaseFirestore mStore;
-    private FirebaseUser mUser;
+    private ProgressDialog dialog;
     private String TAG = DetailJobsAd.class.getName();
-    private Toolbar toolbar;
     private RoundedImageView jobDetail_avatar;
-    private Button jobDetail_btn_moreJob,btn_applyJob,btn_unApplyJob,btn_contact;
+    private Button jobDetail_btn_moreJob;
     private TextView jobDetail_salary, jobDetail_typeOfWork, jobDetail_numberRecruiter,
             jobDetail_address,jobDetail_Title, jobDetail_companyName, jobDetail_exDate,jobDetail_age,
             jobDetail_gender, jobDetail_jobDesc,jobDetail_education;
-    private ProgressDialog dialog;
+
+
+    private View view;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apply);
-
-        Intent intent = getIntent( );
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_detail_jobs, container, false);
+        Intent intent = getActivity( ).getIntent();
         JobsAdModel job = (JobsAdModel) intent.getSerializableExtra("job");
-
         initUI( );
-        dialog.show();
         initListener();
+        dialog.show();
         showData(job);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Detail job");
-
+        return view;
     }
 
     private void initListener() {
@@ -78,7 +68,7 @@ public class ApplyActivity extends AppCompatActivity {
                 public void onSuccess(UserInfoModel info) {
                     dialog.dismiss();
                     jobDetail_companyName.setText(info.getName());
-                    Glide.with(ApplyActivity.this).load(info.getAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
+                    Glide.with(DetailJobsFragment.this).load(info.getAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
                     jobDetail_Title.setText(job.getTitle());
                     jobDetail_address.setText(job.getAddress());
                     jobDetail_age.setText(job.getMinAge()+"-"+job.getMaxAge()+" tuổi");
@@ -103,7 +93,7 @@ public class ApplyActivity extends AppCompatActivity {
                 public void onSuccess(CompanyInfoModel company) {
                     dialog.dismiss();
                     jobDetail_companyName.setText(company.getCompanyName());
-                    Glide.with(ApplyActivity.this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
+                    Glide.with(DetailJobsFragment.this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
                     jobDetail_Title.setText(job.getTitle());
                     jobDetail_address.setText(job.getAddress());
                     jobDetail_age.setText(job.getMinAge()+"-"+job.getMaxAge()+" tuổi");
@@ -122,28 +112,6 @@ public class ApplyActivity extends AppCompatActivity {
                 }
             });
         }
-
-        mStore.collection("ApplyJobs")
-                .whereEqualTo("Applicants",mUser.getUid())
-                .whereEqualTo("idJob",job.getJobId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>( ) {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            dialog.dismiss();
-                            btn_applyJob.setVisibility(View.GONE);
-                            btn_unApplyJob.setVisibility(View.VISIBLE);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener( ) {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        dialog.dismiss();
-                        Log.e(TAG, "onFailure: "+e );
-                    }
-                });
     }
 
     private void getAccountInfo(String id, AccountInfoCallBack callBack) {
@@ -203,37 +171,19 @@ public class ApplyActivity extends AppCompatActivity {
     }
     private void initUI() {
         mStore = FirebaseFirestore.getInstance();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
-        toolbar = findViewById(R.id.toolbar);
-        dialog = new ProgressDialog(ApplyActivity.this);
-        jobDetail_avatar = findViewById(R.id.jobDetail_avatar);
-        jobDetail_Title = findViewById(R.id.jobDetail_Title);
-        jobDetail_companyName = findViewById(R.id.jobDetail_companyName);
-        jobDetail_exDate = findViewById(R.id.jobDetail_exDate);
-        jobDetail_btn_moreJob = findViewById(R.id.jobDetail_btn_moreJob);
-        jobDetail_salary = findViewById(R.id.jobDetail_salary);
-        jobDetail_typeOfWork = findViewById(R.id.jobDetail_typeOfWork);
-        jobDetail_numberRecruiter = findViewById(R.id.jobDetail_numberRecruiter);
-        jobDetail_address = findViewById(R.id.jobDetail_address);
-        jobDetail_age = findViewById(R.id.jobDetail_age);
-        jobDetail_gender = findViewById(R.id.jobDetail_gender);
-        jobDetail_jobDesc = findViewById(R.id.jobDetail_jobDesc);
-        jobDetail_education = findViewById(R.id.jobDetail_education);
-        btn_applyJob = findViewById(R.id.btn_applyJob);
-        btn_unApplyJob = findViewById(R.id.btn_unApplyJob);
-        btn_contact = findViewById(R.id.btn_contact);
+        dialog = new ProgressDialog(getContext());
+        jobDetail_avatar = view.findViewById(R.id.jobDetail_avatar);
+        jobDetail_Title = view.findViewById(R.id.jobDetail_Title);
+        jobDetail_companyName = view.findViewById(R.id.jobDetail_companyName);
+        jobDetail_exDate = view.findViewById(R.id.jobDetail_exDate);
+        jobDetail_btn_moreJob = view.findViewById(R.id.jobDetail_btn_moreJob);
+        jobDetail_salary = view.findViewById(R.id.jobDetail_salary);
+        jobDetail_typeOfWork = view.findViewById(R.id.jobDetail_typeOfWork);
+        jobDetail_numberRecruiter = view.findViewById(R.id.jobDetail_numberRecruiter);
+        jobDetail_address = view.findViewById(R.id.jobDetail_address);
+        jobDetail_age = view.findViewById(R.id.jobDetail_age);
+        jobDetail_gender = view.findViewById(R.id.jobDetail_gender);
+        jobDetail_jobDesc = view.findViewById(R.id.jobDetail_jobDesc);
+        jobDetail_education = view.findViewById(R.id.jobDetail_education);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                onBackPressed();
-                return true;
-            }
-
-            default:return super.onOptionsItemSelected(item);
-        }
-    }
-
 }

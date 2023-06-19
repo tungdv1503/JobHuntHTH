@@ -320,7 +320,7 @@ public class Company_Info extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data.getData( ) != null || data != null || requestCode == REQUEST_IMAGE_PICKER || resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == RESULT_OK && data.getData( ) != null && data != null) {
             Uri uri = data.getData( );
             dialog.show( );
             uploadImageToStorage(uri, mAuth.getCurrentUser( ).getUid( ));

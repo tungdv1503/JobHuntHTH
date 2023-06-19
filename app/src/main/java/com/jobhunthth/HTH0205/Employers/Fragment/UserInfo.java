@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ public class UserInfo extends Fragment {
 
     private boolean isUserNameChecked, isUserPhoneNumberChecked, isUserEmailChecked, isUserAddressChecked;
     private static final int REQUEST_IMAGE_PICKER = 1001;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,7 @@ public class UserInfo extends Fragment {
 
     UserInfoModel infoModel = null;
     private ProgressDialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,9 +147,9 @@ public class UserInfo extends Fragment {
                     Glide.with(getContext( )).load(R.drawable.edit_24).into(imgEditName);
                     if (!text.isEmpty( )) {
                         if (!text.equals(infoModel.getName( ))) {
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder( )
                                     .setDisplayName(text)
-                                    .build();
+                                    .build( );
 
                             currentUser.updateProfile(profileUpdates);
                             db.collection("UserInfo").document(currentUser.getUid( ))
@@ -368,9 +371,10 @@ public class UserInfo extends Fragment {
                 });
     }
 
+    Calendar calendar = Calendar.getInstance( );
+
     private void showDatePickerDialog() {
         // Lấy ngày hiện tại
-        Calendar calendar = Calendar.getInstance( );
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -382,6 +386,7 @@ public class UserInfo extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Xử lý ngày đã chọn
+                        calendar.set(year, month, dayOfMonth);
                         String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                         // Gọi hàm để cập nhật ngày sinh
                         updateBirthday(selectedDate);
@@ -500,6 +505,17 @@ public class UserInfo extends Fragment {
         AlertDialog dialog = builder.create( );
         dialog.show( );
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data.getData( ) != null || data != null || requestCode == REQUEST_IMAGE_PICKER || resultCode == RESULT_OK) {
+            Uri uri = data.getData( );
+            dialog.show( );
+            uploadImageToStorage(uri, currentUser.getUid( ));
+        }
+    }
+
     private void uploadImageToStorage(Uri imageUri, String id) {
         StorageReference storageRef = FirebaseStorage.getInstance( ).getReference( );
         StorageReference imageRef = storageRef.child("userinfor_images/" + id + ".jpg");
@@ -512,11 +528,15 @@ public class UserInfo extends Fragment {
                         imageRef.getDownloadUrl( ).addOnSuccessListener(new OnSuccessListener<Uri>( ) {
                             @Override
                             public void onSuccess(Uri downloadUri) {
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder( )
                                         .setPhotoUri(downloadUri)
-                                        .build();
+                                        .build( );
 
-                                currentUser.updateProfile(profileUpdates);
+                                currentUser.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(task -> {
+                                            Intent intent = new Intent("onAvatarChange");
+                                            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+                                        });
                                 db.collection("UserInfo").document(currentUser.getUid( ))
                                         .update("avatar", downloadUri.toString( ))
                                         .addOnSuccessListener(new OnSuccessListener<Void>( ) {
@@ -538,15 +558,6 @@ public class UserInfo extends Fragment {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data.getData( ) != null || data != null || requestCode == REQUEST_IMAGE_PICKER || resultCode == RESULT_OK) {
-            Uri uri = data.getData( );
-            dialog.show( );
-            uploadImageToStorage(uri, currentUser.getUid( ));
-        }
     }
 
 }

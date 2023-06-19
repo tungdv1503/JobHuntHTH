@@ -7,11 +7,9 @@ public class JobsAdModel implements Serializable {
     private String title;
     private String number;
     private String avatar;
-
     public JobsAdModel(String avatar) {
         this.avatar = avatar;
     }
-
     private String address;
     private String gender;
     private String minAge;

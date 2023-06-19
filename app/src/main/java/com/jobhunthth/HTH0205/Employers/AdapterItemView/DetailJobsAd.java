@@ -1,5 +1,6 @@
 package com.jobhunthth.HTH0205.Employers.AdapterItemView;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +14,22 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.Adapter.DetailJobPagerAdapter;
 import com.jobhunthth.HTH0205.Employers.Interface.AccountInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Employers_EditJob;
@@ -32,32 +41,39 @@ import com.makeramen.roundedimageview.RoundedImageView;
 
 public class DetailJobsAd extends AppCompatActivity {
 
-    private FirebaseFirestore mStore;
-    private String TAG = DetailJobsAd.class.getName();
-    private Toolbar toolbar;
-    private RoundedImageView jobDetail_avatar;
-    private Button jobDetail_btn_moreJob;
-    private TextView jobDetail_salary, jobDetail_typeOfWork, jobDetail_numberRecruiter,
-            jobDetail_address,jobDetail_Title, jobDetail_companyName, jobDetail_exDate,jobDetail_age,
-            jobDetail_gender, jobDetail_jobDesc,jobDetail_education;
-    private ProgressDialog dialog;
-
+   private Toolbar toolbar;
     private JobsAdModel mjob;
+    private ProgressDialog dialog;
+    private FirebaseFirestore mStore;
+    private TabLayout detailJob_tab;
+    private ViewPager2 detailJob_viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_jobs_ad);
 
-        Intent intent = getIntent( );
+        Intent intent = getIntent();
         JobsAdModel job = (JobsAdModel) intent.getSerializableExtra("job");
-        int pos = intent.getIntExtra("pos",-1);
 
         mjob = job;
 
-        initUI( );
-        initListener();
-        showData(job);
+        initUi();
+
+        DetailJobPagerAdapter adapter = new DetailJobPagerAdapter(DetailJobsAd.this,2);
+        detailJob_viewPager.setAdapter(adapter);
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(detailJob_tab,detailJob_viewPager
+        ,(tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Thông tin");
+                    break;
+                case 1:
+                    tab.setText("Hồ sơ");
+                    break;
+            }
+        });
+        tabLayoutMediator.attach();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,133 +81,12 @@ public class DetailJobsAd extends AppCompatActivity {
 
     }
 
-    private void initListener() {
-
-    }
-
-    private void showData(JobsAdModel job) {
-        if(job.getRole().equals("Cá nhân")){
-            getAccountInfo(job.getIdPutJob( ), new AccountInfoCallBack( ) {
-                @Override
-                public void onSuccess(UserInfoModel info) {
-                    jobDetail_companyName.setText(info.getName());
-                    Glide.with(DetailJobsAd.this).load(info.getAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
-                    jobDetail_Title.setText(job.getTitle());
-                    jobDetail_address.setText(job.getAddress());
-                    jobDetail_age.setText(job.getMinAge()+"-"+job.getMaxAge()+" tuổi");
-                    jobDetail_gender.setText(job.getGender());
-                    jobDetail_exDate.setText(job.getExDate());
-                    jobDetail_jobDesc.setText(job.getDesc());
-                    jobDetail_numberRecruiter.setText(job.getNumber());
-                    jobDetail_education.setText(job.getEducation());
-                    jobDetail_salary.setText(job.getMinSalary()+"-"+job.getMaxSalary()+" "+job.getTypeOfSalary()+"/tháng");
-                    jobDetail_typeOfWork.setText(job.getTypeOfWork());
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-
-                }
-            });
-        }
-        else {
-            getCompanyInfo(job.getIdPutJob( ), new CompanyInfoCallBack( ) {
-                @Override
-                public void onSuccess(CompanyInfoModel company) {
-                    jobDetail_companyName.setText(company.getCompanyName());
-                    Glide.with(DetailJobsAd.this).load(company.getCompanyAvatar()).error(R.drawable.avatar).into(jobDetail_avatar);
-                    jobDetail_Title.setText(job.getTitle());
-                    jobDetail_address.setText(job.getAddress());
-                    jobDetail_age.setText(job.getMinAge()+"-"+job.getMaxAge()+" tuổi");
-                    jobDetail_gender.setText(job.getGender());
-                    jobDetail_exDate.setText(job.getExDate());
-                    jobDetail_jobDesc.setText(job.getDesc());
-                    jobDetail_numberRecruiter.setText(job.getNumber());
-                    jobDetail_education.setText(job.getEducation());
-                    jobDetail_salary.setText(job.getMinSalary()+"-"+job.getMaxSalary()+" "+job.getTypeOfSalary()+"/tháng");
-                    jobDetail_typeOfWork.setText(job.getTypeOfWork());
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-
-                }
-            });
-        }
-    }
-
-    private void getAccountInfo(String id, AccountInfoCallBack callBack) {
-        mStore.collection("UserInfo").document(id).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                UserInfoModel info = document.toObject(UserInfoModel.class);
-                                callBack.onSuccess(info);
-                            }
-                        } else {
-                            Exception e = task.getException();
-                            if (e != null) {
-                                // Log the error or show an error message
-                                Log.e("GetCompanyInfo", "Error getting company information: " + e.getMessage());
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("GetCompanyInfo", "Failed to get company information: " + e.getMessage());
-                    }
-                });
-    }
-
-    private void getCompanyInfo(String id, CompanyInfoCallBack callBack) {
-        mStore.collection("CompanyInfo").document( id ).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                CompanyInfoModel company = document.toObject(CompanyInfoModel.class);
-                                callBack.onSuccess(company);
-                            }
-                        } else {
-                            Exception e = task.getException();
-                            if (e != null) {
-                                // Log the error or show an error message
-                                Log.e("GetCompanyInfo", "Error getting company information: " + e.getMessage());
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("GetCompanyInfo", "Failed to get company information: " + e.getMessage());
-                    }
-                });
-    }
-    private void initUI() {
-        mStore = FirebaseFirestore.getInstance();
+    private void initUi() {
         toolbar = findViewById(R.id.toolbar);
         dialog = new ProgressDialog(DetailJobsAd.this);
-        jobDetail_avatar = findViewById(R.id.jobDetail_avatar);
-        jobDetail_Title = findViewById(R.id.jobDetail_Title);
-        jobDetail_companyName = findViewById(R.id.jobDetail_companyName);
-        jobDetail_exDate = findViewById(R.id.jobDetail_exDate);
-        jobDetail_btn_moreJob = findViewById(R.id.jobDetail_btn_moreJob);
-        jobDetail_salary = findViewById(R.id.jobDetail_salary);
-        jobDetail_typeOfWork = findViewById(R.id.jobDetail_typeOfWork);
-        jobDetail_numberRecruiter = findViewById(R.id.jobDetail_numberRecruiter);
-        jobDetail_address = findViewById(R.id.jobDetail_address);
-        jobDetail_age = findViewById(R.id.jobDetail_age);
-        jobDetail_gender = findViewById(R.id.jobDetail_gender);
-        jobDetail_jobDesc = findViewById(R.id.jobDetail_jobDesc);
-        jobDetail_education = findViewById(R.id.jobDetail_education);
+        mStore = FirebaseFirestore.getInstance();
+        detailJob_tab = findViewById(R.id.detailJob_tab);
+        detailJob_viewPager = findViewById(R.id.detailJob_viewPager);
     }
 
     @Override

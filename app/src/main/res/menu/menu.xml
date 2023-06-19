@@ -26,7 +26,7 @@
                 android:id="@+id/fragment_gioithieu"
                 android:title="Giới thiệu" />
             <item
-                android:id="@+id/back"
+                android:id="@+id/logout"
                 android:title="Thoát" />
         </menu>
     </item>

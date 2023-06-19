@@ -2,6 +2,7 @@ package com.jobhunthth.HTH0205.jobseekers.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     public JobAdapter(Context context, List<JobsAdModel> jobList) {
         this.context = context;
         this.jobList4 = jobList;
+        Log.e("Hellocc", "JobAdapter: "+jobList4.size() );
     }
 
     @NonNull

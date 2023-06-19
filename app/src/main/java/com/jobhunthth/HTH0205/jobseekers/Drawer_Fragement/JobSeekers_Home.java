@@ -1,5 +1,6 @@
 package com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
@@ -30,7 +33,7 @@ import java.util.List;
 public class JobSeekers_Home extends Fragment {
 
 
-    private RecyclerView recyclerView,recyclerViewsale,recyclerViewmarketing,recyclerViewinsurance,recyclerViewdoctor;
+    private RecyclerView recyclerView, recyclerViewsale, recyclerViewmarketing, recyclerViewinsurance, recyclerViewdoctor;
 
     private JobAdapter jobAdapter;
     private JobAdapter_marketing jobAdapter_marketing;
@@ -45,121 +48,126 @@ public class JobSeekers_Home extends Fragment {
     private List<JobsAdModel> jobList4;
     private FirebaseFirestore firestore;
     private TextView tvSearch;
+    private FirebaseUser mUser;
+    private ProgressDialog dialog;
 
     public JobSeekers_Home() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
         initView(v);
+        dialog.show();
         recyclerView = v.findViewById(R.id.programing_jobs);
         recyclerViewsale = v.findViewById(R.id.sale_jobs);
         recyclerViewmarketing = v.findViewById(R.id.marketing_id);
         recyclerViewinsurance = v.findViewById(R.id.insurance_id);
         recyclerViewdoctor = v.findViewById(R.id.doctor_id);
 
-        jobList = new ArrayList<>();
-        jobList1 = new ArrayList<>();
-        jobList2 = new ArrayList<>();
-        jobList3 = new ArrayList<>();
-        jobList4 = new ArrayList<>();
+        jobList = new ArrayList<>( );
+        jobList1 = new ArrayList<>( );
+        jobList2 = new ArrayList<>( );
+        jobList3 = new ArrayList<>( );
+        jobList4 = new ArrayList<>( );
 
-        jobAdapter = new JobAdapter(getActivity(), jobList);
-        jobAdapter_marketing = new JobAdapter_marketing(getActivity(), jobList1);
-        jobAdapter_sale = new JobAdapter_sale(getActivity(), jobList2);
-        jobAdapter_insurance = new JobAdapter_insurance(getActivity(), jobList3);
-        jobAdapter_doctor = new JobAdapter_doctor(getActivity(), jobList4);
+        jobAdapter = new JobAdapter(getActivity( ), jobList);
+        jobAdapter_marketing = new JobAdapter_marketing(getActivity( ), jobList1);
+        jobAdapter_sale = new JobAdapter_sale(getActivity( ), jobList2);
+        jobAdapter_insurance = new JobAdapter_insurance(getActivity( ), jobList3);
+        jobAdapter_doctor = new JobAdapter_doctor(getActivity( ), jobList4);
 
-
-
-        firestore = FirebaseFirestore.getInstance();
-        firestore.collection("JobsAd").get()
+        firestore = FirebaseFirestore.getInstance( );
+        firestore.collection("JobsAd")
+                .whereNotEqualTo("idPutJob", mUser.getUid( ))
+                .get( )
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    dialog.dismiss();
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         JobsAdModel job = documentSnapshot.toObject(JobsAdModel.class);
-                        String idPutJob = job.getIdPutJob();
+                        String idPutJob = job.getIdPutJob( );
                         String profession = documentSnapshot.getString("profession");
-                        String collectionName = job.getRole().equals("Cá nhân") ? "UserInfo" : (job.getRole().equals("Công ty") ? "CompanyInfo" : "");
-                        String avatarField = job.getRole().equals("Cá nhân") ? "avatar" : (job.getRole().equals("Công ty") ? "companyAvatar" : "");
+                        String collectionName = job.getRole( ).equals("Cá nhân") ? "UserInfo" : (job.getRole( ).equals("Công ty") ? "CompanyInfo" : "");
+                        String avatarField = job.getRole( ).equals("Cá nhân") ? "avatar" : (job.getRole( ).equals("Công ty") ? "companyAvatar" : "");
 
 
                         assert profession != null;
                         if (profession.equals("Công nghệ thông tin")) {
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity( ), LinearLayoutManager.HORIZONTAL, false));
                             recyclerView.setAdapter(jobAdapter);
                             firestore.collection(collectionName).document(idPutJob)
-                                    .get()
+                                    .get( )
                                     .addOnSuccessListener(snapshot -> {
-                                        if (snapshot.exists()) {
+                                        if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
                                             job.setAvatar(avatar);
                                             jobList.add(job);
-                                            jobAdapter.notifyDataSetChanged();
+                                            jobAdapter.notifyDataSetChanged( );
                                         }
                                     })
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
                         } else if (profession.equals("Marketing")) {
-                            recyclerViewmarketing.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerViewmarketing.setLayoutManager(new LinearLayoutManager(getActivity( ), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewmarketing.setAdapter(jobAdapter_marketing);
                             firestore.collection(collectionName).document(idPutJob)
-                                    .get()
+                                    .get( )
                                     .addOnSuccessListener(snapshot -> {
-                                        if (snapshot.exists()) {
+                                        if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
                                             job.setAvatar(avatar);
                                             jobList1.add(job);
-                                            jobAdapter_marketing.notifyDataSetChanged();
+                                            jobAdapter_marketing.notifyDataSetChanged( );
                                         }
                                     })
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
                         } else if (profession.equals("Kế toán")) {
-                            recyclerViewsale.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerViewsale.setLayoutManager(new LinearLayoutManager(getActivity( ), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewsale.setAdapter(jobAdapter_sale);
                             firestore.collection(collectionName).document(idPutJob)
-                                    .get()
+                                    .get( )
                                     .addOnSuccessListener(snapshot -> {
-                                        if (snapshot.exists()) {
+                                        if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
                                             job.setAvatar(avatar);
                                             jobList2.add(job);
-                                            jobAdapter_sale.notifyDataSetChanged();
+                                            jobAdapter_sale.notifyDataSetChanged( );
                                         }
                                     })
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
                         } else if (profession.equals("Bảo hiểm")) {
-                            recyclerViewinsurance.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerViewinsurance.setLayoutManager(new LinearLayoutManager(getActivity( ), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewinsurance.setAdapter(jobAdapter_insurance);
                             firestore.collection(collectionName).document(idPutJob)
-                                    .get()
+                                    .get( )
                                     .addOnSuccessListener(snapshot -> {
-                                        if (snapshot.exists()) {
+                                        if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
                                             job.setAvatar(avatar);
                                             jobList3.add(job);
-                                            jobAdapter_insurance.notifyDataSetChanged();
+                                            jobAdapter_insurance.notifyDataSetChanged( );
                                         }
                                     })
                                     .addOnFailureListener(e -> {
                                         // Xử lý khi có lỗi xảy ra
                                     });
                         } else if (profession.equals("Bác sĩ")) {
-                            recyclerViewdoctor.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            recyclerViewdoctor.setLayoutManager(new LinearLayoutManager(getActivity( ), LinearLayoutManager.HORIZONTAL, false));
                             recyclerViewdoctor.setAdapter(jobAdapter_doctor);
                             firestore.collection(collectionName).document(idPutJob)
-                                    .get()
+                                    .get( )
                                     .addOnSuccessListener(snapshot -> {
-                                        if (snapshot.exists()) {
+                                        if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
                                             job.setAvatar(avatar);
                                             jobList4.add(job);
-                                            jobAdapter_doctor.notifyDataSetChanged();
+                                            jobAdapter_doctor.notifyDataSetChanged( );
                                         }
                                     })
                                     .addOnFailureListener(e -> {
@@ -171,9 +179,10 @@ public class JobSeekers_Home extends Fragment {
                     }
                 })
                 .addOnFailureListener(e -> {
+                    dialog.dismiss();
                     // Xử lý khi có lỗi xảy ra
                 });
-        listener();
+        listener( );
         return v;
     }
 
@@ -181,8 +190,11 @@ public class JobSeekers_Home extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     private void initView(View v) {
         tvSearch = v.findViewById(R.id.edit_search_job);
+        dialog = new ProgressDialog(getContext());
+        mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
     }
 
     private void listener() {
