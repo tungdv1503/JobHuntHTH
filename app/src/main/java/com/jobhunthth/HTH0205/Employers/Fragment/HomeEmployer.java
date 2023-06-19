@@ -1,5 +1,6 @@
 package com.jobhunthth.HTH0205.Employers.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class HomeEmployer extends Fragment {
     private FirebaseFirestore mStore;
     private View view;
     private String TAG = HomeEmployer.class.getName();
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class HomeEmployer extends Fragment {
         view = inflater.inflate(R.layout.fragment_home_employer, container, false);
 
         initUI();
+        dialog.show();
         showData();
         initListener();
         
@@ -75,6 +78,7 @@ public class HomeEmployer extends Fragment {
 
                         // Kiểm tra xem đã lấy xong tất cả dữ liệu chưa
                         if (list.size() == querySnapshot.size()) {
+                            dialog.dismiss();
                             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                             Jobs_Adapter adapter = new Jobs_Adapter(list);
                             list_Jobs.setLayoutManager(layoutManager);
@@ -85,6 +89,7 @@ public class HomeEmployer extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss();
                         Log.e(TAG, "onFailure: "+e );
                     }
                 });
@@ -117,6 +122,7 @@ public class HomeEmployer extends Fragment {
     }
 
     private void initUI() {
+        dialog = new ProgressDialog(getContext());
         scrollView = view.findViewById(R.id.myScrollView);
         flt_Add = view.findViewById(R.id.flt_Add);
         list_Jobs = view.findViewById(R.id.list_Jobs);

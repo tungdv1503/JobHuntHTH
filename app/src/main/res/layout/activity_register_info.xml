@@ -151,6 +151,14 @@
             android:text="Lưu thông tin"
             android:textSize="24sp" />
 
+        <TextView
+            android:id="@+id/txt_skip"
+            android:textColor="@color/gray"
+            android:layout_gravity="center_horizontal"
+            android:text="Skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </ScrollView>

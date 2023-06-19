@@ -9,10 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.MainScreen;
@@ -39,10 +42,10 @@ import java.util.Calendar;
 public class RegisterInfo extends AppCompatActivity {
 
     private RoundedImageView avatarImageView;
-    private TextInputEditText nameEditText,phoneEditText,addressEditText,birthEditText,emailEditText;
-    private TextInputLayout birthTextInputLayout,nameTextInputLayout,phoneTextInputLayout,emailTextInputLayout,addressTextInputLayout;
+    private TextInputEditText nameEditText, phoneEditText, addressEditText, birthEditText, emailEditText;
+    private TextInputLayout birthTextInputLayout, nameTextInputLayout, phoneTextInputLayout, emailTextInputLayout, addressTextInputLayout;
     private RadioGroup genderRadioGroup;
-    private RadioButton maleRadioButton,femaleRadioButton;
+    private RadioButton maleRadioButton, femaleRadioButton;
     private Button saveButton;
     private FirebaseUser mUser;
     private FirebaseFirestore mStore;
@@ -50,77 +53,98 @@ public class RegisterInfo extends AppCompatActivity {
     private ProgressDialog dialog;
     private String imgUri;
     private Intent mIntent;
+    private TextView txt_skip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_info);
 
-        initUI();
+        initUI( );
 
-        showData();
+        showData( );
 
-        initListener();
+        initListener( );
     }
 
     private void showData() {
-        if(mUser!=null){
-            emailEditText.setText(mUser.getEmail());
+        if (mUser != null) {
+            emailEditText.setText(mUser.getEmail( ));
         }
     }
 
     private void initListener() {
         avatarImageView.setOnClickListener(view -> {
-            Intent intent = new Intent(  );
+            Intent intent = new Intent( );
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent,REQUEST_IMAGE_PICKER);
+            startActivityForResult(intent, REQUEST_IMAGE_PICKER);
         });
 
-        birthEditText.setOnClickListener(view -> selectBirth());
+        birthEditText.setOnClickListener(view -> selectBirth( ));
 
         saveButton.setOnClickListener(view -> {
-            saveInfo();
+            saveInfo( );
+        });
+
+        txt_skip.setOnClickListener(new View.OnClickListener( ) {
+            @Override
+            public void onClick(View view) {
+                int type = mIntent.getIntExtra("type", -1);
+                if (type == -1) {
+                    Intent intent = new Intent(RegisterInfo.this, Employers_Activity.class);
+                    startActivity(intent);
+                    finishAffinity( );
+                }
+                else if(type==2){
+                    Intent intent = new Intent(RegisterInfo.this, MainScreen.class);
+                    startActivity(intent);
+                    finishAffinity( );
+                }
+                else {
+                    onBackPressed( );
+                }
+            }
         });
     }
 
     private void saveInfo() {
-        if(checkValidate()){
-            dialog.show();
-            String name = nameEditText.getText().toString().trim();
-            String birth = birthEditText.getText().toString().trim();
-            String phone = phoneEditText.getText().toString().trim();
-            String email = emailEditText.getText().toString().trim();
-            String address = addressEditText.getText().toString().trim();
-            String gender = getGender();
-            UserInfoModel info = new UserInfoModel(name,birth,phone,email,address,gender,imgUri);
+        if (checkValidate( )) {
+            dialog.show( );
+            String name = nameEditText.getText( ).toString( ).trim( );
+            String birth = birthEditText.getText( ).toString( ).trim( );
+            String phone = phoneEditText.getText( ).toString( ).trim( );
+            String email = emailEditText.getText( ).toString( ).trim( );
+            String address = addressEditText.getText( ).toString( ).trim( );
+            String gender = getGender( );
+            UserInfoModel info = new UserInfoModel(name, birth, phone, email, address, gender, imgUri);
 
-            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder( )
                     .setDisplayName(name)
                     .setPhotoUri(Uri.parse(imgUri))
-                    .build();
+                    .build( );
 
             mUser.updateProfile(profileUpdates);
 
-            mStore.collection("UserInfo").document( mUser.getUid() ).set(info)
+            mStore.collection("UserInfo").document(mUser.getUid( )).set(info)
                     .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                         @Override
                         public void onSuccess(Void unused) {
-                            dialog.dismiss();
-                            int type = mIntent.getIntExtra("type",-1);
+                            dialog.dismiss( );
+                            int type = mIntent.getIntExtra("type", -1);
                             //type được sử dụng để kiểm tra xem phần mở activity này lên là gì để
                             //tiếp tục điều hướng ứng dụng
-                            if(type==-1){
-                                Intent intent = new Intent( RegisterInfo.this,RegisterEmployerInfo.class );
+                            if (type == -1) {
+                                Intent intent = new Intent(RegisterInfo.this, RegisterEmployerInfo.class);
                                 startActivity(intent);
-                            }else if(type==2){
-                                Intent intent = new Intent( RegisterInfo.this, MainScreen.class );
+                                finishAffinity( );
+                            } else if (type == 2) {
+                                Intent intent = new Intent(RegisterInfo.this, MainScreen.class);
                                 startActivity(intent);
+                                finishAffinity( );
+                            } else {
+                                onBackPressed( );
                             }
-                            else {
-                                onBackPressed();
-                            }
-                            finishAffinity();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener( ) {
@@ -134,44 +158,44 @@ public class RegisterInfo extends AppCompatActivity {
     }
 
     private String getGender() {
-        if(maleRadioButton.isChecked()){
+        if (maleRadioButton.isChecked( )) {
             return "Nam";
-        }else {
+        } else {
             return "Nữ";
         }
     }
 
     private boolean checkValidate() {
-        String name = nameEditText.getText().toString().trim();
-        String birth = birthEditText.getText().toString().trim();
-        String phone = phoneEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        String address = addressEditText.getText().toString().trim();
+        String name = nameEditText.getText( ).toString( ).trim( );
+        String birth = birthEditText.getText( ).toString( ).trim( );
+        String phone = phoneEditText.getText( ).toString( ).trim( );
+        String email = emailEditText.getText( ).toString( ).trim( );
+        String address = addressEditText.getText( ).toString( ).trim( );
         nameTextInputLayout.setError(null);
         birthTextInputLayout.setError(null);
         phoneTextInputLayout.setError(null);
         emailTextInputLayout.setError(null);
         addressTextInputLayout.setError(null);
-        if(name.isEmpty()){
+        if (name.isEmpty( )) {
             nameTextInputLayout.setError("Vui lòng nhập tên");
             return false;
         }
-        if(birth.isEmpty()){
+        if (birth.isEmpty( )) {
             birthTextInputLayout.setError("Vui lòng chọn ngày tháng năm sinh của bạn");
             return false;
         }
-        if(phone.isEmpty()){
+        if (phone.isEmpty( )) {
             phoneTextInputLayout.setError("Vui lòng nhập số điện thoại");
             return false;
         }
-        if(email.isEmpty()){
+        if (email.isEmpty( )) {
             emailTextInputLayout.setError("Vui lòng nhập email");
             return false;
-        }else if(!isValidEmail(email)){
+        } else if (!isValidEmail(email)) {
             emailTextInputLayout.setError("Email không hợp lệ");
             return false;
         }
-        if(address.isEmpty()){
+        if (address.isEmpty( )) {
             addressTextInputLayout.setError("Vui lòng nhập địa chỉ");
             return false;
         }
@@ -179,9 +203,9 @@ public class RegisterInfo extends AppCompatActivity {
     }
 
 
-    Calendar calendar = Calendar.getInstance();
+    Calendar calendar = Calendar.getInstance( );
 
-    private void selectBirth(){
+    private void selectBirth() {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -189,12 +213,14 @@ public class RegisterInfo extends AppCompatActivity {
         // Tạo DatePickerDialog
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) -> {
             // Gán giá trị vào EditText
+            calendar.set(selectedYear, selectedMonth, selectedDay);
             String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
             birthEditText.setText(selectedDate);
+            birthTextInputLayout.setError(null);
         }, year, month, day);
 
         // Hiển thị dialog chọn ngày tháng năm sinh
-        datePickerDialog.show();
+        datePickerDialog.show( );
     }
 
     private boolean isValidEmail(String email) {
@@ -203,10 +229,10 @@ public class RegisterInfo extends AppCompatActivity {
     }
 
     private void initUI() {
-        mIntent = getIntent();
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mIntent = getIntent( );
+        mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         dialog = new ProgressDialog(this);
-        mStore = FirebaseFirestore.getInstance();
+        mStore = FirebaseFirestore.getInstance( );
         avatarImageView = findViewById(R.id.ResInfo_avatar);
         nameTextInputLayout = findViewById(R.id.ResInfo_TIL_name);
         nameEditText = findViewById(R.id.ResInfo_EDT_name);
@@ -222,44 +248,45 @@ public class RegisterInfo extends AppCompatActivity {
         addressTextInputLayout = findViewById(R.id.ResInfo_TIL_address);
         addressEditText = findViewById(R.id.ResInfo_EDT_address);
         saveButton = findViewById(R.id.ResInfo_btn_save);
+        txt_skip = findViewById(R.id.txt_skip);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_IMAGE_PICKER||resultCode==RESULT_OK||data!=null||data.getData()!=null){
-            Uri uri = data.getData();
-            dialog.show();
-            uploadImageToStorage(uri,FirebaseAuth.getInstance().getCurrentUser().getUid());
+        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == RESULT_OK && data != null && data.getData( ) != null) {
+            Uri uri = data.getData( );
+            dialog.show( );
+            uploadImageToStorage(uri, FirebaseAuth.getInstance( ).getCurrentUser( ).getUid( ));
         }
     }
 
     private void uploadImageToStorage(Uri imageUri, String userID) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference storageRef = FirebaseStorage.getInstance( ).getReference( );
         StorageReference imageRef = storageRef.child("company_images/" + userID + ".jpg");
 
         imageRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>( ) {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Glide.with(RegisterInfo.this).load(imageUri).error(R.drawable.avatar).into(avatarImageView);
-                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        imageRef.getDownloadUrl( ).addOnSuccessListener(new OnSuccessListener<Uri>( ) {
                             @Override
                             public void onSuccess(Uri downloadUri) {
-                                imgUri = downloadUri.toString();
-                                dialog.dismiss();
+                                imgUri = downloadUri.toString( );
+                                dialog.dismiss( );
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
+                        }).addOnFailureListener(new OnFailureListener( ) {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                             }
                         });
                     }
                 })
-                .addOnFailureListener(new OnFailureListener() {
+                .addOnFailureListener(new OnFailureListener( ) {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        dialog.dismiss();
+                        dialog.dismiss( );
                         Toast.makeText(RegisterInfo.this, "Lỗi", Toast.LENGTH_SHORT).show( );
                     }
                 });

@@ -71,8 +71,6 @@ public class JobSeekers_Home extends Fragment {
         jobAdapter_insurance = new JobAdapter_insurance(getActivity(), jobList3);
         jobAdapter_doctor = new JobAdapter_doctor(getActivity(), jobList4);
 
-
-
         firestore = FirebaseFirestore.getInstance();
         firestore.collection("JobsAd").get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
