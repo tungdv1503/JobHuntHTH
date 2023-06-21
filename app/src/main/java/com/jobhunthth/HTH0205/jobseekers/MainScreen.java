@@ -100,14 +100,14 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener( ) {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext( ), UploadProfile.class);
-                startActivity(intent);
-                finish( );
-            }
-        });
+//        profile.setOnClickListener(new View.OnClickListener( ) {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext( ), UploadProfile.class);
+//                startActivity(intent);
+//                finish( );
+//            }
+//        });
         navigationMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener( ) {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
