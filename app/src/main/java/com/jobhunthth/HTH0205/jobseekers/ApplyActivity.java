@@ -34,6 +34,9 @@ import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class ApplyActivity extends AppCompatActivity {
 
 
@@ -74,8 +77,9 @@ public class ApplyActivity extends AppCompatActivity {
             String idJob = job.getJobId( );
             String idSeeker = mUser.getUid( );
             String idApplicants = mStore.collection("ApplyJobs").document( ).getId( );
+            Date date = Calendar.getInstance().getTime();
 
-            ApplicantsModel model = new ApplicantsModel(idJob, idSeeker, idApplicants,0);
+            ApplicantsModel model = new ApplicantsModel(idJob, idSeeker, idApplicants,0,date);
 
             mStore.collection("ApplyJobs").document(idApplicants)
                     .set(model)

@@ -209,7 +209,7 @@
     <string name="gender">Giới tính</string>
     <string name="others">Khác</string>
     <string name="address_default">Địa chỉ mặc định</string>
-    <string name="en_go_back">Go back</string>
+    <string name="en_changePassword">Change Password</string>
     <string name="en_education_levels">Education levels</string>
     <string name="en_skip">Skip</string>
     <string name="en_user_info">User Info</string>

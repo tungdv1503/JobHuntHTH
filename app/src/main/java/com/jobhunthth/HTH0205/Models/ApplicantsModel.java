@@ -8,17 +8,25 @@ public class ApplicantsModel {
     private String idSeeker;
     private String idApplicants;
     private int state;
-    private String name;
     private Date date;
 
     public ApplicantsModel() {
     }
 
-    public ApplicantsModel(String idJob, String idSeeker, String idApplicants, int state) {
+    public ApplicantsModel(String idJob, String idSeeker, String idApplicants, int state, Date date) {
         this.idJob = idJob;
         this.idSeeker = idSeeker;
         this.idApplicants = idApplicants;
         this.state = state;
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getState() {

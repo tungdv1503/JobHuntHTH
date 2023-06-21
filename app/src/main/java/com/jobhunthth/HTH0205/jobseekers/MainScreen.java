@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jobhunthth.HTH0205.Employers.ChangePassword;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
 import com.jobhunthth.HTH0205.R;
@@ -174,6 +175,12 @@ public class MainScreen extends AppCompatActivity {
 //                        fragmentTransaction3.replace(R.id.fragment_view, fragment3).commit();
 //                        drawerLayoutMain.close();
                         break;
+
+                    case R.id.fragment_change_password:{
+                        Intent intent = new Intent( MainScreen.this, ChangePassword.class );
+                        startActivity(intent);
+                        break;
+                    }
                     case R.id.logout:
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                         builder.setTitle("Xác nhận");

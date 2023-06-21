@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.jobhunthth.HTH0205.Employers.Fragment.ApplicationListFragment;
 import com.jobhunthth.HTH0205.Employers.Fragment.DetailJobsFragment;
+import com.jobhunthth.HTH0205.Employers.Fragment.UnapplicationListFragment;
 
 public class DetailJobPagerAdapter extends FragmentStateAdapter {
 
@@ -23,6 +24,7 @@ public class DetailJobPagerAdapter extends FragmentStateAdapter {
         switch (position){
             case 0: return new DetailJobsFragment();
             case 1: return new ApplicationListFragment();
+            case 2: return new UnapplicationListFragment();
             default: return null;
         }
     }
