@@ -3,6 +3,7 @@ package com.jobhunthth.HTH0205.Register_Login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class Register extends AppCompatActivity {
     TextView loginnow,txtRegister;
 
     boolean doubleBackToExitPressedOnce = false;
-
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,7 @@ public class Register extends AppCompatActivity {
         loginnow = findViewById(R.id.LoginNow);
 //        txtRegister = findViewById(R.id.txtRegister);
         progressBar = findViewById(R.id.progressbar);
-
+        ProgressDialogLoad();
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Login.class);
             startActivity(intent);
@@ -59,7 +60,8 @@ public class Register extends AppCompatActivity {
         btn_reg.setOnClickListener(new View.OnClickListener( ) {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
+                progressDialog.show();
                 String email, password;
                 email = String.valueOf(edtEmail.getText( ));
                 password = String.valueOf(edtPassword.getText( ));
@@ -79,17 +81,16 @@ public class Register extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful( )) {
                                     Toast.makeText(Register.this, "Succes", Toast.LENGTH_SHORT).show( );
-//                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
-//                                    startActivity(intent);
                                     checkRecruiter(email,password);
                                     Toast.makeText(Register.this, "Success", Toast.LENGTH_SHORT).show( );
-                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(getApplicationContext( ), Login.class);
+//                                    startActivity(intent);
                                     finish( );
+                                    progressDialog.dismiss();
                                 } else {
 
                                     Toast.makeText(Register.this, "Fail", Toast.LENGTH_SHORT).show( );
-
+                                    progressDialog.dismiss();
                                 }
                             }
                         });
@@ -127,5 +128,11 @@ public class Register extends AppCompatActivity {
         bundleTK.putString("Password",password);
         intent.putExtra("bundleTK",bundleTK);
         startActivity(intent);
+    }
+    private void ProgressDialogLoad() {
+        progressDialog = new ProgressDialog(Register.this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setIndeterminate(true); // Thiết lập ProgressBar quay tròn
+        progressDialog.setCancelable(false); // Tắt khả năng hủy ProgressDialog bằng cách nhấn nút Back
     }
 }

@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +63,7 @@ public class MainScreen extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private String TAG = MainScreen.class.getName( );
     private FirebaseUser mUser;
-
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,5 +282,24 @@ public class MainScreen extends AppCompatActivity {
         super.onStop( );
         IntentFilter intentFilter = new IntentFilter("onAvatarChange");
         LocalBroadcastManager.getInstance(MainScreen.this).unregisterReceiver(broadcastReceiver);
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed( );
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
+
+        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 1000);
+
     }
 }
