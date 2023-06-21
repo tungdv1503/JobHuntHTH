@@ -58,6 +58,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
 //        holder.tvApplyCount.setText(String.valueOf(job.get()));
         holder.tvMinSalary.setText(job.getMinSalary());
         holder.tvMaxSalary.setText(job.getMaxSalary());
+        holder.tv_typeOfSalary.setText(job.getTypeOfSalary()+"/Tháng");
 
         holder.itemView.setOnClickListener(view -> {
             mStore.collection("JobsAd").document( job.getJobId() ).update("view", FieldValue.increment(1));
@@ -74,7 +75,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
     }
 
     public class JobViewHolder extends RecyclerView.ViewHolder {
-        TextView tvLocation, tvName, tvViewCount, tvApplyCount, tvMinSalary, tvMaxSalary;
+        TextView tvLocation, tvName, tvViewCount, tvApplyCount, tvMinSalary, tvMaxSalary,tv_typeOfSalary;
         CardView cardView;
         ImageView img;
 
@@ -87,6 +88,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.JobViewHolder> {
             img = itemView.findViewById(R.id.company_img);
             tvMinSalary = itemView.findViewById(R.id.tv_minsalary_job);
             tvMaxSalary = itemView.findViewById(R.id.tv_maxsalary_job);
+            tv_typeOfSalary = itemView.findViewById(R.id.tv_typeOfSalary);
 
         }
     }
