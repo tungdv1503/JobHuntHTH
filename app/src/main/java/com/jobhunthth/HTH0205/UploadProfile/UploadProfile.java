@@ -55,8 +55,8 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
         email1 = findViewById(R.id.email);
         sdt1 = findViewById(R.id.sdt);
         address1 = findViewById(R.id.address);
-        githublink1 = findViewById(R.id.githublink);
-        viewcv = findViewById(R.id.viewcv);
+//        githublink1 = findViewById(R.id.githublink);
+//        viewcv = findViewById(R.id.viewcv);
         logout = findViewById(R.id.logout);
         imageavt = findViewById(R.id.avtUrl);
         imagebackgr = findViewById(R.id.backgrUrl);
@@ -139,30 +139,30 @@ TextView nameaccount,age1,educate1,uni1,majors1,yearsofexp1,sdt1,email1,address1
                         .commit();
             }
         });
-        githublink1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager=getSupportFragmentManager();
-                Github_link github_link=new Github_link();
-
-                fragmentManager.beginTransaction().replace(R.id.updateinfor,github_link).commit();
-                Bundle bundle=new Bundle();
-                bundle.putString("githublink",githublink);
-                github_link.setArguments(bundle);
-            }
-        });
-        viewcv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager1=getSupportFragmentManager();
-                View_CV view_cv=new View_CV();
-
-                fragmentManager1.beginTransaction().replace(R.id.updateinfor,view_cv).commit();
-                Bundle bundle=new Bundle();
-                bundle.putString("viewcv",viewcv1);
-                view_cv.setArguments(bundle);
-            }
-        });
+//        githublink1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FragmentManager fragmentManager=getSupportFragmentManager();
+//                Github_link github_link=new Github_link();
+//
+//                fragmentManager.beginTransaction().replace(R.id.updateinfor,github_link).commit();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("githublink",githublink);
+//                github_link.setArguments(bundle);
+//            }
+//        });
+//        viewcv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FragmentManager fragmentManager1=getSupportFragmentManager();
+//                View_CV view_cv=new View_CV();
+//
+//                fragmentManager1.beginTransaction().replace(R.id.updateinfor,view_cv).commit();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("viewcv",viewcv1);
+//                view_cv.setArguments(bundle);
+//            }
+//        });
 
 
 

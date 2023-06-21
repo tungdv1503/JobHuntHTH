@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class Login extends AppCompatActivity {
     String uid;
     boolean doubleBackToExitPressedOnce = false;
     int check;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,11 @@ public class Login extends AppCompatActivity {
         btn_log = findViewById(R.id.login_button);
         loginnow = findViewById(R.id.LoginNow);
         progressBar = findViewById(R.id.progressbar);
+        ProgressDialogLoad( );
         loginnow.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext( ), Register.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.slidelefttoright,R.anim.sliderighttoleft);
+            overridePendingTransition(R.anim.slidelefttoright, R.anim.sliderighttoleft);
             finish( );
         });
         clickhere.setOnClickListener(view -> {
@@ -84,8 +87,22 @@ public class Login extends AppCompatActivity {
         edtPassword.setText(Password);
 
         if (!edtEmail.getText( ).toString( ).trim( ).equals("") && !edtPassword.getText( ).toString( ).trim( ).equals("")) {
-            showAlertDialog( );
-
+//            showAlertDialog( );
+//            logIn(edtEmail.getText( ).toString( ).trim( ), edtPassword.getText( ).toString( ).trim( ));
+            mAuth = FirebaseAuth.getInstance( );
+            currentUser = mAuth.getCurrentUser( );
+            if (currentUser != null) {
+                uid = currentUser.getUid( );
+                if (check == 1) {
+                    Intent intent = new Intent(Login.this, MainScreen.class);
+                    startActivity(intent);
+                    finishAffinity( );
+                } else if (check == 2) {
+                    Intent intent = new Intent(Login.this, Employers_Activity.class);
+                    startActivity(intent);
+                    finishAffinity( );
+                }
+            }
         }
 
         btn_log.setOnClickListener(new View.OnClickListener( ) {
@@ -97,7 +114,8 @@ public class Login extends AppCompatActivity {
                     uid = currentUser.getUid( );
                 }
                 db = FirebaseFirestore.getInstance( );
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
+                progressDialog.show( );
                 String email, password;
                 email = String.valueOf(edtEmail.getText( ));
                 password = String.valueOf(edtPassword.getText( ));
@@ -128,9 +146,11 @@ public class Login extends AppCompatActivity {
                                     editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
                                     editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
                                     editor.apply( );
+                                    progressDialog.dismiss( );
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
+                                    progressDialog.dismiss( );
                                 }
 
                             }
@@ -140,61 +160,61 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    public void showAlertDialog() {
-
-        // Tạo một đối tượng AlertDialog.Builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-
-        // Thiết lập tiêu đề và thông điệp cho hộp thoại
-        builder.setTitle("Thông báo");
-        builder.setMessage("Bạn có muốn đăng nhập bằng tài khoản này không?");
-
-        // Định nghĩa một nút "Đóng" cho hộp thoại
-        builder.setPositiveButton("Không", new DialogInterface.OnClickListener( ) {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss( ); // Đóng hộp thoại
-            }
-        });
-        builder.setNegativeButton("Có", new DialogInterface.OnClickListener( ) {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mAuth = FirebaseAuth.getInstance( );
-                mAuth.signInWithEmailAndPassword(edtEmail.getText( ).toString( ).trim( ), edtPassword.getText( ).toString( ).trim( ))
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful( )) {
-                                    if (check == 1) {
-                                        Intent intent = new Intent(Login.this, MainScreen.class);
-                                        startActivity(intent);
-                                        finishAffinity( );
-                                    } else if (check == 2) {
-                                        Intent intent = new Intent(Login.this, Employers_Activity.class);
-                                        startActivity(intent);
-                                        finishAffinity( );
-                                    }
-                                    SharedPreferences.Editor editor = sharedPreferences.edit( );
-                                    editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
-                                    editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
-                                    editor.apply( );
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
-                                }
-
-                            }
-
-                        });
-
-            }
-
-        });
-        // Tạo hộp thoại từ đối tượng AlertDialog.Builder
-        AlertDialog dialog = builder.create( );
-
-        // Hiển thị hộp thoại
-        dialog.show( );
-    }
+//    public void showAlertDialog() {
+//
+//        // Tạo một đối tượng AlertDialog.Builder
+//        AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+//
+//        // Thiết lập tiêu đề và thông điệp cho hộp thoại
+//        builder.setTitle("Thông báo");
+//        builder.setMessage("Bạn có muốn đăng nhập bằng tài khoản này không?");
+//
+//        // Định nghĩa một nút "Đóng" cho hộp thoại
+//        builder.setPositiveButton("Không", new DialogInterface.OnClickListener( ) {
+//            public void onClick(DialogInterface dialog, int id) {
+//                dialog.dismiss( ); // Đóng hộp thoại
+//            }
+//        });
+//        builder.setNegativeButton("Có", new DialogInterface.OnClickListener( ) {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                mAuth = FirebaseAuth.getInstance( );
+//                mAuth.signInWithEmailAndPassword(edtEmail.getText( ).toString( ).trim( ), edtPassword.getText( ).toString( ).trim( ))
+//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful( )) {
+//                                    if (check == 1) {
+//                                        Intent intent = new Intent(Login.this, MainScreen.class);
+//                                        startActivity(intent);
+//                                        finishAffinity( );
+//                                    } else if (check == 2) {
+//                                        Intent intent = new Intent(Login.this, Employers_Activity.class);
+//                                        startActivity(intent);
+//                                        finishAffinity( );
+//                                    }
+//                                    SharedPreferences.Editor editor = sharedPreferences.edit( );
+//                                    editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
+//                                    editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
+//                                    editor.apply( );
+//                                } else {
+//                                    // If sign in fails, display a message to the user.
+//                                    Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
+//                                }
+//
+//                            }
+//
+//                        });
+//
+//            }
+//
+//        });
+//        // Tạo hộp thoại từ đối tượng AlertDialog.Builder
+//        AlertDialog dialog = builder.create( );
+//
+//        // Hiển thị hộp thoại
+//        dialog.show( );
+//    }
 
     @Override
     public void onBackPressed() {
@@ -245,6 +265,45 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
+
+    private void logIn(String email, String password) {
+        mAuth = FirebaseAuth.getInstance( );
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>( ) {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful( )) {
+                            if (check == 1) {
+                                Intent intent = new Intent(Login.this, MainScreen.class);
+                                startActivity(intent);
+                                finishAffinity( );
+                            } else if (check == 2) {
+                                Intent intent = new Intent(Login.this, Employers_Activity.class);
+                                startActivity(intent);
+                                finishAffinity( );
+                            }
+                            SharedPreferences.Editor editor = sharedPreferences.edit( );
+                            editor.putString("email", edtEmail.getText( ).toString( ).trim( ));
+                            editor.putString("password", edtPassword.getText( ).toString( ).trim( ));
+                            editor.apply( );
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(Login.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show( );
+                        }
+
+                    }
+
+                });
+
+    }
+
+    private void ProgressDialogLoad() {
+        progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setIndeterminate(true); // Thiết lập ProgressBar quay tròn
+        progressDialog.setCancelable(false); // Tắt khả năng hủy ProgressDialog bằng cách nhấn nút Back
+    }
+
 
 }
 
