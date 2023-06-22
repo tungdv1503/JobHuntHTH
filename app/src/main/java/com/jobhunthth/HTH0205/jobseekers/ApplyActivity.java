@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +32,9 @@ import com.jobhunthth.HTH0205.Models.ApplicantsModel;
 import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.Models.UserInfoModel;
+import com.jobhunthth.HTH0205.Models.UserProfileModel;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.Register_Login.RegisterUserProfile;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.Calendar;
@@ -74,33 +77,31 @@ public class ApplyActivity extends AppCompatActivity {
 
         btn_applyJob.setOnClickListener(view -> {
             dialog.show( );
-            String idJob = job.getJobId( );
-            String idSeeker = mUser.getUid( );
-            String idApplicants = mStore.collection("ApplyJobs").document( ).getId( );
-            Date date = Calendar.getInstance().getTime();
-
-            ApplicantsModel model = new ApplicantsModel(idJob, idSeeker, idApplicants,0,date);
-
-            mStore.collection("ApplyJobs").document(idApplicants)
-                    .set(model)
-                    .addOnCompleteListener(new OnCompleteListener<Void>( ) {
+            mStore.collection("UserProfile").document(mUser.getUid( )).get( )
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>( ) {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful( )) {
-                                dialog.dismiss( );
-                                btn_applyJob.setVisibility(View.GONE);
-                                btn_unApplyJob.setVisibility(View.VISIBLE);
-                                idJobCurrent = model.getIdApplicants( );
+                                DocumentSnapshot doc = task.getResult( );
+                                if (doc.exists( )) {
+                                    dialog.dismiss();
+                                    UserProfileModel model = doc.toObject(UserProfileModel.class);
+                                    if (isProfileValid(model)) {
+                                        Log.d(TAG, "onCompleteApply: ");
+                                        applyCV(job);
+                                    } else {
+                                        showAlertDialog();
+                                    }
+                                }else {
+                                    showAlertDialog();
+                                }
                             }
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener( ) {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            dialog.dismiss( );
-                        }
+                    .addOnFailureListener(e -> {
+                        dialog.dismiss();
+                        Log.e(TAG, "initListener: " + e);
                     });
-
         });
 
         btn_unApplyJob.setOnClickListener(view -> {
@@ -114,7 +115,7 @@ public class ApplyActivity extends AppCompatActivity {
                                         btn_applyJob.setVisibility(View.VISIBLE);
                                         btn_unApplyJob.setVisibility(View.GONE);
                                         idJobCurrent = null;
-                                        dialogInterface.dismiss();
+                                        dialogInterface.dismiss( );
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener( ) {
@@ -124,10 +125,66 @@ public class ApplyActivity extends AppCompatActivity {
                                 });
                     })
                     .setNegativeButton("Cancle", (dialogInterface, i) -> {
-                        dialogInterface.dismiss();
+                        dialogInterface.dismiss( );
                     });
-            builder.create().show();
+            builder.create( ).show( );
         });
+
+    }
+
+    private void showAlertDialog() {
+        dialog.dismiss();
+        Log.d(TAG, "onCompleteFall: ");
+        AlertDialog.Builder builder = new AlertDialog.Builder(ApplyActivity.this);
+        builder.setMessage("Vui lòng thêm các thông tin cho hồ sơ để ứng tuyển");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+                    Intent intent = new Intent(ApplyActivity.this, RegisterUserProfile.class);
+                    startActivity(intent);
+                    dialogInterface.dismiss( );
+                })
+                .setNegativeButton("Cancle", (dialogInterface, i) -> {
+                    dialogInterface.dismiss( );
+                });
+        builder.create( ).show( );
+    }
+
+    private boolean isProfileValid(UserProfileModel model) {
+
+        if (model != null && model.getAvatar( ) != null && model.getCv( ) != null && model.getProfession( ) != null && model.getEducation( ) != null
+                && model.getMaxSalary( ) != null && model.getMinSalary( ) != null && model.getTypeSalary( ) != null && model.getSkill( ).size( ) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void applyCV(JobsAdModel job) {
+        String idJob = job.getJobId( );
+        String idSeeker = mUser.getUid( );
+        String idApplicants = mStore.collection("ApplyJobs").document( ).getId( );
+        Date date = Calendar.getInstance( ).getTime( );
+
+        ApplicantsModel model = new ApplicantsModel(idJob, idSeeker, idApplicants, 0, date);
+
+        mStore.collection("ApplyJobs").document(idApplicants)
+                .set(model)
+                .addOnCompleteListener(new OnCompleteListener<Void>( ) {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful( )) {
+                            dialog.dismiss( );
+                            btn_applyJob.setVisibility(View.GONE);
+                            btn_unApplyJob.setVisibility(View.VISIBLE);
+                            idJobCurrent = model.getIdApplicants( );
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener( ) {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        dialog.dismiss( );
+                    }
+                });
 
     }
 
@@ -193,8 +250,8 @@ public class ApplyActivity extends AppCompatActivity {
                         if (!doc.isEmpty( ) && doc != null) {
                             for (QueryDocumentSnapshot document : doc) {
                                 ApplicantsModel model = document.toObject(ApplicantsModel.class);
-                                idJobCurrent = model.getIdApplicants();
-                                dialog.dismiss();
+                                idJobCurrent = model.getIdApplicants( );
+                                dialog.dismiss( );
                                 btn_unApplyJob.setVisibility(View.VISIBLE);
                                 btn_applyJob.setVisibility(View.GONE);
                             }

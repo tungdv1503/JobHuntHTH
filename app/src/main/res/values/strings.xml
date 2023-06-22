@@ -143,6 +143,10 @@
         <item>Khả năng lắng nghe</item>
         <item>Khác</item>
     </string-array>
+    <string-array name="application_sort">
+        <item>New Date</item>
+        <item>Old Date</item>
+    </string-array>
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
     <string name="age">Age:</string>
@@ -216,5 +220,8 @@
     <string name="en_user_profile">User Profile</string>
     <string name="search_job">Nghề nghiệp</string>
     <string name="search_job_location">Địa điểm</string>
+    <string name="en_accept">Accept</string>
+    <string name="en_refuse">Refuse</string>
+    <string name="en_watch_cv">Watch CV</string>
 
 </resources>
