@@ -1,5 +1,7 @@
 package com.jobhunthth.HTH0205.Models;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class UserProfileModel {

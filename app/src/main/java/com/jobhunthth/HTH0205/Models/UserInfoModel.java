@@ -1,5 +1,7 @@
 package com.jobhunthth.HTH0205.Models;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
