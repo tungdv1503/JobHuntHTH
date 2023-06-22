@@ -3,6 +3,7 @@ package com.jobhunthth.HTH0205.Employers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ public class ChangePassword extends AppCompatActivity {
     private TextInputEditText etCurrentPassword, etNewPassword, etConfirmNewPassword;
     private String TAG = ChangePassword.class.getName();
     private boolean isCheckValidate;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +150,7 @@ public class ChangePassword extends AppCompatActivity {
     }
 
     private void initUI() {
+        dialog = new ProgressDialog(ChangePassword.this);
         mAuth = FirebaseAuth.getInstance();
         txt_goBack = findViewById(R.id.txt_goBack);
         tilCurrentPassword = findViewById(R.id.tilCurrentPassword);

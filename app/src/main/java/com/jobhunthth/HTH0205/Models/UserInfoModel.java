@@ -1,5 +1,11 @@
 package com.jobhunthth.HTH0205.Models;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class UserInfoModel {
 
     private String name;
@@ -78,4 +84,37 @@ public class UserInfoModel {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    public int getAge() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date birthDate = dateFormat.parse(getBirth());
+
+            Calendar currentDate = Calendar.getInstance();
+
+            int currentYear = currentDate.get(Calendar.YEAR);
+
+            Calendar birthCalendar = Calendar.getInstance();
+            birthCalendar.setTime(birthDate);
+            int birthYear = birthCalendar.get(Calendar.YEAR);
+
+            int age = currentYear - birthYear;
+
+            int currentMonth = currentDate.get(Calendar.MONTH);
+            int currentDayOfMonth = currentDate.get(Calendar.DAY_OF_MONTH);
+            int birthMonth = birthCalendar.get(Calendar.MONTH);
+            int birthDayOfMonth = birthCalendar.get(Calendar.DAY_OF_MONTH);
+            if (currentMonth < birthMonth || (currentMonth == birthMonth && currentDayOfMonth < birthDayOfMonth)) {
+                age--;
+            }
+
+            return age;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
 }
