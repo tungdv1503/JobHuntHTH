@@ -19,13 +19,14 @@
             style="@style/TextInputLayoutAppearance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:padding="15dp"
             android:hint="@string/search_jobsfinder"
             app:endIconMode="clear_text"
             app:startIconContentDescription="@string/search"
             app:startIconDrawable="@drawable/ic_search">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:textSize="10dp"
                 android:id="@+id/edt_search_job"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,6 +92,9 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -103,7 +107,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ds_job_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>
