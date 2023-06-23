@@ -63,7 +63,6 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
                     holder.textGender.setText(info.getGender());
                     holder.textAddress.setText(info.getAddress());
                     holder.textSalary.setText(profile.getSalary());
-                    holder.textAge.setText(String.valueOf(info.getAge()));
                 }
             }
 
@@ -139,7 +138,7 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             super(itemView);
             imageAvatar = itemView.findViewById(R.id.image_avatar);
             textName = itemView.findViewById(R.id.text_name);
-            textAge = itemView.findViewById(R.id.text_age);
+//            textAge = itemView.findViewById(R.id.text_age);
             textGender = itemView.findViewById(R.id.text_gender);
             textAddress = itemView.findViewById(R.id.text_address);
             textSalary = itemView.findViewById(R.id.text_salary);

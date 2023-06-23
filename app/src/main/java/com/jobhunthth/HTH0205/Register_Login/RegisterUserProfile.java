@@ -54,7 +54,7 @@ public class RegisterUserProfile extends AppCompatActivity {
 
     private static final String TAG = RegisterUserProfile.class.getName( );
     private RoundedImageView profileAvatar;
-    private Button btnUploadCV;
+    private Button btnUploadCV, btn_Save;
     private ImageButton btnSalary;
     private TextView profileSalary, profileName, profileCV;
     private Spinner spnEducation, spnProfession;
@@ -77,19 +77,19 @@ public class RegisterUserProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_user_profile);
-        
-        initUI();
+
+        initUI( );
 
         setSupportActionBar(toolbar);
         toolbar.setTitle("Register user profile");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar( ).setDisplayHomeAsUpEnabled(true);
 
-        getData();
-        
+        getData( );
+
     }
 
     private void getData() {
-        dialog.show();
+        dialog.show( );
         profileName.setText(mUser.getDisplayName( ));
         mStore.collection("UserProfile").document(mUser.getUid( ))
                 .get( )
@@ -99,13 +99,13 @@ public class RegisterUserProfile extends AppCompatActivity {
                         if (task.isSuccessful( )) {
                             DocumentSnapshot doc = task.getResult( );
                             if (doc.exists( )) {
-                                dialog.dismiss();
+                                dialog.dismiss( );
                                 model = doc.toObject(UserProfileModel.class);
                                 showData(model);
                             } else {
-                                dialog.dismiss();
-                                List<String> skill = new ArrayList<>();
-                                model = new UserProfileModel(null,null,null,null,null,null,null,skill);
+                                dialog.dismiss( );
+                                List<String> skill = new ArrayList<>( );
+                                model = new UserProfileModel(null, null, null, null, null, null, null, skill);
                                 mStore.collection("UserProfile").document(mUser.getUid( )).set(model)
                                         .addOnCompleteListener(new OnCompleteListener<Void>( ) {
                                             @Override
@@ -136,7 +136,7 @@ public class RegisterUserProfile extends AppCompatActivity {
 
     private void showData(UserProfileModel model) {
         initListener( );
-        setAdapter();
+        setAdapter( );
         professionAdapter = ArrayAdapter.createFromResource(RegisterUserProfile.this,
                 R.array.spn_JobProfession, android.R.layout.simple_spinner_item);
         professionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -151,7 +151,7 @@ public class RegisterUserProfile extends AppCompatActivity {
         String minSalary = model.getMinSalary( );
         String maxSalary = model.getMaxSalary( );
         String typeOfSalary = model.getTypeSalary( );
-        if(cv!=null){
+        if (cv != null) {
             if (cv.isEmpty( )) {
                 profileCV.setText("Bạn chưa có cv");
             } else {
@@ -161,7 +161,7 @@ public class RegisterUserProfile extends AppCompatActivity {
 
         Log.d(TAG, "showData: " + profession + "/" + education);
 
-        if(profession!=null){
+        if (profession != null) {
             if (!profession.isEmpty( )) {
                 int position = professionAdapter.getPosition(profession);
                 if (position != -1) {
@@ -170,7 +170,7 @@ public class RegisterUserProfile extends AppCompatActivity {
             }
         }
 
-        if(education!=null){
+        if (education != null) {
             if (!education.isEmpty( )) {
                 int position = educationAdapter.getPosition(education);
                 if (position != -1) {
@@ -179,17 +179,17 @@ public class RegisterUserProfile extends AppCompatActivity {
             }
         }
 
-        if(minSalary!=null && maxSalary!=null && typeOfSalary!=null){
-            if(!minSalary.isEmpty() && !maxSalary.isEmpty() && !typeOfSalary.isEmpty()){
-                profileSalary.setText(minSalary+" - "+maxSalary+" "+typeOfSalary+"/Tháng");
+        if (minSalary != null && maxSalary != null && typeOfSalary != null) {
+            if (!minSalary.isEmpty( ) && !maxSalary.isEmpty( ) && !typeOfSalary.isEmpty( )) {
+                profileSalary.setText(minSalary + " - " + maxSalary + " " + typeOfSalary + "/Tháng");
             }
         }
 
     }
 
     private void setAdapter() {
-        adapterSkill = new AdapterSkill(RegisterUserProfile.this,model.getSkill());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(RegisterUserProfile.this,LinearLayoutManager.VERTICAL,false);
+        adapterSkill = new AdapterSkill(RegisterUserProfile.this, model.getSkill( ));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(RegisterUserProfile.this, LinearLayoutManager.VERTICAL, false);
         listSkill.setLayoutManager(layoutManager);
         listSkill.setAdapter(adapterSkill);
     }
@@ -252,12 +252,54 @@ public class RegisterUserProfile extends AppCompatActivity {
         });
 
         btnSalary.setOnClickListener(view1 -> {
-            showSalaryDialog();
+            showSalaryDialog( );
         });
 
         btnSkill.setOnClickListener(view1 -> {
-            showSkillDialog();
+            showSkillDialog( );
         });
+
+        btn_Save.setOnClickListener(view -> {
+            checkValue( );
+        });
+    }
+
+    private void checkValue() {
+        dialog.show( );
+        mStore.collection("UserProfile").document(mUser.getUid( ))
+                .get( )
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful( )) {
+                        DocumentSnapshot doc = task.getResult( );
+                        if (doc != null && doc.exists( )) {
+                            UserProfileModel model1 = doc.toObject(UserProfileModel.class);
+                            if (model1.getAvatar( ) != null && model1.getCv( ) != null && model1.getProfession( ) != null && model1.getMinSalary( ) != null
+                                    && model1.getMaxSalary( ) != null && model1.getTypeSalary( ) != null && model1.getEducation( ) != null && model1.getSkill( ) != null) {
+                                onBackPressed();
+                            }else {
+                                dialog.dismiss();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserProfile.this);
+                                builder.setTitle("Vui lòng nhập đầy đủ các thông tin");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener( ) {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).setNegativeButton("Cancle", new DialogInterface.OnClickListener( ) {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builder.create().show();
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    dialog.dismiss( );
+                    Log.e(TAG, "checkValue: " + e);
+                });
     }
 
     private void showSkillDialog() {
@@ -269,44 +311,44 @@ public class RegisterUserProfile extends AppCompatActivity {
 
         Spinner spinnerSkill = dialogView.findViewById(R.id.spinner_skill);
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener( ) {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String selectedSkill = spinnerSkill.getSelectedItem().toString();
-                List<String> listSkill = model.getSkill();
-                if(!listSkill.contains(selectedSkill)){
+                String selectedSkill = spinnerSkill.getSelectedItem( ).toString( );
+                List<String> listSkill = model.getSkill( );
+                if (!listSkill.contains(selectedSkill)) {
                     listSkill.add(selectedSkill);
-                    mStore.collection("UserProfile").document(mUser.getUid())
+                    mStore.collection("UserProfile").document(mUser.getUid( ))
                             .update("skill", listSkill)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    setAdapter();
-                                    Toast.makeText(RegisterUserProfile.this, "Kỹ năng đã được lưu", Toast.LENGTH_SHORT).show();
+                                    setAdapter( );
+                                    Toast.makeText(RegisterUserProfile.this, "Kỹ năng đã được lưu", Toast.LENGTH_SHORT).show( );
                                 }
                             })
-                            .addOnFailureListener(new OnFailureListener() {
+                            .addOnFailureListener(new OnFailureListener( ) {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage( ), Toast.LENGTH_SHORT).show( );
                                 }
                             });
-                }else {
+                } else {
                     Toast.makeText(RegisterUserProfile.this, "Kỹ năng đã có", Toast.LENGTH_SHORT).show( );
                 }
 
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener( ) {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                dialog.dismiss( );
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        AlertDialog dialog = builder.create( );
+        dialog.show( );
     }
 
     private void showSalaryDialog() {
@@ -322,28 +364,28 @@ public class RegisterUserProfile extends AppCompatActivity {
         TextInputEditText etMaxSalary = dialogView.findViewById(R.id.et_max_salary);
         RadioGroup radioGroupSalaryType = dialogView.findViewById(R.id.radio_group_salary_type);
 
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener( ) {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String minSalary = etMinSalary.getText().toString().trim();
-                String maxSalary = etMaxSalary.getText().toString().trim();
+                String minSalary = etMinSalary.getText( ).toString( ).trim( );
+                String maxSalary = etMaxSalary.getText( ).toString( ).trim( );
                 String typeSalary = getTypeOfSalary(radioGroupSalaryType, dialogView);
 
-                if(checkSalarySave(minSalary, maxSalary, typeSalary, etMinSalary, etMaxSalary)){
-                    mStore.collection("UserProfile").document(mUser.getUid())
+                if (checkSalarySave(minSalary, maxSalary, typeSalary, etMinSalary, etMaxSalary)) {
+                    mStore.collection("UserProfile").document(mUser.getUid( ))
                             .update("minSalary", minSalary,
                                     "maxSalary", maxSalary,
                                     "typeSalary", typeSalary)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .addOnSuccessListener(new OnSuccessListener<Void>( ) {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    profileSalary.setText(minSalary+" - "+maxSalary+" "+typeSalary+"/Tháng");
+                                    profileSalary.setText(minSalary + " - " + maxSalary + " " + typeSalary + "/Tháng");
                                 }
                             })
-                            .addOnFailureListener(new OnFailureListener() {
+                            .addOnFailureListener(new OnFailureListener( ) {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage( ), Toast.LENGTH_SHORT).show( );
                                 }
                             });
                 }
@@ -351,45 +393,45 @@ public class RegisterUserProfile extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener( ) {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                dialog.dismiss( );
             }
         });
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        AlertDialog dialog = builder.create( );
+        dialog.show( );
     }
 
     private boolean checkSalarySave(String minSalary, String maxSalary, String typeSalary,
                                     TextInputEditText etMinSalary, TextInputEditText etMaxSalary) {
         boolean isValidate = true;
 
-        if (minSalary.isEmpty()) {
+        if (minSalary.isEmpty( )) {
             etMinSalary.setError("Vui lòng nhập lương thấp nhất");
             isValidate = false;
-        }else if(Long.parseLong(minSalary)<=1000 && typeSalary.equals("VND")){
+        } else if (Long.parseLong(minSalary) <= 1000 && typeSalary.equals("VND")) {
             etMinSalary.setError("Vui lòng nhập lương thấp nhất phải từ 1.000VND");
             isValidate = false;
-        }else if(Long.parseLong(minSalary)<=1 && typeSalary.equals("USD")){
+        } else if (Long.parseLong(minSalary) <= 1 && typeSalary.equals("USD")) {
             etMinSalary.setError("Vui lòng nhập lương thấp nhất phải từ 1USD");
             isValidate = false;
-        }else if(Long.parseLong(minSalary)>=Long.parseLong(maxSalary)){
+        } else if (Long.parseLong(minSalary) >= Long.parseLong(maxSalary)) {
             etMinSalary.setError("Lương thấp nhất phải bé hơn lương cao nhất");
             isValidate = false;
         }
 
-        if (maxSalary.isEmpty()) {
+        if (maxSalary.isEmpty( )) {
             etMaxSalary.setError("Vui lòng nhập cao nhất");
             isValidate = false;
-        }else if(Long.parseLong(maxSalary)<=1000 && typeSalary.equals("VND")){
+        } else if (Long.parseLong(maxSalary) <= 1000 && typeSalary.equals("VND")) {
             etMaxSalary.setError("Vui lòng nhập cao nhất phải dưới 1.000VND");
             isValidate = false;
-        }else if(Long.parseLong(maxSalary)<=1 && typeSalary.equals("USD")){
+        } else if (Long.parseLong(maxSalary) <= 1 && typeSalary.equals("USD")) {
             etMaxSalary.setError("Vui lòng nhập cao nhất phải dưới 1USD");
             isValidate = false;
-        }else if(Long.parseLong(maxSalary)<=Long.parseLong(minSalary)){
+        } else if (Long.parseLong(maxSalary) <= Long.parseLong(minSalary)) {
             etMaxSalary.setError("Lương cao nhất phải lớn hơn lương thấp nhất");
             isValidate = false;
         }
@@ -398,11 +440,11 @@ public class RegisterUserProfile extends AppCompatActivity {
     }
 
     private String getTypeOfSalary(RadioGroup radioGroupSalaryType, View dialogView) {
-        int id = radioGroupSalaryType.getCheckedRadioButtonId();
+        int id = radioGroupSalaryType.getCheckedRadioButtonId( );
         RadioButton selectedButton = dialogView.findViewById(id);
         String selectText = "";
-        if(selectedButton!=null){
-            selectText = selectedButton.getText().toString().trim();
+        if (selectedButton != null) {
+            selectText = selectedButton.getText( ).toString( ).trim( );
         }
         return selectText;
     }
@@ -423,6 +465,7 @@ public class RegisterUserProfile extends AppCompatActivity {
         btnSkill = findViewById(R.id.btn_skill);
         listSkill = findViewById(R.id.list_skill);
         profileCV = findViewById(R.id.profile_cv);
+        btn_Save = findViewById(R.id.btn_Save);
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -444,11 +487,30 @@ public class RegisterUserProfile extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId( )) {
             case android.R.id.home: {
-                onBackPressed( );
+                showDialogBack();
             }
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showDialogBack() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserProfile.this);
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn sẽ không thể xin việc nếu chưa hoàn thành hồ sơ, bạn vẫn muốn thoát");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener( ) {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onBackPressed();
+                dialogInterface.dismiss();
+            }
+        }).setNegativeButton("Cancle", new DialogInterface.OnClickListener( ) {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void uploadCVToStorage(Uri uri, String uid) {
@@ -496,6 +558,7 @@ public class RegisterUserProfile extends AppCompatActivity {
                         imageRef.getDownloadUrl( ).addOnSuccessListener(new OnSuccessListener<Uri>( ) {
                             @Override
                             public void onSuccess(Uri downloadUri) {
+                                Log.d(TAG, "onSuccessImage: ");
                                 img = downloadUri.toString( );
                                 mStore.collection("UserProfile").document(mUser.getUid( ))
                                         .update("avatar", img);
