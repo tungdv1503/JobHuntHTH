@@ -59,7 +59,7 @@ public class JobSeekers_Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_job_seekers__home, container, false);
         initView(v);
-        dialog.show();
+        dialog.show( );
         recyclerView = v.findViewById(R.id.programing_jobs);
         recyclerViewsale = v.findViewById(R.id.sale_jobs);
         recyclerViewmarketing = v.findViewById(R.id.marketing_id);
@@ -83,7 +83,7 @@ public class JobSeekers_Home extends Fragment {
                 .whereNotEqualTo("idPutJob", mUser.getUid( ))
                 .get( )
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    dialog.dismiss();
+                    dialog.dismiss( );
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         JobsAdModel job = documentSnapshot.toObject(JobsAdModel.class);
                         String idPutJob = job.getIdPutJob( );
@@ -101,6 +101,8 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnSuccessListener(snapshot -> {
                                         if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
+                                            firestore.collection("JobsAd").document(job.getJobId())
+                                                            .update("avatar",avatar);
                                             job.setAvatar(avatar);
                                             jobList.add(job);
                                             jobAdapter.notifyDataSetChanged( );
@@ -179,7 +181,7 @@ public class JobSeekers_Home extends Fragment {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    dialog.dismiss();
+                    dialog.dismiss( );
                     // Xử lý khi có lỗi xảy ra
                 });
         listener( );
@@ -193,7 +195,7 @@ public class JobSeekers_Home extends Fragment {
 
     private void initView(View v) {
         tvSearch = v.findViewById(R.id.edit_search_job);
-        dialog = new ProgressDialog(getContext());
+        dialog = new ProgressDialog(getContext( ));
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
     }
 

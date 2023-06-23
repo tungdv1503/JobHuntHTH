@@ -11,8 +11,8 @@
             android:id="@+id/fragment_profile"
             android:title="@string/en_user_profile" />
         <item
-            android:id="@+id/fragment_employer"
-            android:title="@string/Regis_for_recruiter" />
+            android:id="@+id/follow_cv"
+            android:title="@string/en_follow_cv" />
         <item
             android:id="@+id/fragment_Setting"
             android:title="@string/setting" />

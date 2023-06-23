@@ -146,6 +146,7 @@
     <string-array name="application_sort">
         <item>New Date</item>
         <item>Old Date</item>
+        <item>Salary</item>
     </string-array>
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>
@@ -168,7 +169,7 @@
     <string name="UnApply">UnApply</string>
     <string name="jobsearch">Job search</string>
     <string name="setting">Setting</string>
-    <string name="Regis_for_recruiter">Register as an employer</string>
+    <string name="en_follow_cv">Follow CV</string>
     <string name="Cv_send_status">Application Status</string>
     <string name="favourtive_recruiter">Favour Recruiter</string>
     <string name="JobSeekers_Home">Home</string>
