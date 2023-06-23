@@ -119,6 +119,8 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnSuccessListener(snapshot -> {
                                         if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
+                                            firestore.collection("JobsAd").document(job.getJobId())
+                                                    .update("avatar",avatar);
                                             job.setAvatar(avatar);
                                             jobList1.add(job);
                                             jobAdapter_marketing.notifyDataSetChanged( );
@@ -135,6 +137,8 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnSuccessListener(snapshot -> {
                                         if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
+                                            firestore.collection("JobsAd").document(job.getJobId())
+                                                    .update("avatar",avatar);
                                             job.setAvatar(avatar);
                                             jobList2.add(job);
                                             jobAdapter_sale.notifyDataSetChanged( );
@@ -151,6 +155,8 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnSuccessListener(snapshot -> {
                                         if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
+                                            firestore.collection("JobsAd").document(job.getJobId())
+                                                    .update("avatar",avatar);
                                             job.setAvatar(avatar);
                                             jobList3.add(job);
                                             jobAdapter_insurance.notifyDataSetChanged( );
@@ -167,6 +173,8 @@ public class JobSeekers_Home extends Fragment {
                                     .addOnSuccessListener(snapshot -> {
                                         if (snapshot.exists( )) {
                                             String avatar = snapshot.getString(avatarField);
+                                            firestore.collection("JobsAd").document(job.getJobId())
+                                                    .update("avatar",avatar);
                                             job.setAvatar(avatar);
                                             jobList4.add(job);
                                             jobAdapter_doctor.notifyDataSetChanged( );

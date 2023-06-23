@@ -3,18 +3,31 @@ package com.jobhunthth.HTH0205.jobseekers.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.jobhunthth.HTH0205.Models.ApplicantsModel;
+import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
+import com.jobhunthth.HTH0205.jobseekers.Adapter.JobAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FollowCVActivity extends AppCompatActivity {
 
@@ -24,6 +37,8 @@ public class FollowCVActivity extends AppCompatActivity {
     private RecyclerView applicantsList;
     private FirebaseFirestore mStore;
     private FirebaseUser mUser;
+    private ProgressDialog dialog;
+    private String TAG = FollowCVActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +53,70 @@ public class FollowCVActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(null);
         setTxtTitle(key);
-        showData(key);
+        getListJobId(key);
 
     }
 
-    private void showData(int key) {
-
+    private void getListJobId(int key) {
+        dialog.show();
+        mStore.collection("ApplyJobs")
+                .whereEqualTo("idSeeker",mUser.getUid())
+                .whereEqualTo("state",key)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>( ) {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        List<String> listId = new ArrayList<>(  );
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                            ApplicantsModel model = doc.toObject(ApplicantsModel.class);
+                            listId.add(model.getIdJob());
+                        }
+                        if(listId.size()==queryDocumentSnapshots.size()){
+                            showData(listId);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener( ) {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "onFailure: "+e );
+                    }
+                });
     }
+
+    private void showData(List<String> listId) {
+
+        if (listId.isEmpty()) {
+            dialog.dismiss();
+            return;
+        };
+        mStore.collection("JobsAd")
+                .whereIn("jobId", listId)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    List<JobsAdModel> jobList = new ArrayList<>();
+                    for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
+                        JobsAdModel jobModel = documentSnapshot.toObject(JobsAdModel.class);
+                        jobList.add(jobModel);
+                    }
+                    dialog.dismiss();
+                    if(jobList.size()==querySnapshot.size()){
+                        LinearLayoutManager manager = new LinearLayoutManager(FollowCVActivity.this,
+                                LinearLayoutManager.VERTICAL,false);
+                        JobAdapter adapter = new JobAdapter(FollowCVActivity.this,jobList);
+                        applicantsList.setLayoutManager(manager);
+                        applicantsList.setAdapter(adapter);
+                    }
+
+                    dialog.dismiss();
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý lỗi khi lấy thông tin công việc
+                    dialog.dismiss();
+                    Log.e(TAG, "showData: " + e);
+                });
+    }
+
 
     private void setTxtTitle(int key) {
         switch (key){
@@ -66,6 +138,7 @@ public class FollowCVActivity extends AppCompatActivity {
     private void initUI() {
         mStore = FirebaseFirestore.getInstance();
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
+        dialog = new ProgressDialog(FollowCVActivity.this);
         toolbar = findViewById(R.id.toolbar);
         txt_title = findViewById(R.id.txt_title);
         spn_sort = findViewById(R.id.spn_sort);
@@ -77,9 +150,18 @@ public class FollowCVActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:{
                 onBackPressed();
+                finish();
             }
 
             default:return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume( );
+//        Intent intent = getIntent();
+//        int key = intent.getIntExtra("key",-1);
+//        getListJobId(key);
     }
 }

@@ -274,7 +274,7 @@ public class RegisterUserProfile extends AppCompatActivity {
                         if (doc != null && doc.exists( )) {
                             UserProfileModel model1 = doc.toObject(UserProfileModel.class);
                             if (model1.getAvatar( ) != null && model1.getCv( ) != null && model1.getProfession( ) != null && model1.getMinSalary( ) != null
-                                    && model1.getMaxSalary( ) != null && model1.getTypeSalary( ) != null && model1.getEducation( ) != null && model1.getSkill( ) != null) {
+                                    && model1.getMaxSalary( ) != null && model1.getTypeSalary( ) != null && model1.getEducation( ) != null && model1.getSkill( ).size()>0) {
                                 onBackPressed();
                             }else {
                                 dialog.dismiss();
