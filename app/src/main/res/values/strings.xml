@@ -146,7 +146,6 @@
     <string-array name="application_sort">
         <item>New Date</item>
         <item>Old Date</item>
-        <item>Salary</item>
     </string-array>
     <string name="Profile">Profile</string>
     <string name="Achievement">Achievement</string>

@@ -13,9 +13,6 @@
         <item
             android:id="@+id/follow_cv"
             android:title="@string/en_follow_cv" />
-        <item
-            android:id="@+id/fragment_Setting"
-            android:title="@string/setting" />
     </group>
     <item android:title="">
         <menu>

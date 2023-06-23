@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jobhunthth.HTH0205.Models.ApplicantsModel;
@@ -38,97 +41,146 @@ public class FollowCVActivity extends AppCompatActivity {
     private FirebaseFirestore mStore;
     private FirebaseUser mUser;
     private ProgressDialog dialog;
-    private String TAG = FollowCVActivity.class.getName();
+    private Query query;
+    private String TAG = FollowCVActivity.class.getName( );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow_cv_activity);
 
-        Intent intent = getIntent();
-        int key = intent.getIntExtra("key",-1);
+        Intent intent = getIntent( );
+        int key = intent.getIntExtra("key", -1);
 
-        initUI();
+        initUI( );
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar( ).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar( ).setTitle(null);
         setTxtTitle(key);
-        getListJobId(key);
+        getListJobId(key, -1);
+        initListener( );
 
     }
 
-    private void getListJobId(int key) {
-        dialog.show();
+    private void initListener() {
+        spn_sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener( ) {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0: {
+                        Intent intent = getIntent( );
+                        int key = intent.getIntExtra("key", -1);
+                        getListJobId(key, 0);
+                        Log.e(TAG, "onItemSelected: " + key + "/" + i);
+                        break;
+                    }
+                    case 1: {
+                        Intent intent = getIntent( );
+                        int key = intent.getIntExtra("key", -1);
+                        getListJobId(key, 1);
+                        Log.e(TAG, "onItemSelected: " + key + "/" + i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void getListJobId(int key, int sort) {
+        dialog.show( );
+
         mStore.collection("ApplyJobs")
-                .whereEqualTo("idSeeker",mUser.getUid())
-                .whereEqualTo("state",key)
-                .get()
+                .whereEqualTo("idSeeker", mUser.getUid( ))
+                .whereEqualTo("state", key)
+                .get( )
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>( ) {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<String> listId = new ArrayList<>(  );
-                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        List<String> listId = new ArrayList<>( );
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                             ApplicantsModel model = doc.toObject(ApplicantsModel.class);
-                            listId.add(model.getIdJob());
+                            listId.add(model.getIdJob( ));
                         }
-                        if(listId.size()==queryDocumentSnapshots.size()){
-                            showData(listId);
+                        if (listId.size( ) == queryDocumentSnapshots.size( )) {
+                            showData(listId,sort);
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener( ) {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG, "onFailure: "+e );
+                        Log.e(TAG, "onFailure: " + e);
                     }
                 });
     }
 
-    private void showData(List<String> listId) {
+    private void showData(List<String> listId, int sort) {
 
-        if (listId.isEmpty()) {
-            dialog.dismiss();
+        if (listId.isEmpty( )) {
+            dialog.dismiss( );
             return;
-        };
-        mStore.collection("JobsAd")
-                .whereIn("jobId", listId)
-                .get()
+        }
+
+        switch (sort){
+            case 0:{
+                query = mStore.collection("JobsAd")
+                        .whereIn("jobId", listId)
+                        .orderBy("currentTime", Query.Direction.ASCENDING);
+                break;
+            }
+            case 1:{
+                query = mStore.collection("JobsAd")
+                        .whereIn("jobId", listId)
+                        .orderBy("currentTime", Query.Direction.DESCENDING);
+                break;
+            }
+            default:query = mStore.collection("JobsAd")
+                    .whereIn("jobId", listId);
+        }
+
+
+                query.get( )
                 .addOnSuccessListener(querySnapshot -> {
-                    List<JobsAdModel> jobList = new ArrayList<>();
+                    List<JobsAdModel> jobList = new ArrayList<>( );
                     for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
                         JobsAdModel jobModel = documentSnapshot.toObject(JobsAdModel.class);
                         jobList.add(jobModel);
                     }
-                    dialog.dismiss();
-                    if(jobList.size()==querySnapshot.size()){
+                    dialog.dismiss( );
+                    if (jobList.size( ) == querySnapshot.size( )) {
                         LinearLayoutManager manager = new LinearLayoutManager(FollowCVActivity.this,
-                                LinearLayoutManager.VERTICAL,false);
-                        JobAdapter adapter = new JobAdapter(FollowCVActivity.this,jobList);
+                                LinearLayoutManager.VERTICAL, false);
+                        JobAdapter adapter = new JobAdapter(FollowCVActivity.this, jobList);
                         applicantsList.setLayoutManager(manager);
                         applicantsList.setAdapter(adapter);
                     }
 
-                    dialog.dismiss();
+                    dialog.dismiss( );
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý lỗi khi lấy thông tin công việc
-                    dialog.dismiss();
+                    dialog.dismiss( );
                     Log.e(TAG, "showData: " + e);
                 });
     }
 
 
     private void setTxtTitle(int key) {
-        switch (key){
-            case 0:{
+        switch (key) {
+            case 0: {
                 txt_title.setText("Hồ sơ đang ứng tuyển");
                 break;
             }
-            case 1:{
+            case 1: {
                 txt_title.setText("Hồ sơ được chấp nhận");
                 break;
             }
-            case 2:{
+            case 2: {
                 txt_title.setText("Hồ sơ không chấp nhận");
                 break;
             }
@@ -136,7 +188,7 @@ public class FollowCVActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        mStore = FirebaseFirestore.getInstance();
+        mStore = FirebaseFirestore.getInstance( );
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         dialog = new ProgressDialog(FollowCVActivity.this);
         toolbar = findViewById(R.id.toolbar);
@@ -147,21 +199,19 @@ public class FollowCVActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{
-                onBackPressed();
-                finish();
+        switch (item.getItemId( )) {
+            case android.R.id.home: {
+                onBackPressed( );
+                finish( );
             }
 
-            default:return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume( );
-//        Intent intent = getIntent();
-//        int key = intent.getIntExtra("key",-1);
-//        getListJobId(key);
     }
 }

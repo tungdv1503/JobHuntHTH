@@ -151,15 +151,6 @@ public class MainScreen extends AppCompatActivity {
                         ChangeFragment(new FollowCV());
                         break;
 
-
-                    case R.id.fragment_Setting:
-//                        Fragment fragment2 = new FragmentThongKe();
-//                        FragmentManager fragmentManager2 = getSupportFragmentManager();
-//                        FragmentTransaction fragmentTransaction2 = fragmentManager2.beginTransaction();
-//                        fragmentTransaction2.replace(R.id.fragment_view, fragment2).commit();
-//                        drawerLayoutMain.close();
-                        break;
-
                     case R.id.fragment_change_mode: {
                         sharedPreferences = getSharedPreferences("CheckVT", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit( );
