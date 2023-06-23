@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -36,7 +39,7 @@ public class SearchJobActivity extends AppCompatActivity {
     private JobAdapter jobAdapter;
     private TextInputEditText edtSearchJob;
     private TextView tvSelectedNameJob, tvSelectedLocationJob;
-
+    private ProgressDialog dialogload;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class SearchJobActivity extends AppCompatActivity {
     }
 
     private void listener() {
-
+        dialogload = new ProgressDialog(this);
         listJob.setLayoutManager(new LinearLayoutManager(SearchJobActivity.this, LinearLayoutManager.VERTICAL, false));
         jobList = new ArrayList<>( );
         jobAdapter = new JobAdapter(SearchJobActivity.this, jobList);
@@ -93,6 +96,7 @@ public class SearchJobActivity extends AppCompatActivity {
 
     private void getAllJob() {
         firestore = FirebaseFirestore.getInstance( );
+        dialogload.show();
         firestore.collection("JobsAd").get( )
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -106,10 +110,13 @@ public class SearchJobActivity extends AppCompatActivity {
                                 .get( )
                                 .addOnSuccessListener(snapshot -> {
                                     if (snapshot.exists( )) {
+                                        dialogload.dismiss();
                                         String avatar = snapshot.getString(avatarField);
                                         job.setAvatar(avatar);
                                         jobList.add(job);
                                         jobAdapter.notifyDataSetChanged( );
+                                        int a = jobList.size();
+                                        Toast.makeText(this, ""+a, Toast.LENGTH_SHORT).show( );
                                     }
                                 })
                                 .addOnFailureListener(e -> {
@@ -121,6 +128,7 @@ public class SearchJobActivity extends AppCompatActivity {
                     // Xử lý khi có lỗi xảy ra
                 });
     }
+
 
     private void dialogSelectedLocationJob() {
         // Tạo BottomSheetDialog
@@ -168,7 +176,8 @@ public class SearchJobActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<String> itemList = new ArrayList<>(Arrays.asList(items));
-                getJobSearch(itemList.get(position));
+                String a = itemList.get(position);
+                getJobSearchLocation(itemList.get(position));
                 bottomSheetDialog.dismiss( );
             }
         });
@@ -189,6 +198,30 @@ public class SearchJobActivity extends AppCompatActivity {
         for (JobsAdModel jobs : jobList) {
             String name = jobs.getTitle( ).toLowerCase( );
             if (name.startsWith(searchText)) {
+                jobList2.add(jobs);
+                JobAdapter adapter = new JobAdapter(SearchJobActivity.this, jobList2);
+                listJob.setAdapter(adapter);
+            }
+        }
+    }
+    private void getJobSearchLocation(String searchText) {
+        List<JobsAdModel> jobList2 = new ArrayList<>( );
+
+        for (JobsAdModel jobs : jobList) {
+            String name = jobs.getArea( );
+            if (name.equalsIgnoreCase(searchText)) {
+                jobList2.add(jobs);
+                JobAdapter adapter = new JobAdapter(SearchJobActivity.this, jobList2);
+                listJob.setAdapter(adapter);
+            }
+        }
+    }
+    private void getJobSearchProfession(String searchText) {
+        List<JobsAdModel> jobList2 = new ArrayList<>( );
+
+        for (JobsAdModel jobs : jobList) {
+            String name = jobs.getProfession( );
+            if (name.equalsIgnoreCase(searchText)) {
                 jobList2.add(jobs);
                 JobAdapter adapter = new JobAdapter(SearchJobActivity.this, jobList2);
                 listJob.setAdapter(adapter);
@@ -242,7 +275,8 @@ public class SearchJobActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<String> itemList = new ArrayList<>(Arrays.asList(items));
-                getJobSearch(itemList.get(position));
+                String a = itemList.get(position);
+                getJobSearchProfession(itemList.get(position));
                 bottomSheetDialog.dismiss( );
             }
         });
