@@ -42,19 +42,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.jobhunthth.HTH0205.Employers.ChangePassword;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
-import com.jobhunthth.HTH0205.Models.UserProfileModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
-import com.jobhunthth.HTH0205.Register_Login.RegisterEmployerInfo;
 import com.jobhunthth.HTH0205.Register_Login.RegisterInfo;
-import com.jobhunthth.HTH0205.UploadProfile.UploadProfile;
-import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.FollowCV;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.JobSeekers_Home;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Setting;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.UserProfile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainScreen extends AppCompatActivity {
     LinearLayout profile;
@@ -153,10 +147,10 @@ public class MainScreen extends AppCompatActivity {
                         ChangeFragment(new UserProfile( ));
                         break;
                     }
-                    case R.id.fragment_employer:
-                        Fragment fragment1 = new Setting( );
-                        ChangeFragment(fragment1);
+                    case R.id.follow_cv:
+                        ChangeFragment(new FollowCV());
                         break;
+
 
                     case R.id.fragment_Setting:
 //                        Fragment fragment2 = new FragmentThongKe();

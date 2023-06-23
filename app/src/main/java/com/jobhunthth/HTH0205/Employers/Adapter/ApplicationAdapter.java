@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -29,9 +30,6 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     private Context context;
     private FirebaseFirestore mStore;
     private String TAG = ApplicationAdapter.class.getName( );
-    private boolean isInfo, isProfile;
-    private UserInfoModel infoModel;
-    private UserProfileModel profileModel;
 
     public ApplicationAdapter(List<ApplicantsModel> list, Context context) {
         this.list = list;
@@ -49,21 +47,22 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     @Override
     public void onBindViewHolder(@NonNull ApplicationHolder holder, int position) {
         ApplicantsModel model = list.get(position);
-        if(model.getState()==1){
+        holder.cardView.setVisibility(View.GONE);
+        if (model.getState() == 1) {
             holder.btnAccept.setVisibility(View.GONE);
-        }else if(model.getState()==2){
+        } else if (model.getState() == 2) {
             holder.btnRefuse.setVisibility(View.GONE);
         }
-        getData(model, new GetDataCallBack( ) {
+        getData(model, new GetDataCallBack() {
             @Override
             public void onGetInfoProfileSuccess(UserProfileModel profile, UserInfoModel info) {
                 if (profile != null && info != null) {
-                    Glide.with(context).load(info.getAvatar( )).error(R.drawable.avatar).into(holder.imageAvatar);
-                    holder.textName.setText(info.getName( ));
-                    holder.textGender.setText(info.getGender( ));
-                    holder.textAddress.setText(info.getAddress( ));
-                    holder.textSalary.setText(profile.getSalary( ));
-                    holder.textAge.setText(String.valueOf(info.getAge( )));
+                    holder.cardView.setVisibility(View.VISIBLE);
+                    Glide.with(context).load(info.getAvatar()).error(R.drawable.avatar).into(holder.imageAvatar);
+                    holder.textName.setText(info.getName());
+                    holder.textGender.setText(info.getGender());
+                    holder.textAddress.setText(info.getAddress());
+                    holder.textSalary.setText(profile.getSalary());
                 }
             }
 
@@ -77,8 +76,8 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             mStore.collection("ApplyJobs").document(model.getIdApplicants( )).update("state", 1)
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
-                            list.remove(position);
-                            notifyItemRemoved(position);
+                            list.remove(holder.getAdapterPosition());
+                            notifyItemRemoved(holder.getAdapterPosition());
                         }
                     }).addOnFailureListener(e -> {
                         Log.e(TAG, "onBindViewHolder: "+e );
@@ -89,8 +88,8 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             mStore.collection("ApplyJobs").document(model.getIdApplicants( )).update("state", 2)
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
-                            list.remove(position);
-                            notifyItemRemoved(position);
+                            list.remove(holder.getAdapterPosition());
+                            notifyItemRemoved(holder.getAdapterPosition());
                         }
                     }).addOnFailureListener(e -> {
                         Log.e(TAG, "onBindViewHolder: "+e );
@@ -105,32 +104,23 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
 
     private void getData(ApplicantsModel model, GetDataCallBack callBack) {
 
-        mStore.collection("UserInfo").document(model.getIdSeeker( )).get( )
+        mStore.collection("UserInfo").document(model.getIdSeeker()).get()
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful( )) {
-                        DocumentSnapshot doc = task.getResult( );
-                        if (doc.exists( )) {
-                            isInfo = true;
-                            infoModel = doc.toObject(UserInfoModel.class);
-                            if (isInfo && isProfile) {
-                                callBack.onGetInfoProfileSuccess(profileModel, infoModel);
-                            }
-                        }
-                    }
-                }).addOnFailureListener(e -> {
-
-                });
-
-        mStore.collection("UserProfile").document(model.getIdSeeker( )).get( )
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful( )) {
-                        DocumentSnapshot doc = task.getResult( );
-                        if (doc.exists( )) {
-                            isProfile = true;
-                            profileModel = doc.toObject(UserProfileModel.class);
-                            if (isInfo && isProfile) {
-                                callBack.onGetInfoProfileSuccess(profileModel, infoModel);
-                            }
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot doc = task.getResult();
+                        if (doc.exists()) {
+                            UserInfoModel infoModel = doc.toObject(UserInfoModel.class);
+                            Log.d(TAG, "getData: " + infoModel.getName());
+                            mStore.collection("UserProfile").document(model.getIdSeeker()).get()
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            DocumentSnapshot doc2 = task2.getResult();
+                                            if (doc2.exists()) {
+                                                UserProfileModel profileModel = doc2.toObject(UserProfileModel.class);
+                                                callBack.onGetInfoProfileSuccess(profileModel, infoModel);
+                                            }
+                                        }
+                                    });
                         }
                     }
                 }).addOnFailureListener(e -> {
@@ -142,18 +132,20 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         private RoundedImageView imageAvatar;
         private TextView textAddress, textSalary, textGender, textAge, textName;
         private Button btnAccept, btnRefuse, btnCV;
+        private CardView cardView;
 
         public ApplicationHolder(@NonNull View itemView) {
             super(itemView);
             imageAvatar = itemView.findViewById(R.id.image_avatar);
             textName = itemView.findViewById(R.id.text_name);
-            textAge = itemView.findViewById(R.id.text_age);
+//            textAge = itemView.findViewById(R.id.text_age);
             textGender = itemView.findViewById(R.id.text_gender);
             textAddress = itemView.findViewById(R.id.text_address);
             textSalary = itemView.findViewById(R.id.text_salary);
             btnAccept = itemView.findViewById(R.id.btn_accept);
             btnRefuse = itemView.findViewById(R.id.btn_refuse);
             btnCV = itemView.findViewById(R.id.btn_cv);
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }
