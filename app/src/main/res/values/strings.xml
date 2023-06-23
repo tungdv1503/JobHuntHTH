@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JobHuntHTH</string>
+    <string name="app_name">JobHunt</string>
     <string name="Login">Login</string>
     <string name="Register">Register</string>
     <string name="Email">Email</string>
