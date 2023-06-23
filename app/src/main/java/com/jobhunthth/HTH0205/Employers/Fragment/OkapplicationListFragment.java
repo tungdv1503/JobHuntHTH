@@ -22,6 +22,7 @@ import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OkapplicationListFragment extends Fragment {
 
@@ -31,7 +32,7 @@ public class OkapplicationListFragment extends Fragment {
     private FirebaseFirestore mStore;
     private ProgressDialog dialog;
     private ApplicationAdapter adapter;
-    ArrayList<ApplicantsModel> list;
+    List<ApplicantsModel> list;
     private String TAG = OkapplicationListFragment.class.getName();
 
     @Override
@@ -50,19 +51,20 @@ public class OkapplicationListFragment extends Fragment {
     }
 
     private void showData(JobsAdModel model) {
-        list = new ArrayList<>();
         dialog.show();
         mStore.collection("ApplyJobs")
                 .whereEqualTo("idJob",model.getJobId())
                 .whereEqualTo("state",1)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<ApplicantsModel> newList = new ArrayList<>();
                     for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         ApplicantsModel model1 = doc.toObject(ApplicantsModel.class);
-                        list.add(model1);
+                        newList.add(model1);
                     }
-                    if(list.size()==queryDocumentSnapshots.size()){
-                        dialog.dismiss();
+                    dialog.dismiss();
+                    if(!newList.isEmpty()&&newList.size()==queryDocumentSnapshots.size()){
+                        list = newList;
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
                         ApplicationAdapter adapter = new ApplicationAdapter(list,getContext());
                         applicantsList.setLayoutManager(layoutManager);

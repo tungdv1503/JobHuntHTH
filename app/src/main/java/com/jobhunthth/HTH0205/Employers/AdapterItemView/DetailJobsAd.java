@@ -1,43 +1,26 @@
 package com.jobhunthth.HTH0205.Employers.AdapterItemView;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.jobhunthth.HTH0205.Employers.Adapter.DetailJobPagerAdapter;
-import com.jobhunthth.HTH0205.Employers.Interface.AccountInfoCallBack;
-import com.jobhunthth.HTH0205.Employers.Interface.CompanyInfoCallBack;
 import com.jobhunthth.HTH0205.Employers.Employers_EditJob;
-import com.jobhunthth.HTH0205.Models.CompanyInfoModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
-import com.jobhunthth.HTH0205.Models.UserInfoModel;
 import com.jobhunthth.HTH0205.R;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 public class DetailJobsAd extends AppCompatActivity {
 

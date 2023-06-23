@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     android:layout_gravity="center"
+    android:layout_marginVertical="16dp"
     android:layout_height="180dp">
     <LinearLayout
         android:orientation="vertical"
@@ -16,6 +17,7 @@
             android:id="@+id/company_img"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:paddingTop="8dp"
             android:src="@drawable/blue_gradient"
             />
 
