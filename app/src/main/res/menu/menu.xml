@@ -20,6 +20,9 @@
     <item android:title="">
         <menu>
             <item
+                android:id="@+id/fragment_change_password"
+                android:title="ChangePassword" />
+            <item
                 android:id="@+id/fragment_change_mode"
                 android:title="Chế độ tuyển dụng" />
             <item

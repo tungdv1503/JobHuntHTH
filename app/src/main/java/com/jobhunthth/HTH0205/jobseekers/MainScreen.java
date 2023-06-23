@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,8 +38,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.jobhunthth.HTH0205.Employers.ChangePassword;
 import com.jobhunthth.HTH0205.Employers.Employers_Activity;
 import com.jobhunthth.HTH0205.Employers.Fragment.UserInfo;
+import com.jobhunthth.HTH0205.Models.UserProfileModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.Register_Login.Login;
 import com.jobhunthth.HTH0205.Register_Login.RegisterEmployerInfo;
@@ -47,6 +52,9 @@ import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Favourrecruiter;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.JobSeekers_Home;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.Setting;
 import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.UserProfile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainScreen extends AppCompatActivity {
     LinearLayout profile;
@@ -60,12 +68,14 @@ public class MainScreen extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private String TAG = MainScreen.class.getName( );
     private FirebaseUser mUser;
-
+    private FirebaseStorage mStore;
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
+        mStore = FirebaseStorage.getInstance();
         profile = findViewById(R.id.profile);
         nameaccount = findViewById(R.id.nameaccount);
         imageavt = findViewById(R.id.imageavt);
@@ -98,14 +108,14 @@ public class MainScreen extends AppCompatActivity {
             }
         });
 
-        profile.setOnClickListener(new View.OnClickListener( ) {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext( ), UploadProfile.class);
-                startActivity(intent);
-                finish( );
-            }
-        });
+//        profile.setOnClickListener(new View.OnClickListener( ) {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext( ), UploadProfile.class);
+//                startActivity(intent);
+//                finish( );
+//            }
+//        });
         navigationMenu.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener( ) {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -174,6 +184,12 @@ public class MainScreen extends AppCompatActivity {
 //                        fragmentTransaction3.replace(R.id.fragment_view, fragment3).commit();
 //                        drawerLayoutMain.close();
                         break;
+
+                    case R.id.fragment_change_password:{
+                        Intent intent = new Intent( MainScreen.this, ChangePassword.class );
+                        startActivity(intent);
+                        break;
+                    }
                     case R.id.logout:
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
                         builder.setTitle("Xác nhận");
@@ -205,7 +221,7 @@ public class MainScreen extends AppCompatActivity {
 
     private void showAccount() {
         nameaccount.setText(mUser.getDisplayName());
-        Glide.with(MainScreen.this).load(mUser.getPhotoUrl()).into(imageavt);
+        Glide.with(MainScreen.this).load(mUser.getPhotoUrl()).error(R.drawable.avatar).into(imageavt);
     }
 
     private void showAlertDialog() {
@@ -273,5 +289,24 @@ public class MainScreen extends AppCompatActivity {
         super.onStop( );
         IntentFilter intentFilter = new IntentFilter("onAvatarChange");
         LocalBroadcastManager.getInstance(MainScreen.this).unregisterReceiver(broadcastReceiver);
+    }
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed( );
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Ấn nút back 2 lần liên tiếp để thoát", Toast.LENGTH_SHORT).show( );
+
+        new Handler(Looper.getMainLooper( )).postDelayed(new Runnable( ) {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 1000);
+
     }
 }

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,20 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.jobhunthth.HTH0205.Employers.Adapter.ApplicationAdapter;
-import com.jobhunthth.HTH0205.Employers.Adapter.Jobs_Adapter;
 import com.jobhunthth.HTH0205.Models.ApplicantsModel;
 import com.jobhunthth.HTH0205.Models.JobsAdModel;
 import com.jobhunthth.HTH0205.R;
 
 import java.util.ArrayList;
 
-public class ApplicationListFragment extends Fragment {
+public class UnapplicationListFragment extends Fragment {
 
     private View view;
     private Spinner application_spn;
@@ -37,12 +32,12 @@ public class ApplicationListFragment extends Fragment {
     private ProgressDialog dialog;
     private ApplicationAdapter adapter;
     ArrayList<ApplicantsModel> list;
-    private String TAG = ApplicationListFragment.class.getName();
+    private String TAG = UnapplicationListFragment.class.getName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_application_list, container, false);
+        view = inflater.inflate(R.layout.fragment_unapplication_list, container, false);
 
         Intent intent = getActivity().getIntent();
         JobsAdModel model = (JobsAdModel) intent.getSerializableExtra("job");
@@ -50,6 +45,7 @@ public class ApplicationListFragment extends Fragment {
         initUI();
         showData(model);
         initListener();
+
 
         return view;
     }
@@ -59,7 +55,7 @@ public class ApplicationListFragment extends Fragment {
         dialog.show();
         mStore.collection("ApplyJobs")
                 .whereEqualTo("idJob",model.getJobId())
-                .whereEqualTo("state",0)
+                .whereEqualTo("state",2)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for(QueryDocumentSnapshot doc : queryDocumentSnapshots){

@@ -60,17 +60,27 @@ public class DetailJobsAd extends AppCompatActivity {
 
         initUi();
 
-        DetailJobPagerAdapter adapter = new DetailJobPagerAdapter(DetailJobsAd.this,2);
+        DetailJobPagerAdapter adapter = new DetailJobPagerAdapter(DetailJobsAd.this,4);
         detailJob_viewPager.setAdapter(adapter);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(detailJob_tab,detailJob_viewPager
         ,(tab, position) -> {
             switch (position) {
-                case 0:
+                case 0:{
                     tab.setText("Thông tin");
                     break;
-                case 1:
-                    tab.setText("Hồ sơ");
+                }
+                case 1:{
+                    tab.setText("Đang ứng tuyển");
                     break;
+                }
+                case 2:{
+                    tab.setText("Chấp nhận");
+                    break;
+                }
+                case 3:{
+                    tab.setText("Từ chối");
+                    break;
+                }
             }
         });
         tabLayoutMediator.attach();

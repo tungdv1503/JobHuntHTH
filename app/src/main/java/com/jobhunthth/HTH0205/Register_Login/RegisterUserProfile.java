@@ -1,24 +1,22 @@
-package com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement;
+package com.jobhunthth.HTH0205.Register_Login;
 
-import static android.app.Activity.RESULT_OK;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,15 +44,15 @@ import com.google.firebase.storage.UploadTask;
 import com.jobhunthth.HTH0205.Models.UserProfileModel;
 import com.jobhunthth.HTH0205.R;
 import com.jobhunthth.HTH0205.jobseekers.Adapter.AdapterSkill;
+import com.jobhunthth.HTH0205.jobseekers.Drawer_Fragement.UserProfile;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class UserProfile extends Fragment {
+public class RegisterUserProfile extends AppCompatActivity {
 
-    private static final String TAG = UserProfile.class.getName( );
+    private static final String TAG = RegisterUserProfile.class.getName( );
     private RoundedImageView profileAvatar;
     private Button btnUploadCV;
     private ImageButton btnSalary;
@@ -62,7 +60,6 @@ public class UserProfile extends Fragment {
     private Spinner spnEducation, spnProfession;
     private ImageButton btnSkill;
     private RecyclerView listSkill;
-    private View view;
     private ProgressDialog dialog;
     private FirebaseUser mUser;
     private FirebaseStorage mStorage;
@@ -70,25 +67,29 @@ public class UserProfile extends Fragment {
     private UserProfileModel model;
     private String img, cv;
     private String selectedProfession = "";
+    private Toolbar toolbar;
     private static final int REQUEST_IMAGE_PICKER = 1001;
     private static final int REQUEST_CV_PICKER = 1002;
     private ArrayAdapter<CharSequence> professionAdapter, educationAdapter;
     private AdapterSkill adapterSkill;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register_user_profile);
+        
+        initUI();
 
-        view = inflater.inflate(R.layout.fragment_user_profile, container, false);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Register user profile");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initUI( );
-        dialog.show( );
-        getData( );
-
-        return view;
+        getData();
+        
     }
 
     private void getData() {
+        dialog.show();
         profileName.setText(mUser.getDisplayName( ));
         mStore.collection("UserProfile").document(mUser.getUid( ))
                 .get( )
@@ -98,9 +99,11 @@ public class UserProfile extends Fragment {
                         if (task.isSuccessful( )) {
                             DocumentSnapshot doc = task.getResult( );
                             if (doc.exists( )) {
+                                dialog.dismiss();
                                 model = doc.toObject(UserProfileModel.class);
                                 showData(model);
                             } else {
+                                dialog.dismiss();
                                 List<String> skill = new ArrayList<>();
                                 model = new UserProfileModel(null,null,null,null,null,null,null,skill);
                                 mStore.collection("UserProfile").document(mUser.getUid( )).set(model)
@@ -108,6 +111,7 @@ public class UserProfile extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful( )) {
+                                                    initListener( );
                                                     dialog.dismiss( );
                                                 }
                                             }
@@ -133,14 +137,14 @@ public class UserProfile extends Fragment {
     private void showData(UserProfileModel model) {
         initListener( );
         setAdapter();
-        professionAdapter = ArrayAdapter.createFromResource(getContext( ),
+        professionAdapter = ArrayAdapter.createFromResource(RegisterUserProfile.this,
                 R.array.spn_JobProfession, android.R.layout.simple_spinner_item);
         professionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        educationAdapter = ArrayAdapter.createFromResource(getContext( )
+        educationAdapter = ArrayAdapter.createFromResource(RegisterUserProfile.this
                 , R.array.spn_education_levels, android.R.layout.simple_spinner_item);
         educationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dialog.dismiss( );
-        Glide.with(getContext( )).load(model.getAvatar( )).error(R.drawable.avatar).into(profileAvatar);
+        Glide.with(RegisterUserProfile.this).load(model.getAvatar( )).error(R.drawable.avatar).into(profileAvatar);
         String profession = model.getProfession( );
         String education = model.getEducation( );
         String cv = model.getCv( );
@@ -184,8 +188,8 @@ public class UserProfile extends Fragment {
     }
 
     private void setAdapter() {
-        adapterSkill = new AdapterSkill(getContext(),model.getSkill());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        adapterSkill = new AdapterSkill(RegisterUserProfile.this,model.getSkill());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(RegisterUserProfile.this,LinearLayoutManager.VERTICAL,false);
         listSkill.setLayoutManager(layoutManager);
         listSkill.setAdapter(adapterSkill);
     }
@@ -257,10 +261,10 @@ public class UserProfile extends Fragment {
     }
 
     private void showSkillDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserProfile.this);
         builder.setTitle("Chọn kỹ năng");
 
-        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_skill, null);
+        View dialogView = LayoutInflater.from(RegisterUserProfile.this).inflate(R.layout.dialog_skill, null);
         builder.setView(dialogView);
 
         Spinner spinnerSkill = dialogView.findViewById(R.id.spinner_skill);
@@ -278,17 +282,17 @@ public class UserProfile extends Fragment {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     setAdapter();
-                                    Toast.makeText(getContext(), "Kỹ năng đã được lưu", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterUserProfile.this, "Kỹ năng đã được lưu", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }else {
-                    Toast.makeText(getContext(), "Kỹ năng đã có", Toast.LENGTH_SHORT).show( );
+                    Toast.makeText(RegisterUserProfile.this, "Kỹ năng đã có", Toast.LENGTH_SHORT).show( );
                 }
 
             }
@@ -306,10 +310,10 @@ public class UserProfile extends Fragment {
     }
 
     private void showSalaryDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterUserProfile.this);
         builder.setTitle("Thông tin lương");
 
-        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_desired_salary, null);
+        View dialogView = LayoutInflater.from(RegisterUserProfile.this).inflate(R.layout.dialog_desired_salary, null);
         builder.setView(dialogView);
 
         TextInputLayout inputLayoutMinSalary = dialogView.findViewById(R.id.input_layout_min_salary);
@@ -339,7 +343,7 @@ public class UserProfile extends Fragment {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterUserProfile.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }
@@ -361,7 +365,7 @@ public class UserProfile extends Fragment {
     private boolean checkSalarySave(String minSalary, String maxSalary, String typeSalary,
                                     TextInputEditText etMinSalary, TextInputEditText etMaxSalary) {
         boolean isValidate = true;
-        
+
         if (minSalary.isEmpty()) {
             etMinSalary.setError("Vui lòng nhập lương thấp nhất");
             isValidate = false;
@@ -404,20 +408,21 @@ public class UserProfile extends Fragment {
     }
 
     private void initUI() {
+        toolbar = findViewById(R.id.toolbar);
         mUser = FirebaseAuth.getInstance( ).getCurrentUser( );
         mStorage = FirebaseStorage.getInstance( );
         mStore = FirebaseFirestore.getInstance( );
-        dialog = new ProgressDialog(getContext( ));
-        profileAvatar = view.findViewById(R.id.profile_avatar);
-        profileName = view.findViewById(R.id.profile_name);
-        btnUploadCV = view.findViewById(R.id.btn_uploadCV);
-        spnProfession = view.findViewById(R.id.spn_profession);
-        btnSalary = view.findViewById(R.id.btn_salary);
-        profileSalary = view.findViewById(R.id.profile_salary);
-        spnEducation = view.findViewById(R.id.spn_education);
-        btnSkill = view.findViewById(R.id.btn_skill);
-        listSkill = view.findViewById(R.id.list_skill);
-        profileCV = view.findViewById(R.id.profile_cv);
+        dialog = new ProgressDialog(RegisterUserProfile.this);
+        profileAvatar = findViewById(R.id.profile_avatar);
+        profileName = findViewById(R.id.profile_name);
+        btnUploadCV = findViewById(R.id.btn_uploadCV);
+        spnProfession = findViewById(R.id.spn_profession);
+        btnSalary = findViewById(R.id.btn_salary);
+        profileSalary = findViewById(R.id.profile_salary);
+        spnEducation = findViewById(R.id.spn_education);
+        btnSkill = findViewById(R.id.btn_skill);
+        listSkill = findViewById(R.id.list_skill);
+        profileCV = findViewById(R.id.profile_cv);
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -435,6 +440,16 @@ public class UserProfile extends Fragment {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId( )) {
+            case android.R.id.home: {
+                onBackPressed( );
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void uploadCVToStorage(Uri uri, String uid) {
         StorageReference storageRef = FirebaseStorage.getInstance( ).getReference( );
@@ -464,7 +479,7 @@ public class UserProfile extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         dialog.dismiss( );
-                        Toast.makeText(getContext( ), "Lỗi", Toast.LENGTH_SHORT).show( );
+                        Toast.makeText(RegisterUserProfile.this, "Lỗi", Toast.LENGTH_SHORT).show( );
                     }
                 });
     }
@@ -477,7 +492,7 @@ public class UserProfile extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>( ) {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Glide.with(getActivity( )).load(imageUri).error(R.drawable.avatar).into(profileAvatar);
+                        Glide.with(RegisterUserProfile.this).load(imageUri).error(R.drawable.avatar).into(profileAvatar);
                         imageRef.getDownloadUrl( ).addOnSuccessListener(new OnSuccessListener<Uri>( ) {
                             @Override
                             public void onSuccess(Uri downloadUri) {
@@ -497,7 +512,7 @@ public class UserProfile extends Fragment {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         dialog.dismiss( );
-                        Toast.makeText(getContext( ), "Lỗi", Toast.LENGTH_SHORT).show( );
+                        Toast.makeText(RegisterUserProfile.this, "Lỗi", Toast.LENGTH_SHORT).show( );
                     }
                 });
     }

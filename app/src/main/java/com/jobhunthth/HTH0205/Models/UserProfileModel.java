@@ -91,4 +91,8 @@ public class UserProfileModel {
     public void setSkill(List<String> skill) {
         this.skill = skill;
     }
+
+    public String getSalary(){
+        return getMinSalary()+"-"+getMaxSalary()+" "+getTypeSalary()+"/Tháng";
+    }
 }

@@ -99,6 +99,7 @@ public class Employers_Activity extends AppCompatActivity {
                     case R.id.menu_ChangePassword:{
                         Intent intent = new Intent( Employers_Activity.this, ChangePassword.class );
                         startActivity(intent);
+                        drawerLayout_employer.close();
                         return true;
                     }
 
