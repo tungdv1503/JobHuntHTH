@@ -44,7 +44,7 @@ public class JobAdapter_marketing extends RecyclerView.Adapter<JobAdapter_market
     public void onBindViewHolder(@NonNull JobViewHolder holder, int position) {
         JobsAdModel job = jobList1.get(position);
 
-        holder.tvLocation.setText(job.getAddress());
+        holder.tvLocation.setText(job.getArea());
         Glide.with(context)
                 .load(job.getAvatar())
                 .placeholder(R.drawable.people) // Ảnh placeholder hiển thị khi chờ tải ảnh

@@ -36,10 +36,10 @@ public class JobSeekers_Home extends Fragment {
     private RecyclerView recyclerView, recyclerViewsale, recyclerViewmarketing, recyclerViewinsurance, recyclerViewdoctor;
 
     private JobAdapter jobAdapter;
-    private JobAdapter_marketing jobAdapter_marketing;
-    private JobAdapter_sale jobAdapter_sale;
-    private JobAdapter_insurance jobAdapter_insurance;
-    private JobAdapter_doctor jobAdapter_doctor;
+    private JobAdapter jobAdapter_marketing;
+    private JobAdapter jobAdapter_sale;
+    private JobAdapter jobAdapter_insurance;
+    private JobAdapter jobAdapter_doctor;
 
     private List<JobsAdModel> jobList;
     private List<JobsAdModel> jobList1;
@@ -73,10 +73,10 @@ public class JobSeekers_Home extends Fragment {
         jobList4 = new ArrayList<>( );
 
         jobAdapter = new JobAdapter(getActivity( ), jobList);
-        jobAdapter_marketing = new JobAdapter_marketing(getActivity( ), jobList1);
-        jobAdapter_sale = new JobAdapter_sale(getActivity( ), jobList2);
-        jobAdapter_insurance = new JobAdapter_insurance(getActivity( ), jobList3);
-        jobAdapter_doctor = new JobAdapter_doctor(getActivity( ), jobList4);
+        jobAdapter_marketing = new JobAdapter(getActivity( ), jobList1);
+        jobAdapter_sale = new JobAdapter(getActivity( ), jobList2);
+        jobAdapter_insurance = new JobAdapter(getActivity( ), jobList3);
+        jobAdapter_doctor = new JobAdapter(getActivity( ), jobList4);
 
         firestore = FirebaseFirestore.getInstance( );
         firestore.collection("JobsAd")
